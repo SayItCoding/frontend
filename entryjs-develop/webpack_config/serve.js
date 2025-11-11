@@ -32,7 +32,7 @@ module.exports = {
     ],
     devServer: {
         static: {
-            directory: path.join(__dirname, '../'),
+            directory: path.join(__dirname, '../dist'), // changed it from ../ -> ../dist
         },
         port: devServerPort,
         historyApiFallback: true,
