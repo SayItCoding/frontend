@@ -1,0 +1,1185 @@
+{
+  "objects": [
+    {
+      "id": "7y0y",
+      "name": "엔트리봇",
+      "script": "[[{\"id\":\"vliu\",\"x\":50,\"y\":30,\"type\":\"when_run_button_click\",\"params\":[null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"v5xt\",\"x\":0,\"y\":0,\"type\":\"repeat_basic\",\"params\":[{\"id\":\"0o6i\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[3],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[[{\"id\":\"fr0l\",\"x\":0,\"y\":0,\"type\":\"move_direction\",\"params\":[{\"id\":\"8c8r\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[60],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}]],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"2mr9\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"ddpr\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[1],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"vgqj\",\"x\":0,\"y\":0,\"type\":\"direction_relative\",\"params\":[{\"id\":\"qep0\",\"x\":0,\"y\":0,\"type\":\"angle\",\"params\":[270],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"z8fa\",\"x\":0,\"y\":0,\"type\":\"repeat_basic\",\"params\":[{\"id\":\"sccr\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[[{\"id\":\"9q5a\",\"x\":0,\"y\":0,\"type\":\"move_direction\",\"params\":[{\"id\":\"dbd4\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[60],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}]],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"gtgs\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"adna\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[1],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"75xv\",\"x\":0,\"y\":0,\"type\":\"direction_relative\",\"params\":[{\"id\":\"d47q\",\"x\":0,\"y\":0,\"type\":\"angle\",\"params\":[270],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"2alo\",\"x\":0,\"y\":0,\"type\":\"repeat_basic\",\"params\":[{\"id\":\"u2xm\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[3],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[[{\"id\":\"qcjt\",\"x\":0,\"y\":0,\"type\":\"move_direction\",\"params\":[{\"id\":\"x6w3\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[60],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}]],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "vx80",
+            "dimension": {
+              "width": 144,
+              "height": 246,
+              "scaleX": 0.5128205128205128,
+              "scaleY": 0.5128205128205128
+            },
+            "fileurl": "./bower_components/entry-js/images/media/entrybot1.svg",
+            "thumbUrl": "./bower_components/entry-js/images/media/entrybot1.svg",
+            "name": "엔트리봇_걷기1",
+            "imageType": "svg"
+          },
+          {
+            "id": "4t48",
+            "dimension": {
+              "width": 144,
+              "height": 246,
+              "scaleX": 0.30769230769230765,
+              "scaleY": 0.30769230769230765
+            },
+            "fileurl": "./bower_components/entry-js/images/media/entrybot2.svg",
+            "thumbUrl": "./bower_components/entry-js/images/media/entrybot2.svg",
+            "name": "엔트리봇_걷기2",
+            "imageType": "svg"
+          }
+        ],
+        "sounds": [
+          {
+            "duration": 1.3,
+            "ext": ".mp3",
+            "id": "8el5",
+            "fileurl": "./bower_components/entry-js/images/media/bark.mp3",
+            "name": "강아지 짖는 소리"
+          }
+        ]
+      },
+      "selectedPictureId": "4t48",
+      "lock": false,
+      "entity": {
+        "x": -170,
+        "y": -60,
+        "regX": 72,
+        "regY": 123,
+        "scaleX": 0.3076923076923077,
+        "scaleY": 0.3076923076923077,
+        "rotation": 0,
+        "direction": 90,
+        "width": 144,
+        "height": 246,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "qh2k",
+      "name": "[묶음] 흙 타일12",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "grje",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "38d2a9cfmhnbp3vi0006a2c9434mogt1",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/38/d2/image/38d2a9cfmhnbp3vi0006a2c9434mogt1.svg"
+          },
+          {
+            "id": "4uay",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "8d2a9cf9mhnbp3vi0006a2c9434mrkav",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/8d/2a/image/8d2a9cf9mhnbp3vi0006a2c9434mrkav.svg"
+          },
+          {
+            "id": "kls9",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "d2a9cf94mhnbp3vi0006a2c9434ms4jz",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/d2/a9/image/d2a9cf94mhnbp3vi0006a2c9434ms4jz.svg"
+          },
+          {
+            "id": "sv2w",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "2a9cf945mhnbp3vi0006a2c9434msphg",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/2a/9c/image/2a9cf945mhnbp3vi0006a2c9434msphg.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "grje",
+      "lock": true,
+      "entity": {
+        "x": -170,
+        "y": -80,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "i5xe",
+      "name": "[묶음] 흙 타일11",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "cc3y",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "a9cf9459mhnbp3vi0006a2c9434mtchh",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/a9/cf/image/a9cf9459mhnbp3vi0006a2c9434mtchh.svg"
+          },
+          {
+            "id": "ufnc",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "9cf9459amhnbp3vi0006a2c9434mttpj",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/9c/f9/image/9cf9459amhnbp3vi0006a2c9434mttpj.svg"
+          },
+          {
+            "id": "7lza",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "cf9459admhnbp3vi0006a2c9434muc0f",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/cf/94/image/cf9459admhnbp3vi0006a2c9434muc0f.svg"
+          },
+          {
+            "id": "qvj7",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "f9459ad8mhnbp3vi0006a2c9434mutm3",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/f9/45/image/f9459ad8mhnbp3vi0006a2c9434mutm3.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "ufnc",
+      "lock": true,
+      "entity": {
+        "x": -110,
+        "y": -80,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "whoc",
+      "name": "[묶음] 흙 타일10",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "vim3",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "9459ad84mhnbp3vi0006a2c9434mvb4a",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/94/59/image/9459ad84mhnbp3vi0006a2c9434mvb4a.svg"
+          },
+          {
+            "id": "kma2",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "459ad84bmhnbp3vi0006a2c9434mvuax",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/45/9a/image/459ad84bmhnbp3vi0006a2c9434mvuax.svg"
+          },
+          {
+            "id": "dmdu",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "59ad84b3mhnbp3vi0006a2c9434mw8xj",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/59/ad/image/59ad84b3mhnbp3vi0006a2c9434mw8xj.svg"
+          },
+          {
+            "id": "gzie",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "9ad84b3amhnbp3vi0006a2c9434mwnmy",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/9a/d8/image/9ad84b3amhnbp3vi0006a2c9434mwnmy.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "vim3",
+      "lock": true,
+      "entity": {
+        "x": -50,
+        "y": -80,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "kmqg",
+      "name": "[묶음] 흙 타일9",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "kvzh",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "ad84b3a1mhnbp3vi0006a2c9434mx6pl",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/ad/84/image/ad84b3a1mhnbp3vi0006a2c9434mx6pl.svg"
+          },
+          {
+            "id": "p6lz",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "d84b3a1bmhnbp3vi0006a2c9434mxk20",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/d8/4b/image/d84b3a1bmhnbp3vi0006a2c9434mxk20.svg"
+          },
+          {
+            "id": "4rto",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "84b3a1bemhnbp3vi0006a2c9434mxy1l",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/84/b3/image/84b3a1bemhnbp3vi0006a2c9434mxy1l.svg"
+          },
+          {
+            "id": "tldb",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "4b3a1bebmhnbp3vi0006a2c9434mydn5",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/4b/3a/image/4b3a1bebmhnbp3vi0006a2c9434mydn5.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "p6lz",
+      "lock": true,
+      "entity": {
+        "x": 10,
+        "y": -80,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "0v74",
+      "name": "[묶음] 흙 타일8",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "wjqn",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.20833333333333334,
+              "scaleY": 0.20833333333333334
+            },
+            "filename": "b3a1beb1mhnbp3vi0006a2c9434myvqb",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/b3/a1/image/b3a1beb1mhnbp3vi0006a2c9434myvqb.svg"
+          },
+          {
+            "id": "adhr",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "3a1beb1fmhnbp3vi0006a2c9434mzcgr",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/3a/1b/image/3a1beb1fmhnbp3vi0006a2c9434mzcgr.svg"
+          },
+          {
+            "id": "c9zy",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "a1beb1f5mhnbp3vi0006a2c9434mzuxk",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/a1/be/image/a1beb1f5mhnbp3vi0006a2c9434mzuxk.svg"
+          },
+          {
+            "id": "p99c",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "1beb1f58mhnbp3vi0006a2c9434n089k",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/1b/eb/image/1beb1f58mhnbp3vi0006a2c9434n089k.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "wjqn",
+      "lock": true,
+      "entity": {
+        "x": 10,
+        "y": -20,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "l4vl",
+      "name": "[묶음] 흙 타일7",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "udlb",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.20833333333333334,
+              "scaleY": 0.20833333333333334
+            },
+            "filename": "beb1f580mhnbp3vi0006a2c9434n1dmh",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/be/b1/image/beb1f580mhnbp3vi0006a2c9434n1dmh.svg"
+          },
+          {
+            "id": "3asf",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "eb1f5808mhnbp3vi0006a2c9434n1tfu",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/eb/1f/image/eb1f5808mhnbp3vi0006a2c9434n1tfu.svg"
+          },
+          {
+            "id": "fxbk",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "b1f58089mhnbp3vi0006a2c9434n2ai8",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/b1/f5/image/b1f58089mhnbp3vi0006a2c9434n2ai8.svg"
+          },
+          {
+            "id": "trgq",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "1f580893mhnbp3vi0006a2c9434n2pqq",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/1f/58/image/1f580893mhnbp3vi0006a2c9434n2pqq.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "3asf",
+      "lock": true,
+      "entity": {
+        "x": 10,
+        "y": 40,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "ma8s",
+      "name": "[묶음] 흙 타일6",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "4xcq",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.20833333333333334,
+              "scaleY": 0.20833333333333334
+            },
+            "filename": "f580893amhnbp3vj0006a2c9434n38dc",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/f5/80/image/f580893amhnbp3vj0006a2c9434n38dc.svg"
+          },
+          {
+            "id": "0l4w",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "580893a6mhnbp3vj0006a2c9434n3rmy",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/58/08/image/580893a6mhnbp3vj0006a2c9434n3rmy.svg"
+          },
+          {
+            "id": "dg0h",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "80893a66mhnbp3vj0006a2c9434n4864",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/80/89/image/80893a66mhnbp3vj0006a2c9434n4864.svg"
+          },
+          {
+            "id": "3wmu",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "0893a668mhnbp3vj0006a2c9434n4n52",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/08/93/image/0893a668mhnbp3vj0006a2c9434n4n52.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "4xcq",
+      "lock": true,
+      "entity": {
+        "x": -50,
+        "y": 40,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "wq5k",
+      "name": "[묶음] 흙 타일5",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "5xq7",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.20833333333333334,
+              "scaleY": 0.20833333333333334
+            },
+            "filename": "893a6687mhnbp3vj0006a2c9434n55sf",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/89/3a/image/893a6687mhnbp3vj0006a2c9434n55sf.svg"
+          },
+          {
+            "id": "9prx",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "93a66875mhnbp3vj0006a2c9434n5kun",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/93/a6/image/93a66875mhnbp3vj0006a2c9434n5kun.svg"
+          },
+          {
+            "id": "rawi",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "3a66875fmhnbp3vj0006a2c9434n62rc",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/3a/66/image/3a66875fmhnbp3vj0006a2c9434n62rc.svg"
+          },
+          {
+            "id": "s8ae",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "a66875f9mhnbp3vj0006a2c9434n6ipd",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/a6/68/image/a66875f9mhnbp3vj0006a2c9434n6ipd.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "9prx",
+      "lock": true,
+      "entity": {
+        "x": -110,
+        "y": 40,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "hjda",
+      "name": "태양계 - 태양",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "xe8y",
+            "dimension": {
+              "width": 205,
+              "height": 205,
+              "scaleX": 0.4878048780487805,
+              "scaleY": 0.4878048780487805
+            },
+            "filename": "66875f9emhnbp3vj0006a2c9434n6z3r",
+            "name": "태양계-태양_1",
+            "imageType": "png",
+            "fileurl": "temp/66/87/image/66875f9emhnbp3vj0006a2c9434n6z3r.png"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "xe8y",
+      "lock": true,
+      "entity": {
+        "x": -170,
+        "y": 40,
+        "regX": 102.5,
+        "regY": 102.5,
+        "scaleX": 0.2926829268292683,
+        "scaleY": 0.2926829268292683,
+        "rotation": 0,
+        "direction": 90,
+        "width": 205,
+        "height": 205,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "9xyt",
+      "name": "[묶음] 흙 타일4",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "cl3n",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.20833333333333334,
+              "scaleY": 0.20833333333333334
+            },
+            "filename": "6875f9e4mhnbp3vj0006a2c9434n7eof",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/68/75/image/6875f9e4mhnbp3vj0006a2c9434n7eof.svg"
+          },
+          {
+            "id": "yml3",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "875f9e4bmhnbp3vj0006a2c9434n7wak",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/87/5f/image/875f9e4bmhnbp3vj0006a2c9434n7wak.svg"
+          },
+          {
+            "id": "xtbv",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "75f9e4b3mhnbp3vj0006a2c9434n88y3",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/75/f9/image/75f9e4b3mhnbp3vj0006a2c9434n88y3.svg"
+          },
+          {
+            "id": "ju7w",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "5f9e4b33mhnbp3vj0006a2c9434n8t42",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/5f/9e/image/5f9e4b33mhnbp3vj0006a2c9434n8t42.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "cl3n",
+      "lock": true,
+      "entity": {
+        "x": -170,
+        "y": 40,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "he5y",
+      "name": "태양계 - 태양1",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "ocg6",
+            "dimension": {
+              "width": 205,
+              "height": 205,
+              "scaleX": 0.4878048780487805,
+              "scaleY": 0.4878048780487805
+            },
+            "filename": "f9e4b33dmhnbp3vj0006a2c9434n9arn",
+            "name": "태양계-태양_1",
+            "imageType": "png",
+            "fileurl": "temp/f9/e4/image/f9e4b33dmhnbp3vj0006a2c9434n9arn.png"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "ocg6",
+      "lock": true,
+      "entity": {
+        "x": 150,
+        "y": -90,
+        "regX": 102.5,
+        "regY": 102.5,
+        "scaleX": 0.2926829268292683,
+        "scaleY": 0.2926829268292683,
+        "rotation": 0,
+        "direction": 90,
+        "width": 205,
+        "height": 205,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "6otx",
+      "name": "[묶음] 흙 타일3",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "rh92",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.20833333333333334,
+              "scaleY": 0.20833333333333334
+            },
+            "filename": "9e4b33ddmhnbp3vj0006a2c9434n9rij",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/9e/4b/image/9e4b33ddmhnbp3vj0006a2c9434n9rij.svg"
+          },
+          {
+            "id": "aboa",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "e4b33ddemhnbp3vj0006a2c9434na61y",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/e4/b3/image/e4b33ddemhnbp3vj0006a2c9434na61y.svg"
+          },
+          {
+            "id": "ho7k",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "4b33dde4mhnbp3vj0006a2c9434nal7t",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/4b/33/image/4b33dde4mhnbp3vj0006a2c9434nal7t.svg"
+          },
+          {
+            "id": "cqrz",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "b33dde49mhnbp3vj0006a2c9434nb2hu",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/b3/3d/image/b33dde49mhnbp3vj0006a2c9434nb2hu.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "rh92",
+      "lock": true,
+      "entity": {
+        "x": 150,
+        "y": -90,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "0ofh",
+      "name": "[묶음] 흙 타일2",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "yvke",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.20833333333333334,
+              "scaleY": 0.20833333333333334
+            },
+            "filename": "33dde498mhnbp3vj0006a2c9434nbit5",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/33/dd/image/33dde498mhnbp3vj0006a2c9434nbit5.svg"
+          },
+          {
+            "id": "99cp",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "3dde498bmhnbp3vj0006a2c9434nbwnr",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/3d/de/image/3dde498bmhnbp3vj0006a2c9434nbwnr.svg"
+          },
+          {
+            "id": "m08b",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "dde498b1mhnbp3vj0006a2c9434nc911",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/dd/e4/image/dde498b1mhnbp3vj0006a2c9434nc911.svg"
+          },
+          {
+            "id": "ubqd",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "de498b1dmhnbp3vj0006a2c9434ncsoq",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/de/49/image/de498b1dmhnbp3vj0006a2c9434ncsoq.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "99cp",
+      "lock": true,
+      "entity": {
+        "x": 150,
+        "y": -30,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "kld9",
+      "name": "[묶음] 흙 타일",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "kx9f",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.4166666666666667,
+              "scaleY": 0.4166666666666667
+            },
+            "filename": "e498b1d4mhnbp3vj0006a2c9434nda3v",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/e4/98/image/e498b1d4mhnbp3vj0006a2c9434nda3v.svg"
+          },
+          {
+            "id": "oyg1",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "498b1d46mhnbp3vj0006a2c9434ndpxp",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/49/8b/image/498b1d46mhnbp3vj0006a2c9434ndpxp.svg"
+          },
+          {
+            "id": "2ivc",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "98b1d46emhnbp3vj0006a2c9434ne4eo",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/98/b1/image/98b1d46emhnbp3vj0006a2c9434ne4eo.svg"
+          },
+          {
+            "id": "meuw",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "8b1d46efmhnbp3vj0006a2c9434nekic",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/8b/1d/image/8b1d46efmhnbp3vj0006a2c9434nekic.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "kx9f",
+      "lock": true,
+      "entity": {
+        "x": 150,
+        "y": 30,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "lkbk",
+      "name": "사과",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "06oq",
+            "dimension": {
+              "width": 195,
+              "height": 195,
+              "scaleX": 0.5128205128205128,
+              "scaleY": 0.5128205128205128
+            },
+            "filename": "b1d46ef6mhnbp3vj0006a2c9434nf178",
+            "name": "사과",
+            "imageType": "svg",
+            "fileurl": "temp/b1/d4/image/b1d46ef6mhnbp3vj0006a2c9434nf178.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "06oq",
+      "lock": true,
+      "entity": {
+        "x": 150,
+        "y": 90,
+        "regX": 97.5,
+        "regY": 97.5,
+        "scaleX": 0.20512820512820512,
+        "scaleY": 0.20512820512820512,
+        "rotation": 0,
+        "direction": 90,
+        "width": 195,
+        "height": 195,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "et3a",
+      "name": "[묶음] 흙 타일1",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "sykj",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.4166666666666667,
+              "scaleY": 0.4166666666666667
+            },
+            "filename": "1d46ef67mhnbp3vj0006a2c9434nffsr",
+            "name": "흙 타일 A_1",
+            "imageType": "svg",
+            "fileurl": "temp/1d/46/image/1d46ef67mhnbp3vj0006a2c9434nffsr.svg"
+          },
+          {
+            "id": "aoyx",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "filename": "d46ef67bmhnbp3vj0006a2c9434nfyp0",
+            "name": "흙 타일 A_2",
+            "imageType": "svg",
+            "fileurl": "temp/d4/6e/image/d46ef67bmhnbp3vj0006a2c9434nfyp0.svg"
+          },
+          {
+            "id": "u7qk",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "46ef67b1mhnbp3vj0006a2c9434ngbk0",
+            "name": "흙 타일 B_1",
+            "imageType": "svg",
+            "fileurl": "temp/46/ef/image/46ef67b1mhnbp3vj0006a2c9434ngbk0.svg"
+          },
+          {
+            "id": "pyar",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "6ef67b1cmhnbp3vj0006a2c9434ngv1d",
+            "name": "흙 타일 B_2",
+            "imageType": "svg",
+            "fileurl": "temp/6e/f6/image/6ef67b1cmhnbp3vj0006a2c9434ngv1d.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "aoyx",
+      "lock": false,
+      "entity": {
+        "x": 150,
+        "y": 90,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "4b97",
+      "name": "흙",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "4t3e",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "ef67b1camhnbp3vj0006a2c9434nhavh",
+            "name": "흙_1",
+            "imageType": "png",
+            "fileurl": "temp/ef/67/image/ef67b1camhnbp3vj0006a2c9434nhavh.png"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "4t3e",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ],
+  "scenes": [{ "id": "7dwq", "name": "장면 1" }],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "isRealTime": false,
+      "cloudDate": false,
+      "object": null,
+      "x": 134,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": "0",
+      "variableType": "answer",
+      "isCloud": false,
+      "isRealTime": false,
+      "cloudDate": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "tables": [],
+  "speed": 60,
+  "interface": { "canvasWidth": 640, "object": "4b97" },
+  "expansionBlocks": [],
+  "aiUtilizeBlocks": [],
+  "hardwareLiteBlocks": [],
+  "externalModules": [],
+  "externalModulesLite": [],
+  "likeCnt": 0,
+  "visit": 0,
+  "isopen": true,
+  "name": "251106_작품의 복구",
+  "isPracticalCourse": false,
+  "recentLikeCnt": 0,
+  "childCnt": 0,
+  "comment": 0
+}
