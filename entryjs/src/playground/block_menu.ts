@@ -145,6 +145,12 @@ class BlockMenu extends ModelClass<Schema> {
             },
             false
         );
+        // Add the new category to the existing category data
+        //categoryData.push({ category: 'user_info', blocks: [], visible: true });
+
+        //this._categoryData = categoryData; // Ensure this is set with the updated data
+        //this._generateView(this._categoryData); // Call to generate the view with updated categories
+
         const { hardwareEnable } = Entry;
 
         this._dSelectMenu = debounce(this.selectMenu, 0);
@@ -1387,6 +1393,9 @@ class BlockMenu extends ModelClass<Schema> {
         data.forEach(({ category, visible }) =>
             fragment.appendChild(this._generateCategoryElement(category, visible)[0])
         );
+        // Add the new "User Info" category
+        fragment.appendChild(this._generateCategoryElement('user_info', true)[0]);
+
         this.firstSelector = head(data).category;
         this._categoryCol[0].appendChild(fragment);
         this.makeScrollIndicator();

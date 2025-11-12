@@ -32,23 +32,23 @@ module.exports = {
     ],
     devServer: {
         static: {
-            directory: path.join(__dirname, '../dist'), // changed it from ../ -> ../dist
+            directory: path.join(__dirname, '../'),
         },
         port: devServerPort,
         historyApiFallback: true,
         devMiddleware: {
             publicPath: '/',
         },
-        //proxy: {
-        //    '/lib/entry-js': {
-        //        target: `http://localhost:${devServerPort}`,
-        //        pathRewrite: { '^/lib/entry-js': '' },
-        //    },
-        //    '/dist': {
-        //        target: `http://localhost:${devServerPort}`,
-        //        pathRewrite: { '^/dist': '' },
-        //    },
-        //},
+        proxy: {
+            '/lib/entry-js': {
+                target: `http://localhost:${devServerPort}`,
+                pathRewrite: { '^/lib/entry-js': '' },
+            },
+            '/dist': {
+                target: `http://localhost:${devServerPort}`,
+                pathRewrite: { '^/dist': '' },
+            },
+        },
     },
     devtool: 'source-map',
 };

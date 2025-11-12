@@ -8,6 +8,9 @@ Lang.ko = '한국어';
 Lang.en = 'English';
 Lang.jp = '日本語';
 Lang.vn = 'tiếng Việt';
+// workspace labels (add User tab label)
+Lang.Workspace = Lang.Workspace || {};
+Lang.Workspace.tab_user = '사용자 정보';
 Lang.Command = {
     1: '장면 추가하기',
     2: '장면 삭제하기',

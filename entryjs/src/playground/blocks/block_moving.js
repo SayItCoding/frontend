@@ -457,120 +457,97 @@ module.exports = {
                 },
                 syntax: { js: [], py: ['Entry.add_y(%1)'] },
             },
-            move_xy_time: {
-                color: EntryStatic.colorSet.block.default.MOVING,
-                outerLine: EntryStatic.colorSet.block.darken.MOVING,
-                skeleton: 'basic',
-                statements: [],
-                params: [
-                    {
-                        type: 'Block',
-                        accept: 'string',
-                        defaultType: 'number',
-                    },
-                    {
-                        type: 'Block',
-                        accept: 'string',
-                        defaultType: 'number',
-                    },
-                    {
-                        type: 'Block',
-                        accept: 'string',
-                        defaultType: 'number',
-                    },
-                    {
-                        type: 'Indicator',
-                        img: 'block_icon/moving_icon.svg',
-                        size: 11,
-                    },
-                ],
-                events: {},
-                def: {
-                    params: [
-                        {
-                            type: 'number',
-                            params: ['2'],
-                        },
-                        {
-                            type: 'number',
-                            params: ['10'],
-                        },
-                        {
-                            type: 'number',
-                            params: ['10'],
-                        },
-                        null,
-                    ],
-                    type: 'move_xy_time',
-                },
-                pyHelpDef: {
-                    params: [
-                        {
-                            type: 'number',
-                            params: ['C&value'],
-                        },
-                        {
-                            type: 'number',
-                            params: ['A&value'],
-                        },
-                        {
-                            type: 'number',
-                            params: ['B&value'],
-                        },
-                        null,
-                    ],
-                    type: 'move_xy_time',
-                },
-                paramsKeyMap: {
-                    VALUE1: 0,
-                    VALUE2: 1,
-                    VALUE3: 2,
-                },
-                class: 'move_relative',
-                isNotFor: [],
-                func(sprite, script) {
-                    if (!script.isStart) {
-                        let [timeValue, xValue, yValue] = script.getValues(
-                            ['VALUE1', 'VALUE2', 'VALUE3'],
-                            script
-                        );
-                        timeValue = Number(timeValue);
-                        xValue = Number(xValue);
-                        yValue = Number(yValue);
+           move_xy_time: {
+    color: EntryStatic.colorSet.block.default.MOVING,
+    outerLine: EntryStatic.colorSet.block.darken.MOVING,
+    skeleton: 'basic',
+    statements: [],
+    params: [
+        { type: 'Block', accept: 'string', defaultType: 'number' },
+        { type: 'Block', accept: 'string', defaultType: 'number' },
+        { type: 'Block', accept: 'string', defaultType: 'number' },
+        { type: 'Indicator', img: 'block_icon/moving_icon.svg', size: 11 },
+    ],
+    events: {},
+    def: {
+        params: [
+            { type: 'number', params: ['2'] },
+            { type: 'number', params: ['10'] },
+            { type: 'number', params: ['10'] },
+            null,
+        ],
+        type: 'move_xy_time',
+    },
+    pyHelpDef: {
+        params: [
+            { type: 'number', params: ['C&value'] },
+            { type: 'number', params: ['A&value'] },
+            { type: 'number', params: ['B&value'] },
+            null,
+        ],
+        type: 'move_xy_time',
+    },
+    paramsKeyMap: { VALUE1: 0, VALUE2: 1, VALUE3: 2 },
+    class: 'move_relative',
+    isNotFor: [],
 
-                        script.isStart = true;
-                        script.frameCount = Math.max(Math.floor(timeValue * Entry.FPS), 1);
-                        script.dX = xValue / script.frameCount;
-                        script.dY = yValue / script.frameCount;
+    // 🧠 REPLACE ONLY THIS PART ↓
+    func(sprite, script) {
+        if (!script.isStart) {
+            let [timeValue, xValue, yValue] = script.getValues(
+                ['VALUE1', 'VALUE2', 'VALUE3'],
+                script
+            );
 
-                        if (script.frameCount == 1) {
-                            action();
-                        }
-                    }
+            timeValue = Number(timeValue);
+            xValue = Number(xValue);
+            yValue = Number(yValue);
 
-                    if (script.frameCount != 0) {
-                        action();
-                        return script;
-                    } else {
-                        delete script.isStart;
-                        delete script.frameCount;
-                        return script.callReturn();
-                    }
+            script.isStart = true;
+            script.frameCount = Math.max(Math.floor(timeValue * Entry.FPS), 1);
+            script.currentFrame = 0;
+            script.startX = sprite.getX();
+            script.startY = sprite.getY();
+            script.targetX = sprite.getX() + xValue;
+            script.targetY = sprite.getY() + yValue;
+        }
 
-                    function action() {
-                        sprite.setX(sprite.getX() + script.dX);
-                        sprite.setY(sprite.getY() + script.dY);
-                        script.frameCount--;
-                        if (sprite.brush && !sprite.brush.stop) {
-                            sprite.brush.lineTo(sprite.getX(), sprite.getY() * -1);
-                        }
-                        if (sprite.paint && !sprite.paint.stop) {
-                            sprite.paint.lineTo(sprite.getX(), sprite.getY() * -1);
-                        }
-                    }
-                },
-                syntax: { js: [], py: ['Entry.add_xy_for_sec(%2, %3, %1)'] },
-            },
+        const f = script.frameCount;
+        const i = script.currentFrame;
+
+        if (i <= f) {
+            const t = i / f; // progress 0 → 1
+            const eased = t < 0.5
+                ? 4 * t * t * t
+                : 1 - Math.pow(-2 * t + 2, 3) / 2; // easeInOutCubic
+
+            const newX = script.startX + (script.targetX - script.startX) * eased;
+            const newY = script.startY + (script.targetY - script.startY) * eased;
+
+            sprite.setX(newX);
+            sprite.setY(newY);
+
+            if (sprite.brush && !sprite.brush.stop) {
+                sprite.brush.lineTo(newX, -newY);
+            }
+            if (sprite.paint && !sprite.paint.stop) {
+                sprite.paint.lineTo(newX, -newY);
+            }
+
+            script.currentFrame++;
+            return script; // continue animation next frame
+        } else {
+            delete script.isStart;
+            delete script.frameCount;
+            delete script.currentFrame;
+            return script.callReturn();
+        }
+    },
+    // 🧠 REPLACE ONLY THIS PART ↑
+
+    syntax: { js: [], py: ['Entry.add_xy_for_sec(%2, %3, %1)'] },
+},
+
             locate_x: {
                 color: EntryStatic.colorSet.block.default.MOVING,
                 outerLine: EntryStatic.colorSet.block.darken.MOVING,

@@ -13,6 +13,9 @@ Entry.ALL_AI_UTILIZE_BLOCK_LIST = {};
 module.exports = Entry;
 global.Entry = Entry;
 
+//playground chat
+require('./css/playground-chat.css');
+
 require('./core/collection');
 require('./core/db');
 require('./core/dom');

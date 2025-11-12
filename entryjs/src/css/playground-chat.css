@@ -1,0 +1,118 @@
+.entryChatContainer {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    width: 360px;
+    height: 480px;
+    max-height: 60vh;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.entryChatHeader {
+    padding: 8px 12px;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    background: #fafafa;
+    position: relative; /* for button placement */
+}
+
+/* minimize / restore button in header */
+.entryChatMinimize {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 4px;
+}
+
+/* minimized chat: hide messages and input area */
+.entryChatContainer.entryChatMinimized {
+    height: auto; /* shrink to header height */
+    max-height: none;
+    overflow: visible;
+}
+
+/* ensure messages and input are hidden when minimized (safety) */
+.entryChatContainer.entryChatMinimized .entryChatMessages,
+.entryChatContainer.entryChatMinimized .entryChatInputWrap {
+    display: none;
+}
+
+/* message list: stack messages and allow vertical scrolling only */
+.entryChatMessages {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* let messages size to content */
+    gap: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 12px;
+    list-style: none;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+}
+
+/* base message bubble styling (shared) */
+.entryChatMessage {
+    display: inline-block;            /* size to content */
+    box-sizing: border-box;
+    max-width: 85%;                   /* prevent overly wide bubbles */
+    padding: 6px 10px;
+    border-radius: 14px;
+    line-height: 1.3;
+    white-space: normal;              /* allow wrapping */
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* user messages: right-aligned */
+.entryChatMessageUser {
+    align-self: flex-end;  /* place on right in the column layout */
+    background: #4a90e2;
+    color: #fff;
+    margin: 4px 0;
+}
+
+/* bot messages: left-aligned */
+.entryChatMessageBot {
+    align-self: flex-start; /* place on left */
+    background: #f1f1f1;
+    color: #222;
+    margin: 4px 0;
+}
+
+.entryChatInputWrap {
+    display: flex;
+    padding: 8px;
+    gap: 8px;
+    border-top: 1px solid #eee;
+    background: #fff;
+}
+
+.entryChatInput {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    white-space: normal;
+}
+
+.entryChatSend {
+    padding: 6px 10px;
+    cursor: pointer;
+}

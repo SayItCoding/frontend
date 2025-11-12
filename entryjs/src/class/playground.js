@@ -25,6 +25,10 @@ Entry.Playground = class Playground {
         this._destroyer.destroy();
         this.isTextBGMode_ = false;
         this.dataTable = DataTable;
+        // Chatbox State
+        this.chatMessages = []; // {text, from:'user'|'bot', time}
+        this.chatBox_ = null;
+        this.chatVisible_ = false;
 
         /**
          * playground's current view type
@@ -55,6 +59,10 @@ Entry.Playground = class Playground {
         /** @type {!Element} */
         this.view_ = playgroundView;
         this.view_.addClass('entryPlayground');
+        // create chat UI
+        this._createChatBox();
+        // show chat by default
+        this.toggleChatBox(true);
         if (option === 'workspace' || option === 'playground') {
             this.view_.addClass('entryPlaygroundWorkspace');
 
@@ -112,6 +120,15 @@ Entry.Playground = class Playground {
                 .appendTo(this.view_);
             this.generateDefaultView(defaultView);
             this.defaultView_ = defaultView;
+
+            // User info view (hidden by default)
+            const userView = Entry.createElement('div', 'entryUser')
+                .addClass('entryPlaygroundUserWorkspace entryRemove')
+                .appendTo(this.view_);
++           // render placeholder UI into the user view
++           this.generateUserView(userView);
+            this.userView_ = userView;
+
 
             //Code view must be append at last.
             const codeView = Entry.createElement('div', 'entryCode')
@@ -1030,6 +1047,1132 @@ Entry.Playground = class Playground {
         inputArea.appendChild(multiDesc);
     }
 
+      /**
+     * Create a simple chatbox UI and wire input to store messages
+     * Messages are stored in this.chatMessages and can be retrieved with getChatMessages()
+     */
+    _createChatBox() {
+        if (!this.view_ || this.chatBox_) return;
+
+        this.chatMessages = this.chatMessages || [];
+
+        const container = Entry.createElement('div').addClass('entryChatContainer');
+        // header
+        const header = Entry.createElement('div').addClass('entryChatHeader');
+        header.textContent = 'AI Chat';
+        // minimize / restore button
+        const minBtn = Entry.createElement('button').addClass('entryChatMinimize');
+        minBtn.type = 'button';
+        minBtn.innerHTML = '&#9650;'; // up caret means "collapse"
+        header.appendChild(minBtn);
+
+        container.appendChild(header);
+
+        const list = Entry.createElement('ul').addClass('entryChatMessages');
+        container.appendChild(list);
+        this.chatMessageList_ = list;
+
+        // input area
+        const inputWrap = Entry.createElement('div').addClass('entryChatInputWrap');
+        const input = Entry.createElement('input').addClass('entryChatInput');
+        input.type = 'text';
+        input.placeholder = 'Type a message and press Enter';
+        inputWrap.appendChild(input);
+
+        const sendBtn = Entry.createElement('button').addClass('entryChatSend');
+        sendBtn.textContent = 'Send';
+        inputWrap.appendChild(sendBtn);
+
+        container.appendChild(inputWrap);
+
+        // append to playground root
+        this.view_.appendChild(container);
+        this.chatBox_ = container;
+
+        // hook minimize button
+        minBtn.addEventListener('click', () => {
+            this.toggleChatMinimized(!this.chatMinimized_);
+        });
+
+        const sendMessage = () => {
+            const text = input.value && input.value.trim();
+            if (!text) return;
+            this.addChatMessage(text, 'user');
+            input.value = '';
+        };
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        sendBtn.addEventListener('click', sendMessage);
+
+        // show chat by default when created
+        this.chatVisible_ = true;
+        this.chatBox_.classList && this.chatBox_.classList.remove('entryRemove');
+        this.chatBox_.style.display = '';
+    }
+
+    /**
+     * Minimize / restore chat box (keeps element in DOM)
+     * @param {boolean} minimized
+     */
+    toggleChatMinimized(minimized) {
+        this.chatMinimized_ = !!minimized;
+        if (!this.chatBox_) return;
+        if (this.chatMinimized_) {
+            this.chatBox_.classList.add('entryChatMinimized');
+            if (this.chatMessageList_) this.chatMessageList_.style.display = 'none';
+            if (this.chatInputWrap_) this.chatInputWrap_.style.display = 'none';
+            const btn = this.chatBox_.querySelector('.entryChatMinimize');
+            if (btn) btn.innerHTML = '&#9660;'; // down caret means "restore"
+        } else {
+            this.chatBox_.classList.remove('entryChatMinimized');
+            if (this.chatMessageList_) this.chatMessageList_.style.display = '';
+            if (this.chatInputWrap_) this.chatInputWrap_.style.display = '';
+            const btn = this.chatBox_.querySelector('.entryChatMinimize');
+            if (btn) btn.innerHTML = '&#9650;';
+        }
+    }
+
+    /**
+     * Add a message to the chat UI and internal store.
+     * from: 'user' or 'bot'
+     */
+    addChatMessage(text, from = 'user') {
+        const time = Date.now();
+        const msg = { text, from, time };
+        this.chatMessages.push(msg);
+
+        if (!this.chatMessageList_) return;
+        const item = Entry.createElement('li').addClass('entryChatMessage');
+        item.textContent = text;
+        item.classList.add(from === 'user' ? 'entryChatMessageUser' : 'entryChatMessageBot');
+        this.chatMessageList_.appendChild(item);
+        // scroll to bottom
+        this.chatMessageList_.scrollTop = this.chatMessageList_.scrollHeight;
+    }
+
+    /**
+     * Return stored chat messages.
+     */
+    getChatMessages() {
+        return this.chatMessages.slice();
+    }
+
+    /**
+     * Show or hide chat UI.
+     */
+     toggleChatBox(show) {
+         if (!this.chatBox_) return;
+         this.chatVisible_ = !!show;
+         if (this.chatVisible_) {
+             this.chatBox_.classList && this.chatBox_.classList.remove('entryRemove');
+             this.chatBox_.style.display = '';
+         } else {
+             this.chatBox_.classList && this.chatBox_.classList.add('entryRemove');
+             this.chatBox_.style.display = 'none';
+         }
+     }
+
+    /**
+     * Generate default view.
+     * default view is shown when object is not selected.
+     * @param {!Element} defaultView
+     * @return {Element}
+     */
+    generateDefaultView(defaultView) {
+        return defaultView;
+    }
+
+     /**
+      * Generate user info view (placeholder)
+      * Place this method after generateDefaultView and before generateTabView.
+      * @param {!Element} userView
+      * @return {Element}
+      */
+    generateUserView(userView) {
+        // Clear existing content
+        userView.innerHTML = '';
+
+        // Base styling adjustments
+        userView.style.paddingTop = '56px';
+        userView.style.boxSizing = 'border-box';
+        userView.style.fontFamily = `'Inter', 'Noto Sans KR', sans-serif`;
+        userView.style.color = '#333';
+        userView.style.backgroundColor = '#f8f9fb';
+        userView.style.minHeight = '100vh';
+        userView.style.display = 'flex';
+        userView.style.justifyContent = 'center';
+        userView.style.alignItems = 'flex-start';
+        userView.style.padding = '80px 0';
+
+        // Wrapper
+        const wrap = Entry.createElement('div')
+            .addClass('entryUserInfoWrapper')
+            .appendTo(userView);
+        wrap.style.width = '90%';
+        wrap.style.maxWidth = '600px';
+        wrap.style.background = '#fff';
+        wrap.style.boxShadow = '0 4px 10px rgba(0,0,0,0.08)';
+        wrap.style.borderRadius = '16px';
+        wrap.style.padding = '24px 32px';
+        wrap.style.boxSizing = 'border-box';
+
+        // Header
+        const header = Entry.createElement('h2')
+            .addClass('entryUserInfoHeader')
+            .appendTo(wrap);
+        header.textContent = (Lang.Workspace && Lang.Workspace.tab_user) || '사용자 정보';
+        header.style.textAlign = 'center';
+        header.style.marginBottom = '24px';
+        header.style.fontSize = '1.6em';
+        header.style.fontWeight = '600';
+        header.style.color = '#2b2b2b';
+
+        // Content container
+        const content = Entry.createElement('div')
+            .addClass('entryUserInfoContent')
+            .appendTo(wrap);
+
+        // Helper function for info rows
+        const addInfoRow = (label, value) => {
+            const line = Entry.createElement('div')
+                .addClass('entryUserInfoLine')
+                .appendTo(content);
+            line.style.display = 'flex';
+            line.style.justifyContent = 'space-between';
+            line.style.margin = '8px 0';
+            line.style.padding = '10px 0';
+            line.style.borderBottom = '1px solid #eee';
+
+            const labelEl = Entry.createElement('span').appendTo(line);
+            labelEl.textContent = label;
+            labelEl.style.fontWeight = '500';
+
+            const valueEl = Entry.createElement('span').appendTo(line);
+            valueEl.textContent = value;
+            valueEl.style.color = '#555';
+        };
+
+        // Basic user info
+        addInfoRow(
+            (Lang.Workspace && Lang.Workspace.user_name_label) || 'Username',
+            'DemoUser'
+        );
+        addInfoRow(
+            (Lang.Workspace && Lang.Workspace.user_email_label) || 'Email',
+            'demo@example.com'
+        );
+
+        // --- NEW PLACEHOLDER SECTIONS ---
+        addInfoRow('Challenges Solved', '5 (Accuracy: 89%)');
+        addInfoRow('Website Visits', '23');
+        addInfoRow('AI-Analyzed Strengths', 'Creative problem-solving, persistence');
+        addInfoRow('AI-Analyzed Weaknesses', 'Time management, code optimization');
+
+        // Hint / footer note
+        const hint = Entry.createElement('div')
+            .addClass('entryUserInfoHint')
+            .appendTo(content);
+        hint.textContent =
+            (Lang.Workspace && Lang.Workspace.user_info_hint) ||
+            'Backend not connected — placeholder data shown.';
+        hint.style.marginTop = '20px';
+        hint.style.fontSize = '0.9em';
+        hint.style.textAlign = 'center';
+        hint.style.color = '#888';
+
+        return userView;
+    }
+
+ 
+
+    /**
+     * generate tab menus
+     * @param {!Element} tabView
+     * @return {Element}
+     */
+    generateTabView(tabView) {
+        const that = this;
+        const tabList = Entry.createElement('ul').addClass('entryTabListWorkspace');
+        this.tabList_ = tabList;
+        tabView.appendChild(tabList);
+
+        this.tabViewElements = {};
+        const codeTab = Entry.createElement('li', 'entryCodeTab')
+            .addClass('entryTabListItemWorkspace entryTabSelected')
+            .bindOnClick(() => {
+                Entry.do('playgroundChangeViewMode', 'code', that.selectedViewMode);
+            })
+            .appendTo(tabList);
+        codeTab.textContent = Lang.Workspace.tab_code;
+        this.tabViewElements.code = codeTab;
+        this._codeTab = codeTab;
+
+        const pictureTab = Entry.createElement('li', 'entryPictureTab')
+            .addClass('entryTabListItemWorkspace')
+            .bindOnClick(() => {
+                Entry.do('playgroundChangeViewMode', 'picture', that.selectedViewMode);
+            })
+            .appendTo(tabList);
+        pictureTab.textContent = Lang.Workspace.tab_picture;
+        this.tabViewElements.picture = pictureTab;
+        this.pictureTab = pictureTab;
+
+        const textboxTab = Entry.createElement('li', 'entryTextboxTab')
+            .addClass('entryTabListItemWorkspace entryRemove')
+            .appendTo(tabList)
+            .bindOnClick(() => {
+                Entry.do('playgroundChangeViewMode', 'text', that.selectedViewMode);
+            });
+        textboxTab.textContent = Lang.Workspace.tab_text;
+        this.tabViewElements.text = textboxTab;
+        this.textboxTab = textboxTab;
+
+        const soundTab = Entry.createElement('li', 'entrySoundTab')
+            .addClass('entryTabListItemWorkspace')
+            .appendTo(tabList)
+            .bindOnClick(() => {
+                Entry.do('playgroundChangeViewMode', 'sound', that.selectedViewMode);
+            });
+        soundTab.textContent = Lang.Workspace.tab_sound;
+        this.tabViewElements.sound = soundTab;
+        this.soundTab = soundTab;
+
+        const variableTab = Entry.createElement('li', 'entryVariableTab')
+            .addClass('entryTabListItemWorkspace entryVariableTabWorkspace')
+            .appendTo(tabList)
+            .bindOnClick(() => {
+                Entry.do('playgroundChangeViewMode', 'variable', that.selectedViewMode);
+            });
+        variableTab.textContent = Lang.Workspace.tab_attribute;
+        this.tabViewElements.variable = variableTab;
+        this.variableTab = variableTab;
+
+        // User Info tab
+        const userTab = Entry.createElement('li', 'entryUserTab')
+            .addClass('entryTabListItemWorkspace')
+            .appendTo(tabList)
+            .bindOnClick(() => {
+                Entry.do('playgroundChangeViewMode', 'user', that.selectedViewMode);
+            });
+        userTab.textContent = (Lang.Workspace && Lang.Workspace.tab_user) || '사용자 정보';
+        this.tabViewElements.user = userTab;
+        this.userTab = userTab;
+    }
+
+    createButtonTabView(tabButtonView) {
+        const { options = {} } = Entry;
+        const { commentDisable, backpackDisable } = options;
+
+        if (!commentDisable) {
+            const commentToggleButton = Entry.createElement('div')
+                .addClass('entryPlaygroundCommentButtonWorkspace showComment enabled')
+                .appendTo(tabButtonView);
+            commentToggleButton.setAttribute('alt', Lang.Blocks.show_all_comment);
+            commentToggleButton.setAttribute('title', Lang.Blocks.show_all_comment);
+
+            this.commentToggleButton_ = commentToggleButton;
+            commentToggleButton.bindOnClick(() => {
+                this.toggleCommentButton();
+            });
+
+            const addCommentButton = Entry.createElement('div')
+                .addClass('entryPlaygroundCommentButtonWorkspace addComment enabled')
+                .appendTo(tabButtonView);
+            addCommentButton.setAttribute('alt', Lang.Blocks.add_comment);
+            addCommentButton.setAttribute('title', Lang.Blocks.add_comment);
+
+            this.addCommentButton_ = addCommentButton;
+            addCommentButton.bindOnClick(() => {
+                this.addComment();
+            });
+        }
+
+        // TODO: 백팩(나의보관함) 숨김처리
+        if (!backpackDisable) {
+            const backPackButton = Entry.createElement('div')
+                .addClass('entryPlaygroundBackPackButtonWorkspace')
+                .appendTo(tabButtonView);
+            backPackButton.setAttribute('alt', Lang.Workspace.my_storage);
+            backPackButton.setAttribute('title', Lang.Workspace.my_storage);
+
+            this.backPackButton_ = backPackButton;
+            backPackButton.bindOnClick(() => {
+                Entry.dispatchEvent('openBackPack');
+            });
+        }
+    }
+
+    createBackPackView(backPackView) {
+        this.backPack = new Backpack({
+            isShow: false,
+            data: {
+                items: [],
+                onClose: () => {
+                    Entry.dispatchEvent('closeBackPack');
+                },
+                onRemoveItem: (id) => {
+                    Entry.dispatchEvent('removeBackPackItem', id);
+                },
+                onChangeTitle: (id, title) => {
+                    Entry.dispatchEvent('changeBackPackTitle', id, title);
+                },
+                onCustomDragEnter: ({ type, value, onDragEnter }) => {
+                    if (Entry.GlobalSvg.isShow && Entry.GlobalSvg.canAddStorageBlock) {
+                        const { _view = {} } = Entry.GlobalSvg;
+                        onDragEnter({
+                            type: 'block',
+                            value: _view,
+                        });
+                    } else if (Entry.container.isObjectDragging) {
+                        onDragEnter({
+                            type: 'object',
+                            value: Entry.container.dragObjectKey,
+                        });
+                    }
+                },
+                onDropItem: ({ type, value }) => {
+                    if (type === 'object') {
+                        const object = Entry.container.getObject(value);
+                        object.addStorage();
+                    } else if (type === 'block') {
+                        if (value.addStorage) {
+                            value.addStorage();
+                        }
+                    }
+                },
+            },
+            container: this.backPackView,
+        });
+        this.blockBackPackArea = Entry.Dom('div')
+            .addClass('blockBackPackDrop')
+            .appendTo(backPackView);
+        this.objectBackPackArea = Entry.Dom('div')
+            .addClass('objectBackPackDrop')
+            .appendTo(backPackView);
+        const icon = Entry.Dom('div', {
+            class: 'blockBackPackIcon',
+        });
+        const desc = Entry.Dom('div', {
+            class: 'blockBackPackDesc',
+            text: Lang.Workspace.playground_block_drop,
+        });
+        const desc2 = Entry.Dom('div', {
+            class: 'objectBackPackDesc',
+            text: Lang.Workspace.container_object_drop,
+        });
+        this.blockBackPackArea.append(icon);
+        this.blockBackPackArea.append(desc);
+        this.objectBackPackArea.append(icon.clone());
+        this.objectBackPackArea.append(desc2);
+
+        const { view: blockView } = this.board || {};
+        if (blockView) {
+            const dom = blockView[0];
+            const eventDom = new EntryEvent(dom);
+            this.blockBackPackEvent = eventDom;
+            const areaDom = new EntryEvent(this.blockBackPackArea[0]);
+            this.blockBackPackAreaEvent = areaDom;
+            areaDom.on('dropitem', (e) => {
+                const data = this.backPack.getData('data');
+                Entry.dispatchEvent('addBackPackToEntry', 'block', data);
+                this.blockBackPackArea.css({
+                    display: 'none',
+                });
+            });
+            eventDom.on('enteritem', () => {
+                const isDragging = this.backPack.getData('isDragging');
+                const type = this.backPack.getData('dragType');
+                if (isDragging && type === 'block') {
+                    const { width, height, top, left } = blockView[0].getBoundingClientRect();
+                    this.blockBackPackArea.css({
+                        width: width - 134,
+                        height,
+                        top,
+                        left,
+                        display: 'flex',
+                    });
+                }
+            });
+            areaDom.on('leaveitem', (e) => {
+                this.blockBackPackArea.css({
+                    display: 'none',
+                });
+            });
+        }
+
+        const { modes = {} } = Entry.propertyPanel || {};
+        const { object = {} } = modes;
+        const { contentDom: objectView } = object;
+        if (objectView) {
+            const dom = objectView[0];
+            const eventDom = new EntryEvent(dom);
+            this.objectBackPackEvent = eventDom;
+            const areaDom = new EntryEvent(this.objectBackPackArea[0]);
+            this.objectBackPackAreaEvent = areaDom;
+
+            areaDom.on('dropitem', (e) => {
+                const data = this.backPack.getData('data');
+                Entry.dispatchEvent('addBackPackToEntry', 'object', data);
+                this.objectBackPackArea.css({
+                    display: 'none',
+                });
+            });
+
+            eventDom.on('enteritem', () => {
+                const isDragging = this.backPack.getData('isDragging');
+                const type = this.backPack.getData('dragType');
+                if (isDragging && type === 'object') {
+                    const { width, height, top, left } = objectView[0].getBoundingClientRect();
+                    this.objectBackPackArea.css({
+                        width,
+                        height,
+                        top,
+                        left,
+                        display: 'flex',
+                    });
+                }
+            });
+
+            areaDom.on('leaveitem', (e) => {
+                this.objectBackPackArea.css({
+                    display: 'none',
+                });
+            });
+        }
+
+        const globalEvent = new EntryEvent(document);
+        globalEvent.data = {};
+        this.globalEvent = globalEvent;
+
+        this.backPack.on('onChangeDragging', (isDragging) => {
+            if (isDragging) {
+                globalEvent.off().on(
+                    'touchmove.itemdrag mousemove.itemdrag',
+                    (e) => {
+                        const isDragging = this.backPack.getData('isDragging');
+                        if (isDragging) {
+                            const point = Entry.Utils.getPosition(e);
+                            const { data } = globalEvent;
+                            const { dom: objectDom } = this.objectBackPackEvent;
+                            const { dom: blockDom } = this.blockBackPackEvent;
+                            const objectRect = this.getBoundingClientRectMemo(objectDom);
+                            const blockRect = this.getBoundingClientRectMemo(blockDom, {
+                                width: -134,
+                                right: -134,
+                            });
+                            if (
+                                !data.isObjectMouseEnter &&
+                                Entry.Utils.isPointInRect(point, objectRect)
+                            ) {
+                                data.isObjectMouseEnter = true;
+                                this.objectBackPackEvent.trigger('enteritem');
+                            } else if (
+                                data.isObjectMouseEnter &&
+                                !Entry.Utils.isPointInRect(point, objectRect)
+                            ) {
+                                data.isObjectMouseEnter = false;
+                                this.objectBackPackAreaEvent.trigger('leaveitem');
+                            }
+                            if (Entry.getMainWS().mode === Entry.Workspace.MODE_BOARD) {
+                                if (
+                                    !data.isBlockMouseEnter &&
+                                    Entry.Utils.isPointInRect(point, blockRect)
+                                ) {
+                                    data.isBlockMouseEnter = true;
+                                    this.blockBackPackEvent.trigger('enteritem');
+                                } else if (
+                                    data.isBlockMouseEnter &&
+                                    !Entry.Utils.isPointInRect(point, blockRect)
+                                ) {
+                                    data.isBlockMouseEnter = false;
+                                    this.blockBackPackAreaEvent.trigger('leaveitem');
+                                }
+                            }
+                        } else {
+                            this.objectBackPackAreaEvent.trigger('leaveitem');
+                            this.blockBackPackAreaEvent.trigger('leaveitem');
+                        }
+                    },
+                    { passive: false }
+                );
+            } else {
+                globalEvent.off();
+            }
+        });
+
+        this.backPack.data = {
+            draggableOption: {
+                lockAxis: 'y',
+                distance: 30,
+                onDropItem: (e) => {
+                    const { data } = globalEvent;
+                    if (data.isObjectMouseEnter) {
+                        data.isObjectMouseEnter = false;
+                        this.objectBackPackAreaEvent.trigger('dropitem');
+                    } else if (data.isBlockMouseEnter) {
+                        data.isBlockMouseEnter = false;
+                        this.blockBackPackAreaEvent.trigger('dropitem');
+                    }
+                },
+            },
+        };
+    }
+
+    setBackpackPointEvent(canPointEvent) {
+        this.backPack.data = {
+            canPointEvent,
+        };
+    }
+
+    getBoundingClientRectMemo = _.memoize((target, offset = {}) => {
+        const rect = target.getBoundingClientRect();
+        const result = {
+            top: rect.top,
+            bottom: rect.bottom,
+            left: rect.left,
+            right: rect.right,
+        };
+        Object.keys(offset).forEach((key) => {
+            result[key] += offset[key];
+        });
+        return result;
+    });
+
+    clearClientRectMemo() {
+        this.getBoundingClientRectMemo.cache = new _.memoize.Cache();
+    }
+
+    showBackPack(args) {
+        this.backPack.setData({ ...args });
+        this.backPack.show();
+        this.backPackView.removeClass('entryRemove');
+    }
+
+    hideBackPack() {
+        this.backPack.hide();
+        this.backPackView.addClass('entryRemove');
+    }
+
+    toggleCommentButton() {
+        if (this.board.isVisibleComment) {
+            this.toast.show(Lang.Blocks.hide_all_comment);
+            Entry.do('hideAllComment', this.board);
+        } else {
+            this.toast.show(Lang.Blocks.show_all_comment);
+            Entry.do('showAllComment', this.board);
+        }
+        this.toggleCommentButtonVisible();
+    }
+
+    addComment() {
+        if (!Entry.options.commentDisable && this.board) {
+            const { svg, scale } = this.board;
+            const boardCenterX = svg.clientWidth / 2 / scale;
+            const boardCenterY = svg.clientHeight / 2 / scale;
+
+            Entry.do(
+                'createComment',
+                {
+                    id: Entry.Utils.generateId(),
+                    x: Math.max(boardCenterX - 80, 0),
+                    y: Math.max(boardCenterY - 80, 0),
+                },
+                this.board
+            );
+        }
+    }
+
+    toggleCommentButtonVisible() {
+        const button = this.commentToggleButton_;
+        const addButton = this.addCommentButton_;
+
+        if (this.board.isVisibleComment) {
+            addButton.addClass('enabled');
+            button.addClass('enabled');
+            button.setAttribute('alt', Lang.Blocks.show_all_comment);
+            button.setAttribute('title', Lang.Blocks.show_all_comment);
+        } else {
+            addButton.removeClass('enabled');
+            button.removeClass('enabled');
+            button.setAttribute('alt', Lang.Blocks.hide_all_comment);
+            button.setAttribute('title', Lang.Blocks.hide_all_comment);
+        }
+    }
+
+    /**
+     * Inject and generate code view
+     * @param {!Element} codeView
+     * @return {Element}
+     */
+    generateCodeView(codeView) {
+        const variableView = this.createVariableView();
+        codeView.appendChild(variableView);
+        this.variableView_ = variableView;
+
+        codeView = Entry.Dom(codeView);
+        const boardView = Entry.Dom('div', {
+            parent: codeView,
+            id: 'entryWorkspaceBoard',
+            class: 'entryWorkspaceBoard',
+        });
+        this.boardView_ = boardView;
+
+        const blockMenuView = Entry.Dom('div', {
+            parent: codeView,
+            id: 'entryWorkspaceBlockMenu',
+            class: 'entryWorkspaceBlockMenu',
+        });
+
+        const initOpts = {
+            blockMenu: {
+                dom: blockMenuView,
+                align: 'LEFT',
+                categoryData: EntryStatic.getAllBlocks(),
+                scroll: true,
+            },
+            board: {
+                dom: boardView,
+            },
+            readOnly: Entry.readOnly,
+        };
+        if (Entry.textCodingEnable) {
+            initOpts.vimBoard = { dom: boardView };
+        }
+
+        this.mainWorkspace = new Entry.Workspace(initOpts);
+        this.blockMenu = this.mainWorkspace.blockMenu;
+        this.board = this.mainWorkspace.board;
+        this.toast = new Toast(this.board);
+        this.blockMenu.banClass('checker');
+        Entry.Func?.initBlock(this.blockMenu);
+        Entry.expansion?.banAllExpansionBlock();
+        Entry.aiUtilize?.banAllAIUtilizeBlock();
+        DataTable?.banAllBlock();
+        Entry.aiLearning?.banBlocks();
+        this.vimBoard = this.mainWorkspace.vimBoard;
+
+        this._destroyer.add(this.mainWorkspace);
+        this._destroyer.add(this.toast);
+
+        if (Entry.hw) {
+            Entry.hw.refreshHardwareBlockMenu();
+        }
+        if (Entry.hwLite) {
+            Entry.hwLite.refreshHardwareLiteBlockMenu();
+        }
+        if (Entry.options.expansionDisable) {
+            Entry.playground.blockMenu.banCategory('expansion');
+        }
+        if (Entry.options.aiUtilizeDisable) {
+            Entry.playground.blockMenu.banCategory('ai_utilize');
+        }
+    }
+
+    /**
+     * Generate picture view.
+     * @param {!Element} pictureView
+     * @return {Element}
+     */
+    generatePictureView(PictureView) {
+        if (Entry.type === 'workspace') {
+            const pictureAdd = Entry.createElement('div', 'entryAddPicture')
+                .addClass('entryPlaygroundAddPicture')
+                .appendTo(PictureView);
+
+            const innerPictureAdd = Entry.createElement('div', 'entryAddPictureInner')
+                .addClass('entryPlaygroundAddPictureInner')
+                .bindOnClick(() => {
+                    if (!Entry.container || Entry.container.isSceneObjectsExist()) {
+                        Entry.do('playgroundClickAddPicture');
+                    } else {
+                        Entry.toast.alert(
+                            Lang.Workspace.add_object_alert,
+                            Lang.Workspace.add_object_alert_msg
+                        );
+                    }
+                })
+                .appendTo(pictureAdd);
+            innerPictureAdd.textContent = Lang.Workspace.picture_add;
+            this._pictureAddButton = innerPictureAdd;
+
+            const innerDrawNewPicture = Entry.createElement('div', 'entryNewPictureInner')
+                .addClass('entryPlaygroundNewPictureInner')
+                .bindOnClick(() => {
+                    this.painter.newPicture();
+                })
+                .appendTo(pictureAdd);
+            innerDrawNewPicture.textContent = Lang.Workspace.draw_new;
+            this._drawNewPictureButton = innerDrawNewPicture;
+
+            this.pictureListView_ = Entry.createElement('ul', 'entryPictureList')
+                .addClass('entryPlaygroundPictureList')
+                .appendTo(PictureView);
+
+            const painterDom = Entry.createElement('div', 'entryPainter')
+                .addClass('entryPlaygroundPainter')
+                .appendTo(PictureView);
+
+            switch (Entry.paintMode) {
+                case 'entry-paint':
+                    this.painter = new Entry.Painter(painterDom);
+                    break;
+                case 'literallycanvas':
+                    this.painter = new Entry.LiterallycanvasPainter(painterDom);
+                    break;
+            }
+        }
+    }
+
+    initSortablePictureWidget() {
+        if (this.pictureSortableListWidget) {
+            return;
+        }
+
+        this.pictureSortableListWidget = new Sortable({
+            data: {
+                height: '100%',
+                sortableTarget: ['entryPlaygroundPictureThumbnail'],
+                lockAxis: 'y',
+                items: this._getSortablePictureList(),
+            },
+            container: this.pictureListView_,
+        }).on('change', ([newIndex, oldIndex]) => {
+            Entry.playground.movePicture(newIndex, oldIndex);
+        });
+    }
+
+    updatePictureView() {
+        if (this.pictureSortableListWidget) {
+            this.pictureSortableListWidget.setData({ items: [] });
+            this.pictureSortableListWidget.setData({
+                items: this._getSortablePictureList(),
+            });
+        }
+        this.reloadPlayground();
+    }
+
+    _getSortablePictureList() {
+        if (!this.object || !this.object.pictures) {
+            return [];
+        }
+        const id = this.object.id;
+        return this.object.pictures.map((value) => ({
+            key: `${id}-${value.id}`,
+            item: value.view,
+        }));
+    }
+
+    /**
+     * Generate text view.
+     * @param {!Element} textView
+     * @return {Element}
+     */
+    generateTextView(textView) {
+        const that = this;
+        const wrap = Entry.createElement('div').addClass('write_box').appendTo(textView);
+        const writeSet = Entry.createElement('div').addClass('write_set');
+        const inputArea = Entry.createElement('div').addClass('input_box');
+        wrap.appendChild(writeSet);
+        wrap.appendChild(inputArea);
+
+        //write set 글 속성 탭
+        const fontSelect = Entry.createElement('div').addClass('pop_selectbox');
+        const fontLink = Entry.createElement('a', 'entryTextBoxAttrFontName').addClass(
+            'select_link imico_pop_select_arr_down'
+        );
+
+        fontLink.bindOnClick(() => {
+            const options = EntryStatic.fonts
+                .filter((font) => font.visible)
+                .map((font) => [font.name, font, font.style]);
+            fontLink.addClass('imico_pop_select_arr_up');
+            fontLink.removeClass('imico_pop_select_arr_down');
+            this.openDropDown(
+                options,
+                fontLink,
+                (value) => {
+                    let font = value[1];
+                    let textValue = textEditInput.value;
+                    if (that.object.entity.getLineBreak()) {
+                        textValue = textEditArea.value;
+                    }
+                    const { options = {} } = Entry;
+                    const { textOptions = {} } = options;
+                    const { hanjaEnable } = textOptions;
+                    if (!hanjaEnable) {
+                        if (/[\u4E00-\u9FFF]/.exec(textValue) != null) {
+                            font = options[0][1];
+                            Entry.modal.alert(Lang.Menus.not_supported_text);
+                        }
+                    }
+                    fontLink.innerText = font.name;
+                    this.textEditArea.style.fontFamily = font.family;
+                    this.textEditInput.style.fontFamily = font.family;
+                    $('#entryTextBoxAttrFontName').data('font', font);
+                    this.object.entity.setFontType(font.family);
+                },
+                () => {
+                    fontLink.removeClass('imico_pop_select_arr_up');
+                    fontLink.addClass('imico_pop_select_arr_down');
+                }
+            );
+        });
+        fontSelect.appendChild(fontLink);
+        writeSet.appendChild(fontSelect);
+
+        //스타일 박스
+        const alignBox = Entry.createElement('div').addClass('font_style_box');
+        writeSet.appendChild(alignBox);
+
+        const alignLeft = Entry.createElement('a')
+            .addClass('style_link imbtn_pop_font_align_left')
+            .bindOnClick(() => {
+                Entry.playground.setFontAlign(Entry.TEXT_ALIGN_LEFT);
+            });
+        alignLeft.setAttribute('title', Lang.Workspace.align_left);
+        alignBox.appendChild(alignLeft);
+        this.alignLeftBtn = alignLeft;
+        const alignMiddle = Entry.createElement('a')
+            .addClass('style_link imbtn_pop_font_align_middle')
+            .bindOnClick(() => {
+                Entry.playground.setFontAlign(Entry.TEXT_ALIGN_CENTER);
+            });
+        alignMiddle.setAttribute('title', Lang.Workspace.align_center);
+        alignBox.appendChild(alignMiddle);
+        this.alignCenterBtn = alignMiddle;
+        const alignRight = Entry.createElement('a')
+            .addClass('style_link imbtn_pop_font_align_right')
+            .bindOnClick(() => {
+                Entry.playground.setFontAlign(Entry.TEXT_ALIGN_RIGHT);
+            });
+        alignRight.setAttribute('title', Lang.Workspace.align_right);
+        alignBox.appendChild(alignRight);
+        this.alignRightBtn = alignRight;
+
+        const styleBox = Entry.createElement('div').addClass('font_style_box');
+        writeSet.appendChild(styleBox);
+
+        const bold = Entry.createElement('a')
+            .addClass('style_link imbtn_pop_font_bold')
+            .bindOnClick((e) => {
+                $(e.currentTarget).toggleClass('on');
+                Entry.playground.object.entity.toggleFontBold();
+                $(this.textEditArea).toggleClass('bold');
+                $(this.textEditInput).toggleClass('bold');
+            });
+        bold.setAttribute('title', Lang.Workspace.bold);
+        styleBox.appendChild(bold);
+
+        const underLine = Entry.createElement('a')
+            .addClass('style_link imbtn_pop_font_underline')
+            .bindOnClick((e) => {
+                const underLineState = !Entry.playground.object.entity.getUnderLine() || false;
+                $(e.currentTarget).toggleClass('on');
+                Entry.playground.object.entity.setUnderLine(underLineState);
+
+                const effect = `${underLineState ? 'underline' : ''} ${
+                    Entry.playground.object.entity.getStrike() ? 'line-through' : ''
+                }`.trim();
+                this.textEditArea.style.textDecoration = effect;
+                this.textEditInput.style.textDecoration = effect;
+            });
+        underLine.setAttribute('title', Lang.Workspace.font_underline);
+        styleBox.appendChild(underLine);
+
+        const italic = Entry.createElement('a')
+            .addClass('style_link imbtn_pop_font_italic')
+            .bindOnClick((e) => {
+                $(e.currentTarget).toggleClass('on');
+                Entry.playground.object.entity.toggleFontItalic();
+                $(this.textEditArea).toggleClass('italic');
+                $(this.textEditInput).toggleClass('italic');
+            });
+        italic.setAttribute('title', Lang.Workspace.font_tilt);
+        styleBox.appendChild(italic);
+
+        const through = Entry.createElement('a')
+            .addClass('style_link imbtn_pop_font_through')
+            .bindOnClick((e) => {
+                $(e.currentTarget).toggleClass('on');
+                const strikeState = !Entry.playground.object.entity.getStrike() || false;
+                Entry.playground.object.entity.setStrike(strikeState);
+
+                const effect = `${strikeState ? 'line-through' : ''} ${
+                    Entry.playground.object.entity.getUnderLine() ? 'underline' : ''
+                }`.trim();
+                this.textEditArea.style.textDecoration = effect;
+                this.textEditInput.style.textDecoration = effect;
+            });
+        through.setAttribute('title', Lang.Workspace.font_cancel);
+        styleBox.appendChild(through);
+
+        const color = Entry.createElement('a').addClass('imbtn_pop_font_color');
+        color.appendChild(Entry.createElement('em'));
+        color.bindOnClick(() =>
+            this.openColourPicker(
+                color,
+                this.object.entity.getColour(),
+                false,
+                this.setTextColour.bind(this)
+            )
+        );
+        color.setAttribute('title', Lang.Workspace.font_color);
+        styleBox.appendChild(color);
+
+        const backgroundColor = Entry.createElement('a').addClass('imbtn_pop_font_backgroundcolor');
+        backgroundColor.setAttribute('title', Lang.Workspace.font_fill);
+        backgroundColor.appendChild(Entry.createElement('em'));
+        backgroundColor.bindOnClick(() =>
+            this.openColourPicker(
+                backgroundColor,
+                this.object.entity.getBGColour(),
+                true,
+                this.setBackgroundColour.bind(this)
+            )
+        );
+        styleBox.appendChild(backgroundColor);
+
+        const writeTypeBox = Entry.createElement('div').addClass('write_type_box');
+        const singleLine = Entry.createElement('a');
+        singleLine.innerText = Lang.Buttons.single_line;
+        singleLine.bindOnClick(() => Entry.playground.toggleLineBreak(false));
+        const multiLine = Entry.createElement('a');
+        multiLine.innerText = Lang.Buttons.multi_line;
+        multiLine.bindOnClick(() => Entry.playground.toggleLineBreak(true));
+        writeTypeBox.appendChild(singleLine);
+        writeTypeBox.appendChild(multiLine);
+        inputArea.appendChild(writeTypeBox);
+
+        //글자 크기 조절 슬라이드.
+        const fontSizeWrapper = Entry.createElement('div').addClass(
+            'entryPlaygroundFontSizeWrapper multi'
+        );
+        inputArea.appendChild(fontSizeWrapper);
+        this.fontSizeWrapper = fontSizeWrapper;
+
+        const fontSizeLabel = Entry.createElement('div').addClass('entryPlaygroundFontSizeLabel');
+        fontSizeLabel.textContent = Lang.General.font_size;
+        fontSizeWrapper.appendChild(fontSizeLabel);
+
+        const fontSizeSlider = Entry.createElement('div').addClass('entryPlaygroundFontSizeSlider');
+        fontSizeWrapper.appendChild(fontSizeSlider);
+
+        const fontSizeIndiciator = Entry.createElement('div').addClass(
+            'entryPlaygroundFontSizeIndicator'
+        );
+        fontSizeSlider.appendChild(fontSizeIndiciator);
+        this.fontSizeIndiciator = fontSizeIndiciator;
+
+        const fontSizeKnob = Entry.createElement('div').addClass('entryPlaygroundFontSizeKnob');
+        fontSizeSlider.appendChild(fontSizeKnob);
+        this.fontSizeKnob = fontSizeKnob;
+
+        $(fontSizeKnob).bind('mousedown.fontKnob touchstart.fontKnob', () => {
+            const resizeOffset = $(fontSizeSlider).offset().left;
+
+            const doc = $(document);
+            doc.bind('mousemove.fontKnob touchmove.fontKnob', onMouseMove);
+            doc.bind('mouseup.fontKnob touchend.fontKnob', onMouseUp);
+
+            function onMouseMove(e) {
+                let x = e.pageX;
+                if (!x) {
+                    x = e.originalEvent.touches[0].pageX;
+                }
+                let left = x - resizeOffset;
+                left = Math.max(left, 5);
+                left = Math.min(left, 136);
+                fontSizeKnob.style.left = `${left}px`;
+                left /= 1.36;
+                fontSizeIndiciator.style.width = `${left}%`;
+                Entry.playground.object.entity.setFontSize(left);
+            }
+
+            function onMouseUp() {
+                $(document).unbind('.fontKnob');
+            }
+        });
+
+        const inputInner = Entry.createElement('div').addClass('input_inner');
+        inputArea.appendChild(inputInner);
+
+        const textEditInput = Entry.createElement('input').addClass(
+            'entryPlayground_textBox single'
+        );
+        textEditInput.type = 'text';
+        textEditInput.placeholder = Lang.Workspace.textbox_input;
+        const textChangeApply = function () {
+            const object = Entry.playground.object;
+            const entity = object.entity;
+            const selected = $('#entryTextBoxAttrFontName').data('font');
+            const defaultFont = EntryStatic.fonts[0];
+            const { options = {} } = Entry;
+            const { textOptions = {} } = options;
+            const { hanjaEnable } = textOptions;
+            if (
+                !hanjaEnable &&
+                (selected.family === 'Nanum Pen Script' || selected.family === 'Jeju Hallasan')
+            ) {
+                if (/[\u4E00-\u9FFF]/.exec(this.value) != null) {
+                    $('#entryTextBoxAttrFontName').text(defaultFont.name);
+                    entity.setFontType(defaultFont.family);
+                    Entry.modal.alert(Lang.Menus.not_supported_text);
+                }
+            }
+            object.setText(this.value);
+            entity.setText(this.value);
+        };
+        textEditInput.onkeyup = textChangeApply;
+        textEditInput.onchange = textChangeApply;
+
+        textEditInput.addEventListener('focusin', () => {
+            textEditInput.prevText = textEditInput.value;
+        });
+        textEditInput.onblur = function () {
+            if (textEditInput.value !== textEditInput.prevText) {
+                Entry.do('editText', textEditInput.value, textEditInput.prevText);
+            }
+            // Entry.dispatchEvent('textEdited');
+        };
+        this.textEditInput = textEditInput;
+        inputInner.appendChild(textEditInput);
+
+        const textEditArea = Entry.createElement('textarea');
+        textEditArea.placeholder = Lang.Workspace.textbox_input;
+        textEditArea.addClass('entryPlayground_textArea multi');
+        textEditArea.style.display = 'none';
+        textEditArea.onkeyup = textChangeApply;
+        textEditArea.onchange = textChangeApply;
+
+        textEditArea.addEventListener('focusin', () => {
+            textEditArea.prevText = textEditArea.value;
+        });
+        textEditArea.onblur = function () {
+            if (textEditArea.value !== textEditArea.prevText) {
+                Entry.do('editText', textEditArea.value, textEditArea.prevText);
+            }
+        };
+        this.textEditArea = textEditArea;
+        inputInner.appendChild(textEditArea);
+
+        const singleDesc = Entry.createElement('ul').addClass('list single');
+        singleDesc.appendChild(Entry.createElement('li').text(Lang.Menus.linebreak_off_desc_1));
+        singleDesc.appendChild(Entry.createElement('li').text(Lang.Menus.linebreak_off_desc_2));
+        singleDesc.appendChild(Entry.createElement('li').text(Lang.Menus.linebreak_off_desc_3));
+
+        const multiDesc = Entry.createElement('ul').addClass('list multi');
+        multiDesc.appendChild(Entry.createElement('li').text(Lang.Menus.linebreak_on_desc_1));
+        multiDesc.appendChild(Entry.createElement('li').text(Lang.Menus.linebreak_on_desc_2));
+        multiDesc.appendChild(Entry.createElement('li').text(Lang.Menus.linebreak_on_desc_3));
+
+        inputArea.appendChild(singleDesc);
+        inputArea.appendChild(multiDesc);
+    }
+
+
+
     /**
      * 소리 편집 기능 신규 개발시 해당 로직 삭제
      * @private
@@ -1551,6 +2694,10 @@ Entry.Playground = class Playground {
         const views = this.view_.children;
         for (let i = 0; i < views.length; i++) {
             const view = views[i];
+            // keep floating chat UI out of view-mode toggling
+             if (view.classList && view.classList.contains('entryChatContainer')) {
+                 continue;
+            }
             if (view.id.toUpperCase().indexOf(viewType.toUpperCase()) > -1) {
                 view.removeClass('entryRemove');
             } else {
