@@ -8,6 +8,9 @@ Lang.ko = '한국어';
 Lang.en = 'English';
 Lang.jp = '日本語';
 Lang.vn = 'tiếng Việt';
+// workspace labels (add User tab label)
+Lang.Workspace = Lang.Workspace || {};
+Lang.Workspace.tab_user = 'User Info';
 Lang.Command = {
     1: '장면 추가하기',
     2: '장면 삭제하기',
@@ -2170,6 +2173,11 @@ Lang.Buttons = {
     add_list: 'Add list',
     add_message: 'Add Message',
 };
+
+// ...existing code...
+Lang.Workspace = Lang.Workspace || {};
+Lang.Workspace.tab_user = 'User Info';
+// ...existing code...
 Lang.Menus = {
     nothing_to_import: 'There is no content to upload.',
     nothing_to_export: 'There is no content to download.',
