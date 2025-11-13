@@ -86,10 +86,10 @@ function Home() {
             
             {!isLoggedIn && (
               <button 
-                onClick={() => navigate('/login')}
+                onClick={() => navigate('/signup')}
                 className="px-8 py-4 rounded-xl bg-white/10 backdrop-blur-sm text-white font-semibold text-lg border border-white/20 hover:bg-white/20 transition-all duration-300"
               >
-                로그인하기
+                회원가입하기
               </button>
             )}
           </div>
