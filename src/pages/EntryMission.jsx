@@ -113,7 +113,7 @@ export default function EntryMission() {
     //1 .ok 상태를 먼저 확인해야 합니다.
     if (!listRes.ok) {
       const errorText = await listRes.text();
-      console.error(`❌ 미션 목록 API 실패: ${listRes.status}`, errorText);
+      console.error(`미션 목록 API 실패: ${listRes.status}`, errorText);
       throw new Error(`미션 목록 조회 실패: ${listRes.status} ${errorText}`);
     }
 
@@ -123,7 +123,7 @@ export default function EntryMission() {
       listData = JSON.parse(rawResponseText);
     } catch (e) {
     // .ok 상태는 통과했지만, 응답 내용이 잘못되었을 때만 처리
-    console.error("❌ 목록 응답 JSON 파싱 실패:", rawResponseText, e);
+    console.error("목록 응답 JSON 파싱 실패:", rawResponseText, e);
     throw new Error("미션 목록 API에서 유효한 JSON을 받지 못했습니다.");
     }
   
