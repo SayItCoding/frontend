@@ -36,3 +36,35 @@
     transform: rotate(360deg);
   }
 }
+
+.entrySceneListWorkspace {
+  display: none !important;
+}
+
+.entrySceneElementWorkspace.entrySceneAddButtonWorkspace {
+  display: none !important;
+}
+
+.propertyTabElement.propertyTabobject {
+  display: none !important;
+}
+
+.propertyTabElement.propertyTabconsole {
+  display: none !important;
+}
+
+.entryContainerListWorkspaceWrapper {
+  display: none !important;
+}
+
+.entryTabListWorkspace {
+  display: none !important;
+}
+
+#entryButtonTab {
+  display: none !important;
+}
+
+#entryWorkspaceBlockMenu {
+  display: none !important;
+}

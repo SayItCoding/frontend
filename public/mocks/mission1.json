@@ -17,36 +17,15 @@
               "scaleX": 0.5128205128205128,
               "scaleY": 0.5128205128205128
             },
-            "fileurl": "./bower_components/entry-js/images/media/entrybot1.svg",
-            "thumbUrl": "./bower_components/entry-js/images/media/entrybot1.svg",
+            "fileurl": "./libs/entry/images/media/entrybot1.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot1.svg",
             "name": "엔트리봇_걷기1",
-            "imageType": "svg"
-          },
-          {
-            "id": "4t48",
-            "dimension": {
-              "width": 144,
-              "height": 246,
-              "scaleX": 0.30769230769230765,
-              "scaleY": 0.30769230769230765
-            },
-            "fileurl": "./bower_components/entry-js/images/media/entrybot2.svg",
-            "thumbUrl": "./bower_components/entry-js/images/media/entrybot2.svg",
-            "name": "엔트리봇_걷기2",
             "imageType": "svg"
           }
         ],
-        "sounds": [
-          {
-            "duration": 1.3,
-            "ext": ".mp3",
-            "id": "8el5",
-            "fileurl": "./bower_components/entry-js/images/media/bark.mp3",
-            "name": "강아지 짖는 소리"
-          }
-        ]
+        "sounds": []
       },
-      "selectedPictureId": "4t48",
+      "selectedPictureId": "vx80",
       "lock": false,
       "entity": {
         "x": -170,

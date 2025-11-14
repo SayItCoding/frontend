@@ -5,7 +5,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 export default function ChatTag({
   label,
   color = "#2b65f5",
-  icon = <IoCloseCircleOutline size={16} />, // ✅ 기본 아이콘 설정
+  icon = <IoCloseCircleOutline size={16} />, // 기본 아이콘 설정
   onIconClick = null, // 아이콘 클릭 시 동작
   onClick = null, // 태그 본체 클릭 시 동작
   style = {},

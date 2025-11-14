@@ -52,5 +52,5 @@ export const SCRIPT_URLS_IN_ORDER = [
   "https://entry-cdn.pstatic.net/module/legacy-video/index.js",
 
   // EntryJS 라이브러리
-  "https://entry-cdn.pstatic.net/lib/entry-js/dist/entry.min.js?v=251103-180141",
+  "libs/entry/entry.min.js",
 ];
