@@ -85,6 +85,7 @@ function attachBlockSelectHook(Entry) {
 
 export default function EntryMission() {
   const [selectedBlockData, setSelectedBlockData] = useState();
+  const [currentMissionId, setCurrentMissionId] = useState(null);
 
   useHeadLinks(CSS_LINKS);
 
@@ -98,10 +99,54 @@ export default function EntryMission() {
 
   // === (1) 프로젝트 로더: URL → JSON → 경로보정 → loadProject ===
   async function loadMission() {
+    console.log("loadMission 함수 실행 시작");
+    /*
     const res = await fetch("/mocks/mission1.json"); // ← public/projects/mission1.json
     if (!res.ok) throw new Error(`mission1.json fetch 실패: ${res.status}`);
     const project = await res.json();
+    */
+    // 실제 미션 파일 경로로 변경
+    // 미션 목록 조회 API 호출 시도해보기 (일단 page=1, limit=1로 첫 번째 ID만 가져옴)
+    const listRes = await fetch("/api/v1/missions?page=1&limit=1");
+    // 🚨 핵심 수정: 응답 본문을 먼저 한 번만 텍스트로 읽어옵니다.
+    const rawResponseText = await listRes.text();
+    //1 .ok 상태를 먼저 확인해야 합니다.
+    if (!listRes.ok) {
+      const errorText = await listRes.text();
+      console.error(`❌ 미션 목록 API 실패: ${listRes.status}`, errorText);
+      throw new Error(`미션 목록 조회 실패: ${listRes.status} ${errorText}`);
+    }
 
+    //2. 이제 안전하게 JSON 파싱을 시도합니다.
+    let listData;
+    try {
+      listData = JSON.parse(rawResponseText);
+    } catch (e) {
+    // .ok 상태는 통과했지만, 응답 내용이 잘못되었을 때만 처리
+    console.error("❌ 목록 응답 JSON 파싱 실패:", rawResponseText, e);
+    throw new Error("미션 목록 API에서 유효한 JSON을 받지 못했습니다.");
+    }
+  
+    //const listData = await listRes.json();
+    const missions = listData?.items || [];
+
+    if (missions.length === 0) {
+      console.warn("현재 서버에 유효한 미션이 없습니다.");
+      return;
+    }
+    const missionId = missions[0].id; // 첫 번째 미션의 ID 획득
+    // 획득한 ID를 상태에 저장
+    setCurrentMissionId(missionId);
+    console.log(`[Entry] 유효한 missionId 획득: ${missionId}`);
+
+    // 2. 획득한 ID로 미션 상세 조회 API 호출 (명세: /api/v1/missions/{missionId})
+    // 이 API가 Entry가 사용할 프로젝트 JSON 데이터를 반환한다고 가정합니다.
+    const projectRes = await fetch(`/api/v1/missions/${missionId}`); 
+  
+    if (!projectRes.ok) throw new Error(`미션 상세 JSON fetch 실패: ${projectRes.status}`);
+  
+    // 백엔드에서 반환하는 JSON 응답이 Entry가 요구하는 프로젝트 형식이라고 가정
+    const project = await projectRes.json();
     // 파일 경로 보정
     const mapPath = (url = "") => {
       if (url.startsWith("./bower_components/entry-js/images/")) {
@@ -140,12 +185,23 @@ export default function EntryMission() {
     return () => window.removeEventListener("error", h);
   }, []);
 
+  // === (3) Entry 초기화 및 미션 로드 용도
   useEffect(() => {
+    //loadmission 호출해서 api 작동하는지 확인하려고 밑에 2줄 일시적으로 주석처리, 나중에 주석없애기
     if (status !== "ready") return;
     if (!window.Entry || !containerRef.current) return;
+    console.log("Entry 초기화 및 로드 로직 시작");
 
     const Entry = window.Entry;
     const container = containerRef.current;
+
+    // 👇 핵심 해결책: Entry와 containerRef.current 모두 null이 아닌지 확인
+    if (!Entry || !container) {
+        // 둘 중 하나라도 없으면 이번 렌더링 주기는 건너뛰고 다음 렌더링을 기다림
+        console.warn("Entry 객체 또는 컨테이너 DOM이 아직 준비되지 않음 (SKIP)");
+        return; 
+    }
+
     container.id = "entryContainer";
 
     // ← 절대경로 + 끝에 슬래시 권장
