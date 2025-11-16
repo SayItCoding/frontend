@@ -96,6 +96,7 @@ export default function EntryMission() {
   });
 
   const containerRef = useRef(null);
+  const BACKEND_URL = "https://sayit-coding-production.up.railway.app";
 
   // === (1) 프로젝트 로더: URL → JSON → 경로보정 → loadProject ===
   async function loadMission() {
@@ -107,14 +108,13 @@ export default function EntryMission() {
     */
     // 실제 미션 파일 경로로 변경
     // 미션 목록 조회 API 호출 시도해보기 (일단 page=1, limit=1로 첫 번째 ID만 가져옴)
-    const listRes = await fetch("/api/v1/missions?page=1&limit=1");
+    const listRes = await fetch(`${BACKEND_URL}/api/v1/missions?page=1&limit=1`);
     // 🚨 핵심 수정: 응답 본문을 먼저 한 번만 텍스트로 읽어옵니다.
     const rawResponseText = await listRes.text();
     //1 .ok 상태를 먼저 확인해야 합니다.
     if (!listRes.ok) {
-      const errorText = await listRes.text();
-      console.error(`미션 목록 API 실패: ${listRes.status}`, errorText);
-      throw new Error(`미션 목록 조회 실패: ${listRes.status} ${errorText}`);
+      console.error(`미션 목록 API 실패: ${listRes.status}`, rawResponseText);
+      throw new Error(`미션 목록 조회 실패: ${listRes.status} ${rawResponseText}`);
     }
 
     //2. 이제 안전하게 JSON 파싱을 시도합니다.
@@ -141,12 +141,32 @@ export default function EntryMission() {
 
     // 2. 획득한 ID로 미션 상세 조회 API 호출 (명세: /api/v1/missions/{missionId})
     // 이 API가 Entry가 사용할 프로젝트 JSON 데이터를 반환한다고 가정합니다.
-    const projectRes = await fetch(`/api/v1/missions/${missionId}`); 
+    const projectRes = await fetch(`${BACKEND_URL}/api/v1/missions/${missionId}`); 
+    //상세 조회 응답도 방어적으로 처리
+    const rawProjectResponseText = await projectRes.text();
   
-    if (!projectRes.ok) throw new Error(`미션 상세 JSON fetch 실패: ${projectRes.status}`);
-  
-    // 백엔드에서 반환하는 JSON 응답이 Entry가 요구하는 프로젝트 형식이라고 가정
-    const project = await projectRes.json();
+    if (!projectRes.ok) {
+        console.error(`❌ 미션 상세 API 실패: ${projectRes.status}`, rawProjectResponseText);
+        throw new Error(`미션 상세 JSON fetch 실패: ${projectRes.status}`);
+    }
+ 
+    let project;
+    try {
+        // 백엔드에서 반환하는 JSON 응답이 Entry가 요구하는 프로젝트 형식이라고 가정
+        project = JSON.parse(rawProjectResponseText);
+    } catch (e) {
+        console.error("❌ 상세 응답 JSON 파싱 실패:", rawProjectResponseText, e);
+        throw new Error("미션 상세 API에서 유효한 JSON을 받지 못했습니다.");
+    }
+    console.log("[Entry] 로드할 프로젝트 데이터 획득:", project);
+
+    //수정: projectData 키를 통해 실제 프로젝트 JSON 추출, 유효한지 확인
+    const actualProjectData = project.projectData;
+    if (!actualProjectData || typeof actualProjectData !== 'object') {
+        console.error("❌ 실제 projectData 키를 찾지 못했거나 유효하지 않습니다.", project);
+        throw new Error("미션 상세 응답에 유효한 projectData가 포함되어 있지 않습니다.");
+    }
+
     // 파일 경로 보정
     const mapPath = (url = "") => {
       if (url.startsWith("./bower_components/entry-js/images/")) {
@@ -161,7 +181,7 @@ export default function EntryMission() {
     };
 
     // pictures/sounds의 fileurl, thumbUrl 보정
-    for (const obj of project.objects || []) {
+    for (const obj of actualProjectData.objects || []) {
       const pics = obj?.sprite?.pictures || [];
       for (const p of pics) {
         if (p.fileurl) p.fileurl = mapPath(p.fileurl);
@@ -174,7 +194,7 @@ export default function EntryMission() {
     }
 
     // JSON 객체를 그대로 주입
-    window.Entry.loadProject(project);
+    window.Entry.loadProject(actualProjectData);
   }
 
   useEffect(() => {
