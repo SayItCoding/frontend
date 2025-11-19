@@ -1,15 +1,177 @@
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ChatMessageList } from "./ChatMessageList.jsx";
 import { ChatInputBar } from "./ChatInputBar.jsx";
+import { fetchMissionChats } from "../api/mission.js";
+import { IoReturnUpBackOutline } from "react-icons/io5";
+import { sendMissionChat } from "../api/mission.js";
 
-export default function ChatWindow() {
+/**
+ * props:
+ *  - missionId: number | string  (필수)
+ */
+export default function ChatWindow({ missionId, title = "Chat" }) {
+  const [messages, setMessages] = useState([]); // 화면에 보여줄 메시지들
+  const [loadingHistory, setLoadingHistory] = useState(false); // 초기 히스토리 로딩용
+  const [error, setError] = useState("");
+  const [isResponding, setIsResponding] = useState(false); // API 응답 대기 중 여부
+
+  // 최초 입장 시 기존 대화 내역 로딩
+  useEffect(() => {
+    if (!missionId) return;
+
+    async function loadChats() {
+      try {
+        setLoadingHistory(true);
+        setError("");
+
+        const data = await fetchMissionChats(missionId, 1, 30);
+        const items = data.items || [];
+
+        const mapped = items
+          .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // 오래된 순 정렬
+          .map((c) => ({
+            id: c.id,
+            role: c.role, // 'user' | 'assistant'
+            content: c.content,
+            createdAt: c.createdAt,
+          }));
+
+        setMessages(mapped);
+      } catch (err) {
+        console.error("미션 대화 내역 조회 실패:", err);
+        setError("대화 내역을 불러오지 못했습니다.");
+      } finally {
+        setLoadingHistory(false);
+      }
+    }
+
+    loadChats();
+  }, [missionId]);
+
+  // assistant 말풍선에 글자를 한 글자씩 채워넣는 함수
+  function typeAssistantMessage(tempId, fullText) {
+    let index = 0;
+    const speed = 20; // ms 단위 (작을수록 빨리 친다)
+
+    const timer = setInterval(() => {
+      index += 1;
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === tempId
+            ? {
+                ...m,
+                content: fullText.slice(0, index),
+              }
+            : m
+        )
+      );
+
+      if (index >= fullText.length) {
+        clearInterval(timer);
+        // 다 타이핑되면 streaming 종료 + 로더 끔
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === tempId
+              ? {
+                  ...m,
+                  streaming: false,
+                }
+              : m
+          )
+        );
+        setIsResponding(false);
+      }
+    }, speed);
+  }
+
+  const handleSend = async (userText) => {
+    const trimmed = userText.trim();
+    if (!trimmed) return;
+
+    const now = new Date().toISOString();
+
+    // 1) 사용자 메시지 즉시 추가
+    const userMsg = {
+      id: `user-${Date.now()}`,
+      role: "user",
+      content: trimmed,
+      createdAt: now,
+    };
+
+    // 2) assistant 로더용 말풍선 추가 (text 비워두고 streaming만 true)
+    const tempAssistantId = `assistant-temp-${Date.now()}`;
+    const tempAssistantMsg = {
+      id: tempAssistantId,
+      role: "assistant",
+      content: "",
+      streaming: true, // ChatMessageItem에서 커서 깜빡임
+      createdAt: now,
+    };
+
+    setMessages((prev) => [...prev, userMsg, tempAssistantMsg]);
+    setIsResponding(true);
+
+    try {
+      const data = await sendMissionChat(missionId, trimmed);
+      const items = data.items || [];
+
+      // 응답 중 assistant 역할인 것만 사용
+      const assistant = items.find((it) => it.role === "assistant");
+      if (!assistant) {
+        // assistant가 없으면 로더 제거 + 에러 표시
+        setMessages((prev) =>
+          prev
+            .filter((m) => m.id !== tempAssistantId)
+            .concat({
+              id: `err-${Date.now()}`,
+              role: "error",
+              content: "AI 응답을 받지 못했습니다.",
+              error: "assistant message not found",
+              createdAt: new Date().toISOString(),
+            })
+        );
+        setIsResponding(false);
+        return;
+      }
+
+      const fullText = assistant.content || "";
+
+      // 4) fullText를 tempAssistantMsg에 "타자치는 것처럼" 채워넣기
+      typeAssistantMessage(tempAssistantId, fullText);
+
+      // TODO: data.projectData가 있으면 Entry 프로젝트 상태도 여기서 업데이트 가능
+    } catch (err) {
+      console.error("❌ 채팅 전송/응답 실패:", err);
+
+      // 실패 시: 로더 말풍선 제거하고 에러 메시지 추가
+      setMessages((prev) =>
+        prev
+          .filter((m) => m.id !== tempAssistantId)
+          .concat({
+            id: `err-${Date.now()}`,
+            role: "error",
+            content: "메시지 전송 중 오류가 발생했습니다.",
+            error: err.message,
+            createdAt: new Date().toISOString(),
+          })
+      );
+      setIsResponding(false);
+    }
+  };
+
   return (
     <Wrap>
       <Head>
-        <span>Chat</span>
+        <span>{title}</span>
       </Head>
-      <ChatMessageList />
-      <ChatInputBar />
+
+      {loadingHistory && <StatusText>이전 대화 내역을 불러오는 중…</StatusText>}
+      {error && <StatusText>{error}</StatusText>}
+
+      <ChatMessageList messages={messages} />
+
+      <ChatInputBar onSend={handleSend} />
     </Wrap>
   );
 }
@@ -32,4 +194,10 @@ const Head = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const StatusText = styled.div`
+  font-size: 13px;
+  color: #6b7280;
+  padding: 8px 16px;
 `;

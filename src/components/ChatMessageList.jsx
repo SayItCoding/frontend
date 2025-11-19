@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useChatStore } from "../stores/useChatStore.js";
 import { ChatMessageItem } from "./ChatMessageItem.jsx";
 
-export function ChatMessageList() {
-  const { messages } = useChatStore();
+export function ChatMessageList({ messages }) {
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -13,7 +11,7 @@ export function ChatMessageList() {
 
   return (
     <List role="log" aria-live="polite" aria-relevant="additions">
-      {messages.map((m) => (
+      {messages?.map((m) => (
         <ChatMessageItem key={m.id} msg={m} />
       ))}
       <div ref={bottomRef} />

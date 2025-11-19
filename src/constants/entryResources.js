@@ -9,7 +9,7 @@ export const CSS_LINKS = [
 
 export const SCRIPT_URLS_IN_ORDER = [
   // language
-  "https://entry-cdn.pstatic.net/lib/entry-js/extern/lang/ko.js",
+  "/libs/entry/extern/lang/ko.js",
 
   "https://entry-cdn.pstatic.net/js/react18/react.production.min.js?v=251103-180141",
   "https://entry-cdn.pstatic.net/js/react18/react-dom.production.min.js?v=251103-180141",

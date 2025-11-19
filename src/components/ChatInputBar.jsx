@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { useChatStore } from "../stores/useChatStore.js";
 import ChatTag from "./ChatTag.jsx";
 
-export function ChatInputBar() {
+export function ChatInputBar({ onSend }) {
   const [val, setVal] = useState("");
-  const { sendMessage } = useChatStore();
   const ref = useRef(null);
 
   useEffect(() => {
@@ -18,8 +16,13 @@ export function ChatInputBar() {
   async function handleSend() {
     const text = val.trim();
     if (!text) return;
+
     setVal("");
-    await sendMessage(text);
+
+    // ChatWindow에서 넘겨준 onSend 사용
+    if (onSend) {
+      await onSend(text);
+    }
   }
 
   function onKeyDown(e) {

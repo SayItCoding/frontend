@@ -109,38 +109,48 @@ export default function LoginPage() {
   );
 }
 
-/* ---------------- Styled Components ---------------- */
 const FullScreen = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #f9fafb;
+  background: #f5f7fb;
 `;
 
 const Card = styled.div`
   width: 100%;
   max-width: 420px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
+  background: #ffffff;
+  border-radius: 18px;
   padding: 32px 28px;
-  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+  border: 1px solid #e5edff;
 `;
 
 const CardHeader = styled.header`
   margin-bottom: 18px;
   h1 {
-    margin: 0 0 6px;
+    margin: 4px 0 6px;
     font-size: 24px;
     font-weight: 800;
     letter-spacing: -0.02em;
+    color: #111827;
   }
   p {
     margin: 0;
-    color: #64748b;
+    color: #6b7280;
     font-size: 14px;
   }
+`;
+
+const Brand = styled.div`
+  font-size: 13px;
+  font-weight: 600;
+  color: #e5edff;
+  background: #4b7bec;
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 999px;
 `;
 
 const Stack = styled.div`
@@ -150,15 +160,23 @@ const Stack = styled.div`
 
 const Submit = styled.button`
   height: 48px;
-  border-radius: 10px;
-  background: #111827;
-  color: #fff;
+  border-radius: 12px;
+  background: #4b7bec;
+  color: #ffffff;
   font-weight: 700;
   cursor: pointer;
   border: none;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+
+  &:hover:not(:disabled) {
+    background: #1d4ed8;
+  }
+
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
+    box-shadow: none;
   }
 `;
 
@@ -166,26 +184,27 @@ const Divider = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #94a3b8;
+  color: #9ca3af;
   font-size: 12px;
-  margin: 16px 0;
+  margin: 18px 0;
   &::before,
   &::after {
     content: "";
     flex: 1;
     height: 1px;
-    background: #e5e7eb;
+    background: #e5edff;
   }
 `;
 
 const FootNote = styled.p`
-  margin-top: 12px;
+  margin-top: 14px;
   font-size: 12px;
-  color: #94a3b8;
+  color: #9ca3af;
   text-align: center;
   a {
-    color: #2563eb;
+    color: #4b7bec;
     text-decoration: none;
+    font-weight: 500;
   }
   a:hover {
     text-decoration: underline;
@@ -194,6 +213,6 @@ const FootNote = styled.p`
 
 const FormError = styled.div`
   margin-bottom: 8px;
-  color: #b00020;
+  color: #b91c1c;
   font-size: 13px;
 `;

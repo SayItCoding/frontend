@@ -23,7 +23,7 @@ export function ChatMessageItem({ msg }) {
 const Row = styled.div`
   display: flex;
   justify-content: ${(p) => (p.$me ? "flex-end" : "flex-start")};
-  margin: 6px 0;
+  margin: 12px 0;
 `;
 
 const Bubble = styled.div`
