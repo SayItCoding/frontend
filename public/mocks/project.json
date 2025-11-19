@@ -1,0 +1,983 @@
+{
+  "objects": [
+    {
+      "id": "5ktp",
+      "name": "엔트리봇",
+      "script": "[[{\"id\":\"30j8\",\"x\":50,\"y\":30,\"type\":\"when_run_button_click\",\"params\":[null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"2v56\",\"x\":0,\"y\":0,\"type\":\"repeat_basic\",\"params\":[{\"id\":\"9h7h\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[3],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[[{\"id\":\"n36o\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"267o\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"9ned\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"sxwh\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"mul2\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"33l5\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"gfbg\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"2em8\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"5uq2\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"005c\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"xv0m\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"46fd\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"0tva\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"r36i\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"3fb7\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"8cqn\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"9gzv\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"24xa\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"vroi\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"u4ow\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"gsdy\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"0s1j\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"m1ny\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"fu2b\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"6f5q\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}]],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"xtif\",\"x\":0,\"y\":0,\"type\":\"repeat_basic\",\"params\":[{\"id\":\"fad7\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[3],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[[{\"id\":\"w0y5\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"yog2\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"0al1\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"xo08\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"xu2p\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"8p1p\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"thi7\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"the9\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"nh9v\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"4y2v\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"uh4t\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"21h6\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"ypm6\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"b7vh\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"c5ix\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"s9im\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"sqg5\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"vrno\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"o397\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"0d25\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"zwo8\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"s4ux\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"lvar\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"3epe\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"tvuj\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}]],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"3bpx\",\"x\":0,\"y\":0,\"type\":\"repeat_basic\",\"params\":[{\"id\":\"6ics\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[3],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[[{\"id\":\"5elm\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"ibox\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"lljp\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"q16p\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"dow2\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"47en\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"nsnl\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"cjlt\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"wwws\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"vvez\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"fw1o\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"1dyi\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"ntjz\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"8n4d\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"6307\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"vkbc\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"8rfb\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"f61r\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"c4j5\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"ccbv\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"kz3z\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"dbrl\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"i0yx\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"mmqd\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"xguw\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.2],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}]],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}],[{\"id\":\"nsfy\",\"x\":50,\"y\":1053,\"type\":\"when_run_button_click\",\"params\":[null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"hq5u\",\"x\":0,\"y\":0,\"type\":\"repeat_basic\",\"params\":[{\"id\":\"s3xd\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[3],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[[{\"id\":\"6ar6\",\"x\":0,\"y\":0,\"type\":\"move_xy_time\",\"params\":[{\"id\":\"0fhs\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[1],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"lbtg\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[50],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"nkc0\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}]],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"a08e\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"6efn\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.3],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"ulvt\",\"x\":0,\"y\":0,\"type\":\"repeat_basic\",\"params\":[{\"id\":\"h53d\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[3],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[[{\"id\":\"0vn7\",\"x\":0,\"y\":0,\"type\":\"move_xy_time\",\"params\":[{\"id\":\"14i5\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[1],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"nruo\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"wyv8\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[\"-50\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}]],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"vf0d\",\"x\":0,\"y\":0,\"type\":\"wait_second\",\"params\":[{\"id\":\"t925\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0.3],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"72ql\",\"x\":0,\"y\":0,\"type\":\"repeat_basic\",\"params\":[{\"id\":\"vmmq\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[3],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[[{\"id\":\"tybo\",\"x\":0,\"y\":0,\"type\":\"move_xy_time\",\"params\":[{\"id\":\"cctj\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[1],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"f4h2\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[\"-50\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},{\"id\":\"6ocs\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[0],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}]],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}],[{\"id\":\"cul3\",\"x\":823.8900146484375,\"y\":30,\"type\":\"move_direction\",\"params\":[{\"id\":\"9jpt\",\"x\":0,\"y\":0,\"type\":\"number\",\"params\":[50],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"assemble\":true,\"extensions\":[]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "5lz9",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "9ned",
+            "dimension": {
+              "width": 137,
+              "height": 268,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "4139758fmi5z7gop00060c06d10lviv4",
+            "name": "걷기 옆모습_1",
+            "imageType": "svg",
+            "fileurl": "temp/41/39/image/4139758fmi5z7gop00060c06d10lviv4.svg"
+          },
+          {
+            "id": "2em8",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "139758f4mi5z7gop00060c06d10lwzev",
+            "fileurl": "temp/13/97/image/139758f4mi5z7gop00060c06d10lwzev.svg",
+            "name": "걷기 옆모습_2",
+            "imageType": "svg"
+          },
+          {
+            "id": "0tva",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "39758f4cmi5z7gop00060c06d10lxp6j",
+            "fileurl": "temp/39/75/image/39758f4cmi5z7gop00060c06d10lxp6j.svg",
+            "name": "걷기 옆모습_3",
+            "imageType": "svg"
+          },
+          {
+            "id": "24xa",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "9758f4ccmi5z7gop00060c06d10lyfr0",
+            "fileurl": "temp/97/58/image/9758f4ccmi5z7gop00060c06d10lyfr0.svg",
+            "name": "걷기 옆모습_4",
+            "imageType": "svg"
+          },
+          {
+            "id": "m1ny",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "758f4ccdmi5z7gop00060c06d10lzdt0",
+            "fileurl": "temp/75/8f/image/758f4ccdmi5z7gop00060c06d10lzdt0.svg",
+            "name": "걷기 옆모습_5",
+            "imageType": "svg"
+          },
+          {
+            "id": "ldcf",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "58f4ccd8mi5z7gop00060c06d10m069z",
+            "fileurl": "temp/58/f4/image/58f4ccd8mi5z7gop00060c06d10m069z.svg",
+            "name": "걷기 옆모습_6",
+            "imageType": "svg"
+          },
+          {
+            "id": "0al1",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "8f4ccd85mi5z7gop00060c06d10m0qvr",
+            "fileurl": "temp/8f/4c/image/8f4ccd85mi5z7gop00060c06d10m0qvr.svg",
+            "name": "걷기 앞모습_1",
+            "imageType": "svg"
+          },
+          {
+            "id": "the9",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "f4ccd85fmi5z7gop00060c06d10m1jsh",
+            "fileurl": "temp/f4/cc/image/f4ccd85fmi5z7gop00060c06d10m1jsh.svg",
+            "name": "걷기 앞모습_2",
+            "imageType": "svg"
+          },
+          {
+            "id": "ypm6",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "4ccd85f9mi5z7gop00060c06d10m276z",
+            "fileurl": "temp/4c/cd/image/4ccd85f9mi5z7gop00060c06d10m276z.svg",
+            "name": "걷기 앞모습_3",
+            "imageType": "svg"
+          },
+          {
+            "id": "vrno",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "ccd85f92mi5z7gop00060c06d10m2w5n",
+            "fileurl": "temp/cc/d8/image/ccd85f92mi5z7gop00060c06d10m2w5n.svg",
+            "name": "걷기 앞모습_4",
+            "imageType": "svg"
+          },
+          {
+            "id": "lvar",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "cd85f92cmi5z7gop00060c06d10m3lt9",
+            "fileurl": "temp/cd/85/image/cd85f92cmi5z7gop00060c06d10m3lt9.svg",
+            "name": "걷기 앞모습_5",
+            "imageType": "svg"
+          },
+          {
+            "id": "efcr",
+            "dimension": {
+              "width": 134,
+              "height": 224,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "d85f92c5mi5z7gop00060c06d10m46dl",
+            "fileurl": "temp/d8/5f/image/d85f92c5mi5z7gop00060c06d10m46dl.svg",
+            "name": "걷기 앞모습_6",
+            "imageType": "svg"
+          },
+          {
+            "id": "lljp",
+            "dimension": {
+              "width": 137,
+              "height": 268,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "85f92c57mi5z7gop00060c06d10m4r38",
+            "name": "걷기 옆모습_7",
+            "imageType": "svg",
+            "fileurl": "temp/85/f9/image/85f92c57mi5z7gop00060c06d10m4r38.svg"
+          },
+          {
+            "id": "cjlt",
+            "dimension": {
+              "width": 158,
+              "height": 264,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "5f92c572mi5z7gop00060c06d10m5bbn",
+            "name": "걷기 옆모습_8",
+            "imageType": "svg",
+            "fileurl": "temp/5f/92/image/5f92c572mi5z7gop00060c06d10m5bbn.svg"
+          },
+          {
+            "id": "ntjz",
+            "dimension": {
+              "width": 136,
+              "height": 264,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "f92c5721mi5z7gop00060c06d10m5u5q",
+            "name": "걷기 옆모습_9",
+            "imageType": "svg",
+            "fileurl": "temp/f9/2c/image/f92c5721mi5z7gop00060c06d10m5u5q.svg"
+          },
+          {
+            "id": "f61r",
+            "dimension": {
+              "width": 134,
+              "height": 264,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "92c57218mi5z7gop00060c06d10m6dtd",
+            "name": "걷기 옆모습_10",
+            "imageType": "svg",
+            "fileurl": "temp/92/c5/image/92c57218mi5z7gop00060c06d10m6dtd.svg"
+          },
+          {
+            "id": "i0yx",
+            "dimension": {
+              "width": 134,
+              "height": 265,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "2c572189mi5z7gop00060c06d10m6y6b",
+            "name": "걷기 옆모습_11",
+            "imageType": "svg",
+            "fileurl": "temp/2c/57/image/2c572189mi5z7gop00060c06d10m6y6b.svg"
+          },
+          {
+            "id": "f822",
+            "dimension": {
+              "width": 135,
+              "height": 264,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "c572189ami5z7gop00060c06d10m7clo",
+            "name": "걷기 옆모습_12",
+            "imageType": "svg",
+            "fileurl": "temp/c5/72/image/c572189ami5z7gop00060c06d10m7clo.svg"
+          },
+          {
+            "id": "j8wl",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "572189a3mi5z7goq00060c06d10m80mx",
+            "name": "바람 일으키기 옆모습_1",
+            "imageType": "svg",
+            "fileurl": "temp/57/21/image/572189a3mi5z7goq00060c06d10m80mx.svg"
+          },
+          {
+            "id": "f394",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "72189a30mi5z7goq00060c06d10m8mvw",
+            "name": "바람 일으키기 옆모습_2",
+            "imageType": "svg",
+            "fileurl": "temp/72/18/image/72189a30mi5z7goq00060c06d10m8mvw.svg"
+          },
+          {
+            "id": "ldhu",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "2189a302mi5z7goq00060c06d10m96ks",
+            "name": "바람 일으키기 옆모습_3",
+            "imageType": "svg",
+            "fileurl": "temp/21/89/image/2189a302mi5z7goq00060c06d10m96ks.svg"
+          },
+          {
+            "id": "0e7z",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "189a3021mi5z7goq00060c06d10m9oav",
+            "name": "바람 일으키기 옆모습_4",
+            "imageType": "svg",
+            "fileurl": "temp/18/9a/image/189a3021mi5z7goq00060c06d10m9oav.svg"
+          },
+          {
+            "id": "vndo",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "89a3021emi5z7goq00060c06d10ma5o6",
+            "name": "바람 일으키기 옆모습_5",
+            "imageType": "svg",
+            "fileurl": "temp/89/a3/image/89a3021emi5z7goq00060c06d10ma5o6.svg"
+          },
+          {
+            "id": "w5a5",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "9a3021efmi5z7goq00060c06d10mav1q",
+            "name": "바람 일으키기 옆모습_6",
+            "imageType": "svg",
+            "fileurl": "temp/9a/30/image/9a3021efmi5z7goq00060c06d10mav1q.svg"
+          },
+          {
+            "id": "0opo",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "a3021ef7mi5z7goq00060c06d10mbgrp",
+            "name": "바람 일으키기 옆모습_7",
+            "imageType": "svg",
+            "fileurl": "temp/a3/02/image/a3021ef7mi5z7goq00060c06d10mbgrp.svg"
+          },
+          {
+            "id": "oad1",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "3021ef74mi5z7goq00060c06d10mc06k",
+            "name": "바람 일으키기 옆모습_8",
+            "imageType": "svg",
+            "fileurl": "temp/30/21/image/3021ef74mi5z7goq00060c06d10mc06k.svg"
+          },
+          {
+            "id": "eab0",
+            "dimension": {
+              "width": 137,
+              "height": 214,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "021ef749mi5z7goq00060c06d10mchk9",
+            "name": "바람 일으키기 옆모습_9",
+            "imageType": "svg",
+            "fileurl": "temp/02/1e/image/021ef749mi5z7goq00060c06d10mchk9.svg"
+          },
+          {
+            "id": "kw3k",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "21ef749bmi5z7goq00060c06d10md1do",
+            "name": "바람 일으키기 앞모습_1",
+            "imageType": "svg",
+            "fileurl": "temp/21/ef/image/21ef749bmi5z7goq00060c06d10md1do.svg"
+          },
+          {
+            "id": "lcts",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "1ef749bcmi5z7goq00060c06d10mdihz",
+            "name": "바람 일으키기 앞모습_2",
+            "imageType": "svg",
+            "fileurl": "temp/1e/f7/image/1ef749bcmi5z7goq00060c06d10mdihz.svg"
+          },
+          {
+            "id": "7m7g",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "ef749bcemi5z7goq00060c06d10me0lf",
+            "name": "바람 일으키기 앞모습_3",
+            "imageType": "svg",
+            "fileurl": "temp/ef/74/image/ef749bcemi5z7goq00060c06d10me0lf.svg"
+          },
+          {
+            "id": "0ubc",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "f749bce4mi5z7goq00060c06d10mejvt",
+            "name": "바람 일으키기 앞모습_4",
+            "imageType": "svg",
+            "fileurl": "temp/f7/49/image/f749bce4mi5z7goq00060c06d10mejvt.svg"
+          },
+          {
+            "id": "j7pl",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "749bce49mi5z7goq00060c06d10mf41n",
+            "name": "바람 일으키기 앞모습_5",
+            "imageType": "svg",
+            "fileurl": "temp/74/9b/image/749bce49mi5z7goq00060c06d10mf41n.svg"
+          },
+          {
+            "id": "myc0",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "49bce494mi5z7goq00060c06d10mfmh3",
+            "name": "바람 일으키기 앞모습_6",
+            "imageType": "svg",
+            "fileurl": "temp/49/bc/image/49bce494mi5z7goq00060c06d10mfmh3.svg"
+          },
+          {
+            "id": "kdub",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "9bce4949mi5z7goq00060c06d10mg3sj",
+            "name": "바람 일으키기 앞모습_7",
+            "imageType": "svg",
+            "fileurl": "temp/9b/ce/image/9bce4949mi5z7goq00060c06d10mg3sj.svg"
+          },
+          {
+            "id": "jzp3",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "bce49496mi5z7goq00060c06d10mguu0",
+            "name": "바람 일으키기 앞모습_8",
+            "imageType": "svg",
+            "fileurl": "temp/bc/e4/image/bce49496mi5z7goq00060c06d10mguu0.svg"
+          },
+          {
+            "id": "gouo",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "ce494965mi5z7goq00060c06d10mhtdq",
+            "name": "바람 일으키기 앞모습_9",
+            "imageType": "svg",
+            "fileurl": "temp/ce/49/image/ce494965mi5z7goq00060c06d10mhtdq.svg"
+          },
+          {
+            "id": "30mb",
+            "dimension": {
+              "width": 230,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "e4949650mi5z7goq00060c06d10mil30",
+            "name": "바람 일으키기 앞모습_10",
+            "imageType": "svg",
+            "fileurl": "temp/e4/94/image/e4949650mi5z7goq00060c06d10mil30.svg"
+          },
+          {
+            "id": "ipa8",
+            "dimension": { "width": 137, "height": 214 },
+            "filename": "49496501mi5z7goq00060c06d10mjhd5",
+            "name": "바람 일으키기 옆모습_10",
+            "imageType": "svg",
+            "fileurl": "temp/49/49/image/49496501mi5z7goq00060c06d10mjhd5.svg"
+          },
+          {
+            "id": "xoji",
+            "dimension": { "width": 174, "height": 214 },
+            "filename": "94965019mi5z7goq00060c06d10mjz89",
+            "name": "바람 일으키기 옆모습_11",
+            "imageType": "svg",
+            "fileurl": "temp/94/96/image/94965019mi5z7goq00060c06d10mjz89.svg"
+          },
+          {
+            "id": "82oj",
+            "dimension": { "width": 211, "height": 218 },
+            "filename": "49650195mi5z7goq00060c06d10mkjjc",
+            "name": "바람 일으키기 옆모습_12",
+            "imageType": "svg",
+            "fileurl": "temp/49/65/image/49650195mi5z7goq00060c06d10mkjjc.svg"
+          },
+          {
+            "id": "1h3e",
+            "dimension": { "width": 190, "height": 218 },
+            "filename": "96501954mi5z7goq00060c06d10ml1kn",
+            "name": "바람 일으키기 옆모습_13",
+            "imageType": "svg",
+            "fileurl": "temp/96/50/image/96501954mi5z7goq00060c06d10ml1kn.svg"
+          },
+          {
+            "id": "vcr3",
+            "dimension": { "width": 205, "height": 224 },
+            "filename": "65019540mi5z7goq00060c06d10mllm9",
+            "name": "바람 일으키기 옆모습_14",
+            "imageType": "svg",
+            "fileurl": "temp/65/01/image/65019540mi5z7goq00060c06d10mllm9.svg"
+          },
+          {
+            "id": "b8yh",
+            "dimension": { "width": 136, "height": 209 },
+            "filename": "50195400mi5z7goq00060c06d10mm68v",
+            "name": "바람 일으키기 옆모습_15",
+            "imageType": "svg",
+            "fileurl": "temp/50/19/image/50195400mi5z7goq00060c06d10mm68v.svg"
+          },
+          {
+            "id": "llmb",
+            "dimension": { "width": 133, "height": 210 },
+            "filename": "01954002mi5z7goq00060c06d10mmwpe",
+            "name": "바람 일으키기 옆모습_16",
+            "imageType": "svg",
+            "fileurl": "temp/01/95/image/01954002mi5z7goq00060c06d10mmwpe.svg"
+          },
+          {
+            "id": "wikr",
+            "dimension": { "width": 113, "height": 210 },
+            "filename": "19540025mi5z7goq00060c06d10mnf1y",
+            "name": "바람 일으키기 옆모습_17",
+            "imageType": "svg",
+            "fileurl": "temp/19/54/image/19540025mi5z7goq00060c06d10mnf1y.svg"
+          },
+          {
+            "id": "faj1",
+            "dimension": {
+              "width": 137,
+              "height": 214,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            },
+            "filename": "95400257mi5z7goq00060c06d10mnwp8",
+            "name": "바람 일으키기 옆모습_18",
+            "imageType": "svg",
+            "fileurl": "temp/95/40/image/95400257mi5z7goq00060c06d10mnwp8.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "9ned",
+      "lock": false,
+      "entity": {
+        "x": -82.86,
+        "y": 86.75,
+        "regX": 68.5,
+        "regY": 134,
+        "scaleX": 0.24377400135107033,
+        "scaleY": 0.2437740013510704,
+        "rotation": 0,
+        "direction": 90,
+        "width": 137,
+        "height": 268,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "9pfg",
+      "name": "[묶음] 꽃 화살표",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "5lz9",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "939m",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.18503019815418037,
+              "scaleY": 0.18503019815418037
+            },
+            "filename": "54002570mi5z7goq00060c06d10mosjn",
+            "name": "꽃 화살표 왼쪽",
+            "imageType": "svg",
+            "fileurl": "temp/54/00/image/54002570mi5z7goq00060c06d10mosjn.svg"
+          },
+          {
+            "id": "6tom",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "4002570bmi5z7goq00060c06d10mpfeb",
+            "name": "꽃 화살표 위쪽",
+            "imageType": "svg",
+            "fileurl": "temp/40/02/image/4002570bmi5z7goq00060c06d10mpfeb.svg"
+          },
+          {
+            "id": "xcaw",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "002570bemi5z7goq00060c06d10mpx0l",
+            "name": "꽃 화살표 오른쪽",
+            "imageType": "svg",
+            "fileurl": "temp/00/25/image/002570bemi5z7goq00060c06d10mpx0l.svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "939m",
+      "lock": true,
+      "entity": {
+        "x": -80.96,
+        "y": -86.83,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.18503019815418037,
+        "scaleY": 0.18503019815418037,
+        "rotation": 0,
+        "direction": 272.92,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "jwil",
+      "name": "[묶음] 흙 타일",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "5lz9",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "alfy",
+            "dimension": {
+              "width": 400,
+              "height": 400,
+              "scaleX": 0.5124733074754985,
+              "scaleY": 0.5124733074754987
+            },
+            "filename": "02570be5mi5z7goq00060c06d10mqfpy",
+            "name": "맵",
+            "imageType": "svg",
+            "fileurl": "temp/02/57/image/02570be5mi5z7goq00060c06d10mqfpy.svg"
+          },
+          {
+            "_id": null,
+            "id": "1neh",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.4166666666666667,
+              "scaleY": 0.4166666666666667
+            },
+            "filename": "2570be5emi5z7goq00060c06d10mr7ah",
+            "fileurl": "temp/25/70/image/2570be5emi5z7goq00060c06d10mr7ah.svg",
+            "name": "흙 타일 A_1",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "67da",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.14695304017372415,
+              "scaleY": 0.14695304017372415
+            },
+            "filename": "570be5e3mi5z7goq00060c06d10mrpmr",
+            "fileurl": "temp/57/0b/image/570be5e3mi5z7goq00060c06d10mrpmr.svg",
+            "name": "흙 타일 A_2",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "b92i",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "70be5e33mi5z7goq00060c06d10msbjp",
+            "fileurl": "temp/70/be/image/70be5e33mi5z7goq00060c06d10msbjp.svg",
+            "name": "흙 타일 B_1",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "yz82",
+            "dimension": { "width": 240, "height": 240 },
+            "filename": "0be5e337mi5z7gor00060c06d10mswyd",
+            "fileurl": "temp/0b/e5/image/0be5e337mi5z7gor00060c06d10mswyd.svg",
+            "name": "흙 타일 B_2",
+            "imageType": "svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "alfy",
+      "lock": true,
+      "entity": {
+        "x": -6.41,
+        "y": -8.65,
+        "regX": 200,
+        "regY": 200,
+        "scaleX": 0.5124733074754985,
+        "scaleY": 0.5124733074754987,
+        "rotation": 0,
+        "direction": 90,
+        "width": 400,
+        "height": 400,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "gdxj",
+      "name": "[묶음] 이상한 숲 속",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "5lz9",
+      "sprite": {
+        "pictures": [
+          {
+            "_id": null,
+            "id": "83pq",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "be5e337bmi5z7gor00060c06d10mtg2t",
+            "fileurl": "temp/be/5e/image/be5e337bmi5z7gor00060c06d10mtg2t.svg",
+            "name": "이상한 숲 속_1",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "oqn2",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "e5e337b3mi5z7gor00060c06d10mtysa",
+            "fileurl": "temp/e5/e3/image/e5e337b3mi5z7gor00060c06d10mtysa.svg",
+            "name": "이상한 숲 속_2",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "z8c3",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "5e337b30mi5z7gor00060c06d10mumbk",
+            "fileurl": "temp/5e/33/image/5e337b30mi5z7gor00060c06d10mumbk.svg",
+            "name": "이상한 숲 속_3",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "o80w",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "e337b30fmi5z7gor00060c06d10mv5bj",
+            "fileurl": "temp/e3/37/image/e337b30fmi5z7gor00060c06d10mv5bj.svg",
+            "name": "이상한 숲 속_4",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "77w4",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "337b30f7mi5z7gor00060c06d10mvoik",
+            "fileurl": "temp/33/7b/image/337b30f7mi5z7gor00060c06d10mvoik.svg",
+            "name": "이상한 숲 속_5",
+            "imageType": "svg"
+          },
+          {
+            "id": "qjpy",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "37b30f74mi5z7gor00060c06d10mw62i",
+            "fileurl": "temp/37/b3/image/37b30f74mi5z7gor00060c06d10mw62i.svg",
+            "name": "이상한 숲 속_6",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "4axz",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "7b30f74dmi5z7gor00060c06d10mwqey",
+            "fileurl": "temp/7b/30/image/7b30f74dmi5z7gor00060c06d10mwqey.svg",
+            "name": "이상한 숲 속_7",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "mdfk",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "b30f74demi5z7gor00060c06d10mx7n9",
+            "fileurl": "temp/b3/0f/image/b30f74demi5z7gor00060c06d10mx7n9.svg",
+            "name": "이상한 숲 속_8",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "e1pm",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "30f74de5mi5z7gor00060c06d10mxpxk",
+            "fileurl": "temp/30/f7/image/30f74de5mi5z7gor00060c06d10mxpxk.svg",
+            "name": "이상한 숲 속_9",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "tnyw",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "0f74de56mi5z7gor00060c06d10my85r",
+            "fileurl": "temp/0f/74/image/0f74de56mi5z7gor00060c06d10my85r.svg",
+            "name": "이상한 숲 속_10",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "r5e7",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "f74de569mi5z7gor00060c06d10myqsg",
+            "fileurl": "temp/f7/4d/image/f74de569mi5z7gor00060c06d10myqsg.svg",
+            "name": "이상한 숲 속_11",
+            "imageType": "svg"
+          },
+          {
+            "_id": null,
+            "id": "uwnk",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "74de5697mi5z7gor00060c06d10mz84z",
+            "fileurl": "temp/74/de/image/74de5697mi5z7gor00060c06d10mz84z.svg",
+            "name": "이상한 숲 속_12",
+            "imageType": "svg"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "qjpy",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ],
+  "scenes": [{ "id": "5lz9", "name": "장면 1" }],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "isRealTime": false,
+      "cloudDate": false,
+      "object": null,
+      "x": 134,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": "0",
+      "variableType": "answer",
+      "isCloud": false,
+      "isRealTime": false,
+      "cloudDate": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "tables": [],
+  "speed": 60,
+  "interface": { "canvasWidth": 640, "object": "5ktp" },
+  "expansionBlocks": [],
+  "aiUtilizeBlocks": [],
+  "hardwareLiteBlocks": [],
+  "externalModules": [],
+  "externalModulesLite": [],
+  "likeCnt": 0,
+  "visit": 0,
+  "isopen": true,
+  "name": "반복문",
+  "isPracticalCourse": false,
+  "parent": "691db73d04e26a421bedcdd3",
+  "origin": "691c8e843aa5c4da43bf5c90",
+  "user": "691c8de032de469f2bd55c5e",
+  "recentLikeCnt": 0,
+  "childCnt": 0,
+  "comment": 0
+}

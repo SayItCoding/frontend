@@ -2,9 +2,17 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Header() {
   const navigate = useNavigate();
+
+  const { authenticated, user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <HeaderWrapper>
@@ -12,15 +20,20 @@ export default function Header() {
         <Logo onClick={() => navigate("/")}>말해 코딩</Logo>
 
         <Nav>
-          {/*<NavLink to="/mission">미션 체험</NavLink>*/}
           <NavLink to="/dashboard">대시보드</NavLink>
 
-          <AuthButtons>
-            <GhostButton onClick={() => navigate("/login")}>로그인</GhostButton>
-            {/*<PrimarySmallButton onClick={() => navigate("/signup")}>
-            회원가입
-          </PrimarySmallButton>*/}
-          </AuthButtons>
+          {!authenticated ? (
+            <AuthButtons>
+              <GhostButton onClick={() => navigate("/login")}>
+                로그인
+              </GhostButton>
+            </AuthButtons>
+          ) : (
+            <AuthButtons>
+              <UserName>{user?.email}님</UserName>
+              <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
+            </AuthButtons>
+          )}
         </Nav>
       </Inner>
     </HeaderWrapper>
@@ -73,4 +86,20 @@ const GhostButton = styled.button`
   background: transparent;
   font-size: 13px;
   color: #ffffff;
+  cursor: pointer;
+`;
+
+const LogoutButton = styled.button`
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #e5edff;
+  background: transparent;
+  font-size: 13px;
+  color: #ffffff;
+  cursor: pointer;
+`;
+
+const UserName = styled.span`
+  font-size: 13px;
+  color: #fff;
 `;

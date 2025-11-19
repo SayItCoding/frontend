@@ -4,11 +4,15 @@ import apiClient from "./apiClient";
  * 학습 미션 목록 조회
  * GET /api/v1/missions?page={page}&limit={limit}
  */
-export async function fetchMissionList(page = 1, limit = 20) {
+export async function fetchMissionList(page = 1, limit = 20, category) {
+  const params = { page, limit };
+
+  if (category) {
+    params.category = category;
+  }
+
   try {
-    const res = await apiClient.get(
-      `/api/v1/missions?page=${page}&limit=${limit}`
-    );
+    const res = await apiClient.get("/api/v1/missions", { params });
     return res.data; // items, meta, links
   } catch (err) {
     console.error("❌ fetchMissionList 오류:", err);

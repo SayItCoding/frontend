@@ -5,22 +5,34 @@ import styled from "styled-components";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import MissionCard from "../components/MissionCard.jsx";
-import { fetchMissionList } from "../api/mission.js"; // ✅ 추가
+import { fetchMissionList } from "../api/mission.js";
 
 export default function Home() {
   const navigate = useNavigate();
 
-  const [missions, setMissions] = useState([]); // ✅ API 데이터 저장
-  const [loading, setLoading] = useState(true); // ✅ 로딩 상태
-  const [error, setError] = useState(null); // ✅ 에러 상태
+  // 섹션별 데이터
+  const [recommended, setRecommended] = useState([]); // 추천 학습 미션
+  const [loopMissions, setLoopMissions] = useState([]); // 반복문
+  const [conditionMissions, setConditionMissions] = useState([]); // 조건문
+  const [loading, setLoading] = useState(true); // 로딩 상태
+  const [error, setError] = useState(null); // 에러 상태
 
   useEffect(() => {
     async function loadMissions() {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchMissionList(1, 6); // page=1, limit=6 정도로 예시
-        setMissions(data.items || []);
+
+        // 추천(전체) 반복문(LOOP) 조건문(CONDITION) 한 번에 요청
+        const [recommendedRes, loopRes, conditionRes] = await Promise.all([
+          fetchMissionList(1, 6), // 추천용: 전체에서 상위 6개
+          fetchMissionList(1, 6, "반복문"), // 반복문 카테고리
+          fetchMissionList(1, 6, "조건문"), // 조건문 카테고리
+        ]);
+
+        setRecommended(recommendedRes.items || []);
+        setLoopMissions(loopRes.items || []);
+        setConditionMissions(conditionRes.items || []);
       } catch (err) {
         console.error(err);
         setError("미션 목록을 불러오는 데 실패했어요.");
@@ -38,10 +50,10 @@ export default function Home() {
 
       <Hero>
         <HeroText>
-          <HeroTitle>말로 하는 블록코딩, 말해코딩</HeroTitle>
+          <HeroTitle>말로 하는 코딩, 말해코딩</HeroTitle>
           <HeroSub>
-            “앞으로 2칸 가”처럼 자연어로 말하면, 엔트리 블록이 자동으로
-            만들어지는 코딩 학습 서비스예요.
+            “앞으로 2칸 가”처럼 자연어로 말하면, 코드가 자동으로 만들어지는 코딩
+            학습 서비스예요.
           </HeroSub>
           <HeroButtons>
             {/*<PrimaryButton onClick={() => navigate("/mission")}>
@@ -58,24 +70,74 @@ export default function Home() {
         </HeroPreview>
       </Hero>
 
+      {/* === 섹션 1: 추천 학습 미션 (전체) === */}
       <CardsSection>
         <SectionTitle>추천 학습 미션</SectionTitle>
 
-        {/*  로딩/에러/빈 상태 처리 */}
         {loading && <StatusText>미션을 불러오는 중입니다...</StatusText>}
         {error && !loading && <StatusText>{error}</StatusText>}
-        {!loading && !error && missions.length === 0 && (
+        {!loading && !error && recommended.length === 0 && (
           <StatusText>아직 등록된 미션이 없어요.</StatusText>
         )}
 
-        {!loading && !error && missions.length > 0 && (
+        {!loading && !error && recommended.length > 0 && (
           <CardGrid>
-            {missions.map((m) => (
+            {recommended.map((m) => (
               <MissionCard
                 key={m.id}
                 title={m.title}
                 desc={m.description}
-                image={null} // API에 이미지 필드 없으니 일단 null
+                image={"/temp_thumb.png"}
+                to={`/mission?missionId=${m.id}`}
+              />
+            ))}
+          </CardGrid>
+        )}
+      </CardsSection>
+
+      {/* === 섹션 2: 반복문 미션 === */}
+      <CardsSection>
+        <SectionTitle>반복문 미션</SectionTitle>
+
+        {loading && <StatusText>미션을 불러오는 중입니다...</StatusText>}
+        {error && !loading && <StatusText>{error}</StatusText>}
+        {!loading && !error && loopMissions.length === 0 && (
+          <StatusText>반복문 미션이 아직 없어요.</StatusText>
+        )}
+
+        {!loading && !error && loopMissions.length > 0 && (
+          <CardGrid>
+            {loopMissions.map((m) => (
+              <MissionCard
+                key={m.id}
+                title={m.title}
+                desc={m.description}
+                image={"/temp_thumb.png"}
+                to={`/mission?missionId=${m.id}`}
+              />
+            ))}
+          </CardGrid>
+        )}
+      </CardsSection>
+
+      {/* === 섹션 3: 조건문 미션 === */}
+      <CardsSection>
+        <SectionTitle>조건문 미션</SectionTitle>
+
+        {loading && <StatusText>미션을 불러오는 중입니다...</StatusText>}
+        {error && !loading && <StatusText>{error}</StatusText>}
+        {!loading && !error && conditionMissions.length === 0 && (
+          <StatusText>조건문 미션이 아직 없어요.</StatusText>
+        )}
+
+        {!loading && !error && conditionMissions.length > 0 && (
+          <CardGrid>
+            {conditionMissions.map((m) => (
+              <MissionCard
+                key={m.id}
+                title={m.title}
+                desc={m.description}
+                image={"/temp_thumb.png"}
                 to={`/mission?missionId=${m.id}`}
               />
             ))}
@@ -88,7 +150,7 @@ export default function Home() {
   );
 }
 
-/* 스타일 (색은 너가 말한 팔레트 기준 느낌으로 예시) */
+/* 스타일 그대로 유지 */
 
 const Page = styled.div`
   min-height: 100vh;
@@ -173,7 +235,7 @@ const SectionTitle = styled.h2`
 const CardGrid = styled.div`
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
