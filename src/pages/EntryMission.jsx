@@ -382,10 +382,10 @@ export default function EntryMission() {
         <ChatWindow missionId={missionId} />
       </ChatPane>
 
-      <TestButton
+      {/*<TestButton
         label="코드 반영 테스트 버튼"
         onClick={handleTestButtonClick}
-      />
+      />*/}
     </Layout>
   );
 }
