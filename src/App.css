@@ -72,3 +72,9 @@ body::-webkit-scrollbar {
 #entryWorkspaceBlockMenu {
   display: none !important;
 }
+
+#entryCurtain {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}

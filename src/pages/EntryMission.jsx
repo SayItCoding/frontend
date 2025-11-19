@@ -242,6 +242,15 @@ export default function EntryMission() {
       attachBlockExecuteHighlight(Entry);
 
       setEntryInitialized(true);
+
+      // 엔트리 이벤트 리스너 등록
+      Entry.addEventListener("blockExecuteEnd", function() {
+        console.log("모든 블록이 실행 되었습니다.");
+      });
+
+      Entry.addEventListener("dispatchEventDidToggleStop", function() {
+        console.log("작품 정지하기 클릭.");
+      });
     } catch (e) {
       console.error("Entry.init 실패:", e);
     }
@@ -252,6 +261,39 @@ export default function EntryMission() {
       } catch {}
     };
   }, [status]);
+
+  // 블록 메뉴 자동 접기: init 끝난 뒤, playground 준비되면 한 번만 접기
+  useEffect(() => {
+    if (!entryInitialized) return;
+    if (!window.Entry) return;
+
+    let tries = 0;
+    const maxTries = 50; // 50 * 100ms = 최대 5초까지 기다림
+
+    const timer = setInterval(() => {
+      const Entry = window.Entry;
+      const playground = Entry?.playground;
+
+      if (!playground?.blockMenu || !playground?.board) {
+        tries += 1;
+        if (tries >= maxTries) {
+          clearInterval(timer);
+        }
+        return;
+      }
+
+      const blockMenu = playground.blockMenu;
+
+      // 이미 접혀 있지 않다면 토글해서 접기
+      if (blockMenu.visible) {
+        blockMenu.toggleBlockMenu();
+      }
+
+      clearInterval(timer);
+    }, 100);
+
+    return () => clearInterval(timer);
+  }, [entryInitialized]);
 
   // projectData가 바뀔 때마다 Entry 프로젝트 갱신
   useEffect(() => {
@@ -307,7 +349,7 @@ export default function EntryMission() {
     console.log("현재 프로젝트: ", current);
 
     try {
-      const res = await fetch(`/mocks/test2.json`);
+      const res = await fetch(`/mocks/test1.json`);
 
       if (!res.ok) {
         console.error("Failed to load project: ", res.status);
@@ -340,10 +382,10 @@ export default function EntryMission() {
         <ChatWindow missionId={missionId} />
       </ChatPane>
 
-      {/*<TestButton
+      <TestButton
         label="코드 반영 테스트 버튼"
         onClick={handleTestButtonClick}
-      />*/}
+      />
     </Layout>
   );
 }
@@ -385,7 +427,7 @@ const ChatPane = styled.aside`
   justify-content: center;
   align-items: stretch;
   padding: 12px;
-  z-index: 100; /* 혹시라도 z축에서 EntryPane 뒤로 들어가는 일 방지 */
+  z-index: 1000; /* 혹시라도 z축에서 EntryPane 뒤로 들어가는 일 방지 */
 
   & > * {
     width: 100%;
