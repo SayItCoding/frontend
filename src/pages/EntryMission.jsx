@@ -284,8 +284,10 @@ export default function EntryMission() {
 
       const blockMenu = playground.blockMenu;
 
-      // 이미 접혀 있지 않다면 토글해서 접기
-      if (blockMenu.visible) {
+      //
+      if (typeof blockMenu.toggleBlockMenu === "function") {
+        console.log("[Entry] 자동 블록메뉴 접기 실행");
+        blockMenu.toggleBlockMenu();
         blockMenu.toggleBlockMenu();
       }
 
@@ -327,8 +329,8 @@ export default function EntryMission() {
           entryObject.script,
           window.Entry.Parser.PARSE_GENERAL
         );
-        console.log("=== PYTHON 코드 ===");
-        console.log(pyCode);
+        //console.log("=== PYTHON 코드 ===");
+        //console.log(pyCode);
       }
 
       setSelectedBlockData(e.detail);

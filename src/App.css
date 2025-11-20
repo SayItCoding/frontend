@@ -37,8 +37,24 @@
   }
 }
 
+#entryCanvas {
+  pointer-events: none;
+}
+
+.entryEngineButtonWorkspace_w.entryEngineTopWorkspace.entryCoordinateButtonWorkspace_w {
+  display: none !important;
+}
+
+.entryEngineButtonWorkspace_w.entryAddButtonWorkspace_w {
+  display: none !important;
+}
+
 body::-webkit-scrollbar {
   display: none;
+}
+
+svg.entryBoard g[filter="url(#entryTrashcanFilter_board)"] {
+  display: none !important;
 }
 
 .entrySceneListWorkspace {
@@ -70,6 +86,10 @@ body::-webkit-scrollbar {
 }
 
 #entryWorkspaceBlockMenu {
+  display: none !important;
+}
+
+.entryPlaygroundResizeWorkspace.folding {
   display: none !important;
 }
 
