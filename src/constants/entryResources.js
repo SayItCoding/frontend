@@ -43,7 +43,7 @@ export const SCRIPT_URLS_IN_ORDER = [
   "https://entry-cdn.pstatic.net/lib/entry-lms/dist/assets/app.js?v=251103-180141",
 
   // Static JS
-  "https://entry-cdn.pstatic.net/lib/entry-js/extern/util/static.js?v=251103-180141",
+  "/libs/entry/extern/util/static.js",
 
   "https://entry-cdn.pstatic.net/lib/entry-tool/dist/entry-tool.js?v=251103-180141",
   "https://entry-cdn.pstatic.net/lib/entry-paint/dist/static/js/entry-paint.js",

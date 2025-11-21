@@ -83,6 +83,9 @@ EntryStatic.getAllBlocks = function () {
         {
             category: 'moving',
             blocks: [
+                'move_forward',
+                'rotate_direction_left',
+                'rotate_direction_right',
                 'move_direction',
                 'bounce_wall',
                 'move_x',

@@ -5,7 +5,7 @@ const BASE_URL = "https://sayit-coding-production.up.railway.app";
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000, // 10초
+  timeout: 30000, // 30초
 });
 
 // === 요청 인터셉터 ===
