@@ -4,7 +4,7 @@ import { ChatMessageList } from "./ChatMessageList.jsx";
 import { ChatInputBar } from "./ChatInputBar.jsx";
 import { fetchMissionChats } from "../api/mission.js";
 import { IoReturnUpBackOutline } from "react-icons/io5";
-import { sendMissionChat } from "../api/mission.js";
+import { sendMissionChat, fetchMissionCode } from "../api/mission.js";
 
 /**
  * props:
@@ -12,6 +12,7 @@ import { sendMissionChat } from "../api/mission.js";
  */
 export default function ChatWindow({ missionId, title = "Chat" }) {
   const [messages, setMessages] = useState([]); // 화면에 보여줄 메시지들
+  const [selectedCodeId, setSelectedCodeId] = useState(null);
   const [loadingHistory, setLoadingHistory] = useState(false); // 초기 히스토리 로딩용
   const [error, setError] = useState("");
   const [isResponding, setIsResponding] = useState(false); // API 응답 대기 중 여부
@@ -32,6 +33,7 @@ export default function ChatWindow({ missionId, title = "Chat" }) {
           .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) // 오래된 순 정렬
           .map((c) => ({
             id: c.id,
+            missionCodeId: c.missionCodeId ?? null,
             role: c.role, // 'user' | 'assistant'
             content: c.content,
             createdAt: c.createdAt,
@@ -48,6 +50,22 @@ export default function ChatWindow({ missionId, title = "Chat" }) {
 
     loadChats();
   }, [missionId]);
+
+  // 가장 최신 코드 반영
+  useEffect(() => {
+    if (messages.length === 0) return;
+
+    // 뒤에서 앞으로 missionCodeId가 있는 메시지를 찾기
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].missionCodeId != null) {
+        setSelectedCodeId(messages[i].missionCodeId);
+        return;
+      }
+    }
+
+    // 하나도 없으면 null
+    setSelectedCodeId(null);
+  }, [messages]);
 
   // assistant 말풍선에 글자를 한 글자씩 채워넣는 함수
   function typeAssistantMessage(tempId, fullText) {
@@ -91,18 +109,20 @@ export default function ChatWindow({ missionId, title = "Chat" }) {
 
     const now = new Date().toISOString();
 
-    // 1) 사용자 메시지 즉시 추가
+    // 사용자 메시지 즉시 추가
     const userMsg = {
       id: `user-${Date.now()}`,
+      missionCodeId: null, // 나중에 응답 후 붙임
       role: "user",
       content: trimmed,
       createdAt: now,
     };
 
-    // 2) assistant 로더용 말풍선 추가 (text 비워두고 streaming만 true)
+    // assistant 로더용 말풍선 추가 (text 비워두고 streaming만 true)
     const tempAssistantId = `assistant-temp-${Date.now()}`;
     const tempAssistantMsg = {
       id: tempAssistantId,
+      missionCodeId: null, // 나중에 응답 후 붙임
       role: "assistant",
       content: "",
       streaming: true, // ChatMessageItem에서 커서 깜빡임
@@ -113,7 +133,8 @@ export default function ChatWindow({ missionId, title = "Chat" }) {
     setIsResponding(true);
 
     try {
-      const data = await sendMissionChat(missionId, trimmed);
+      // 현재 선택된 코드 기준으로 코드 작성 및 수정 요청
+      const data = await sendMissionChat(missionId, trimmed, selectedCodeId);
       const items = data.items || [];
 
       // 응답 중 assistant 역할인 것만 사용
@@ -137,10 +158,34 @@ export default function ChatWindow({ missionId, title = "Chat" }) {
 
       const fullText = assistant.content || "";
 
-      // 4) fullText를 tempAssistantMsg에 "타자치는 것처럼" 채워넣기
+      // missionCodeId를 방금 user/assistant 메시지에 연결
+      const missionCodeId = data.missionCodeId ?? null;
+      if (missionCodeId !== null) {
+        setMessages((prev) =>
+          prev.map((m) => {
+            if (m.id === userMsg.id || m.id === tempAssistantId) {
+              return {
+                ...m,
+                missionCodeId,
+              };
+            }
+            return m;
+          })
+        );
+      }
+
+      // fullText를 tempAssistantMsg에 "타자치는 것처럼" 채워넣기
       typeAssistantMessage(tempAssistantId, fullText);
 
-      // TODO: data.projectData가 있으면 Entry 프로젝트 상태도 여기서 업데이트 가능
+      if (data.projectData) {
+        try {
+          // console.log("코드 변경 프로젝트 로드");
+          window.Entry.clearProject();
+          window.Entry.loadProject(data.projectData);
+        } catch (err) {
+          console.error("프로젝트 로드 중 오류:", err);
+        }
+      }
     } catch (err) {
       console.error("❌ 채팅 전송/응답 실패:", err);
 
@@ -160,6 +205,28 @@ export default function ChatWindow({ missionId, title = "Chat" }) {
     }
   };
 
+  const handleMessageClick = async (msg) => {
+    if (!msg.missionCodeId) return;
+    if (!missionId && missionId !== 0) return;
+    if (msg.missionCodeId === selectedCodeId) return;
+
+    setSelectedCodeId(msg.missionCodeId);
+
+    try {
+      const data = await fetchMissionCode(missionId, msg.missionCodeId);
+      if (data?.projectData) {
+        try {
+          window.Entry?.clearProject();
+          window.Entry?.loadProject(data.projectData);
+        } catch (err) {
+          console.error("프로젝트 로드 중 오류:", err);
+        }
+      }
+    } catch (err) {
+      console.error("❌ 코드 로드 실패:", err);
+    }
+  };
+
   return (
     <Wrap>
       <Head>
@@ -169,7 +236,11 @@ export default function ChatWindow({ missionId, title = "Chat" }) {
       {loadingHistory && <StatusText>이전 대화 내역을 불러오는 중…</StatusText>}
       {error && <StatusText>{error}</StatusText>}
 
-      <ChatMessageList messages={messages} />
+      <ChatMessageList
+        messages={messages}
+        selectedCodeId={selectedCodeId}
+        onMessageClick={handleMessageClick}
+      />
 
       <ChatInputBar onSend={handleSend} />
     </Wrap>
@@ -179,7 +250,7 @@ export default function ChatWindow({ missionId, title = "Chat" }) {
 const Wrap = styled.div`
   display: grid;
   grid-template-rows: auto 1fr auto;
-  height: min(80vh, 900px);
+  height: min(100vh, 900px);
   width: min(900px, 100%);
   border: 1px solid #eaeaea;
   border-radius: 16px;

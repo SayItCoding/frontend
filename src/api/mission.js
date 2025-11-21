@@ -62,7 +62,7 @@ export async function fetchMissionChats(missionId, page = 1, limit = 20) {
  * 사용자 입력을 전송하고, AI 응답을 함께 받는 API
  * POST /api/v1/missions/{missionId}/chats
  */
-export async function sendMissionChat(missionId, content) {
+export async function sendMissionChat(missionId, content, selectedCodeId) {
   if (!missionId && missionId !== 0) {
     throw new Error("missionId는 필수 값입니다.");
   }
@@ -70,10 +70,35 @@ export async function sendMissionChat(missionId, content) {
     throw new Error("content는 비어 있을 수 없습니다.");
   }
 
-  const res = await apiClient.post(`/api/v1/missions/${missionId}/chats`, {
+  const body = {
     content,
+    missionCodeId: selectedCodeId,
+  };
+
+  const res = await apiClient.post(`/api/v1/missions/${missionId}/chats`, {
+    body,
   });
 
   // 201 Created + 응답 JSON
-  return res.data; // { missionId, userMissionId, items, projectData }
+  return res.data; // { missionId, userMissionId, missionCodeId, items}
+}
+
+/**
+ * 특정 미션의 특정 missionCode 상세 조회 API
+ * GET /api/v1/missions/{missionId}/mission-codes/{missionCodeId}
+ */
+export async function fetchMissionCode(missionId, missionCodeId) {
+  if (!missionId && missionId !== 0) {
+    throw new Error("missionId는 필수 값입니다.");
+  }
+  if (!missionCodeId && missionCodeId !== 0) {
+    throw new Error("missionCodeId는 필수 값입니다.");
+  }
+
+  const res = await apiClient.get(
+    `/api/v1/missions/${missionId}/mission-codes/${missionCodeId}`
+  );
+
+  // 200 OK + missionCode 상세 JSON
+  return res.data; // { missionId, missionCodeId , projectData, createdAt }
 }

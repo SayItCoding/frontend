@@ -22,6 +22,7 @@ export function useEntryProjectLoader({ missionId }) {
 
         const data = await fetchMissionDetail(missionId);
         // 백엔드에서 내려주는 projectData (없을 수도 있음)
+        //console.log(data);
         setProjectData(data.projectData || null);
       } catch (err) {
         console.error("❌ mission projectData 로드 실패:", err);

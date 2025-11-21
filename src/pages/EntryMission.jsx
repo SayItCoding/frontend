@@ -262,41 +262,6 @@ export default function EntryMission() {
     };
   }, [status]);
 
-  // 블록 메뉴 자동 접기: init 끝난 뒤, playground 준비되면 한 번만 접기
-  useEffect(() => {
-    if (!entryInitialized) return;
-    if (!window.Entry) return;
-
-    let tries = 0;
-    const maxTries = 50; // 50 * 100ms = 최대 5초까지 기다림
-
-    const timer = setInterval(() => {
-      const Entry = window.Entry;
-      const playground = Entry?.playground;
-
-      if (!playground?.blockMenu || !playground?.board) {
-        tries += 1;
-        if (tries >= maxTries) {
-          clearInterval(timer);
-        }
-        return;
-      }
-
-      const blockMenu = playground.blockMenu;
-
-      //
-      if (typeof blockMenu.toggleBlockMenu === "function") {
-        console.log("[Entry] 자동 블록메뉴 접기 실행");
-        blockMenu.toggleBlockMenu();
-        blockMenu.toggleBlockMenu();
-      }
-
-      clearInterval(timer);
-    }, 100);
-
-    return () => clearInterval(timer);
-  }, [entryInitialized]);
-
   // projectData가 바뀔 때마다 Entry 프로젝트 갱신
   useEffect(() => {
     if (!entryInitialized) return;
@@ -311,34 +276,6 @@ export default function EntryMission() {
       console.error("Entry 프로젝트 로드 중 오류:", e);
     }
   }, [entryInitialized, projectData]);
-
-  // 선택된 블록 이벤트를 React 쪽에서 바로 보고 싶다면 (옵션)
-  useEffect(() => {
-    const handler = (e) => {
-      console.log("[React] entry:blockSelected 이벤트 수신:", e.detail);
-      // 여기서 e.detail.block 을 ChatWindow 쪽으로 넘기거나 Zustand에 저장해도 됨
-
-      if (window.Entry) {
-        const parser = new window.Entry.BlockToPyParser();
-        const entryObject = window.Entry.playground.object;
-        if (!entryObject || !entryObject.script) {
-          console.warn("No script found");
-          return;
-        }
-        const pyCode = parser.Code(
-          entryObject.script,
-          window.Entry.Parser.PARSE_GENERAL
-        );
-        //console.log("=== PYTHON 코드 ===");
-        //console.log(pyCode);
-      }
-
-      setSelectedBlockData(e.detail);
-    };
-
-    window.addEventListener("entry:blockSelected", handler);
-    return () => window.removeEventListener("entry:blockSelected", handler);
-  }, []);
 
   useEffect(() => {
     console.log(selectedBlockData);
