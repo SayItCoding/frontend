@@ -118,80 +118,11 @@ function attachBlockExecuteHighlight(Entry) {
   console.log("[Entry Hook] 실행 중 블록 하이라이트 이벤트 연결 완료");
 }
 
-// Entry가 로드된 뒤 블록 선택 훅을 거는 함수
-function attachBlockSelectHook(Entry) {
-  if (!Entry || !Entry.Board || !Entry.BlockView) {
-    console.warn(
-      "[Entry Hook] Entry.Board 또는 Entry.BlockView를 찾지 못했습니다."
-    );
-    return;
-  }
-
-  const proto = Entry.Board.prototype;
-
-  // 중복 패치 방지
-  if (proto._patchedForSelectHook) {
-    return;
-  }
-
-  const original = proto.setSelectedBlock;
-
-  proto.setSelectedBlock = function(blockView) {
-    // 원래 동작(선택/하이라이트)은 그대로 유지
-    original.call(this, blockView);
-
-    // 선택된 블록이 BlockView 인스턴스일 때만 처리
-    if (blockView instanceof Entry.BlockView) {
-      // BlockView 안에 실제 Block 모델이 어디 달려있는지는 버전에 따라 다를 수 있음 → 방어적으로 접근
-      const rawBlock =
-        blockView.block || blockView._block || blockView.model || null;
-
-      let blockData = null;
-
-      if (rawBlock) {
-        // toJSON이 있으면 그걸로 현재 상태를 가져오는 게 가장 안전함
-        if (typeof rawBlock.toJSON === "function") {
-          blockData = rawBlock.toJSON();
-        } else if (rawBlock.schema) {
-          // toJSON이 없으면 schema + 현재 필드를 대략 묶어서 찍을 수도 있음 (필요시 확장)
-          blockData = {
-            ...rawBlock.schema,
-            id: rawBlock.id ?? rawBlock.schema.id,
-            x: rawBlock.x ?? rawBlock.schema.x,
-            y: rawBlock.y ?? rawBlock.schema.y,
-            type: rawBlock.type ?? rawBlock.schema.type,
-            params: rawBlock.params ?? rawBlock.schema.params,
-            statements: rawBlock.statements ?? rawBlock.schema.statements,
-          };
-        } else {
-          // 최악의 경우 rawBlock 자체를 덤프
-          blockData = rawBlock;
-        }
-      }
-
-      // 콘솔에 선택된 블록 정보 출력
-      // console.log("[Entry] 선택된 BlockView:", blockView);
-      //console.log("[Entry] 선택된 Block 데이터:", blockData);
-
-      // React 쪽에서 듣고 싶으면 커스텀 이벤트로 던질 수 있음
-      window.dispatchEvent(
-        new CustomEvent("entry:blockSelected", {
-          detail: {
-            // blockView,
-            block: blockData,
-          },
-        })
-      );
-    }
-  };
-
-  proto._patchedForSelectHook = true;
-  console.log("[Entry Hook] Board.setSelectedBlock 패치 완료");
-}
-
 export default function EntryMission() {
   const [searchParams] = useSearchParams();
   const missionId = searchParams.get("missionId");
+
+  const [selectedBlock, setSelectedBlock] = useState(null);
 
   // 백엔드에서 projectData 받아오기
   const {
@@ -201,7 +132,6 @@ export default function EntryMission() {
   } = useEntryProjectLoader({ missionId });
 
   const containerRef = useRef(null);
-  const [selectedBlockData, setSelectedBlockData] = useState();
   const [entryInitialized, setEntryInitialized] = useState(false);
 
   useHeadLinks(CSS_LINKS);
@@ -235,9 +165,6 @@ export default function EntryMission() {
       // 마지막 블록 실행 훅 연결
       attachLastBlockExecutedHook(Entry);
 
-      // 블록 선택 훅 연결
-      attachBlockSelectHook(Entry);
-
       // 실행 중인 블록 하이라이트 훅 연결
       attachBlockExecuteHighlight(Entry);
 
@@ -251,6 +178,10 @@ export default function EntryMission() {
       Entry.addEventListener("dispatchEventDidToggleStop", function() {
         console.log("작품 정지하기 클릭.");
       });
+
+      setSelectedBlock(
+        window.Entry.playground.board.data.selectedBlockView.data
+      );
     } catch (e) {
       console.error("Entry.init 실패:", e);
     }
@@ -261,6 +192,65 @@ export default function EntryMission() {
       } catch {}
     };
   }, [status]);
+
+  useEffect(() => {
+    // 마지막으로 감지한 선택 상태를 기억할 ref
+    let lastSelectedId = null;
+
+    const interval = setInterval(() => {
+      // 1) svgBlockGroup 찾기
+      const svgGroup = document.querySelector("g.svgBlockGroup");
+      if (!svgGroup) {
+        // 엔트리 아직 안 떠 있으면 선택 없다고 처리
+        if (lastSelectedId !== null) {
+          lastSelectedId = null;
+          setSelectedBlock(null);
+        }
+        return;
+      }
+
+      // 2) 선택된 블록 찾기: class="block selected"
+      const selectedEl = svgGroup.querySelector(".block.selected");
+
+      // 선택된 게 없으면
+      if (!selectedEl) {
+        if (lastSelectedId !== null) {
+          lastSelectedId = null;
+          setSelectedBlock(null);
+        }
+        return;
+      }
+
+      // 3) 선택된 블록의 id (또는 data-id) 가져오기
+      const currentId =
+        selectedEl.getAttribute("id") || selectedEl.dataset?.id || null;
+
+      // 이전과 같으면 setSelectedBlock 아예 호출 안 함
+      if (currentId === lastSelectedId) {
+        return;
+      }
+
+      // 4) 이전과 다르면 상태 갱신
+      lastSelectedId = currentId;
+
+      // selectedBlock을 어떻게 쓸지에 따라 shape 조정
+      setSelectedBlock(
+        currentId
+          ? {
+              id: currentId,
+              el: selectedEl, // 필요하면 DOM도 같이 전달
+            }
+          : null
+      );
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // 선택된 블록 디버그용
+  useEffect(() => {
+    console.log("selectedBlock: ", selectedBlock);
+  }, [selectedBlock]);
 
   // projectData가 바뀔 때마다 Entry 프로젝트 갱신
   useEffect(() => {
@@ -277,36 +267,6 @@ export default function EntryMission() {
     }
   }, [entryInitialized, projectData]);
 
-  useEffect(() => {
-    console.log(selectedBlockData);
-  }, [selectedBlockData]);
-
-  const handleTestButtonClick = async () => {
-    console.log("테스트 버튼 클릭!");
-
-    const current = window.Entry.exportProject();
-    console.log("현재 프로젝트: ", current);
-
-    try {
-      const res = await fetch(`/mocks/test1.json`);
-
-      if (!res.ok) {
-        console.error("Failed to load project: ", res.status);
-        return;
-      }
-
-      const project = await res.json();
-      console.log("로드할 프로젝트:", project);
-
-      // Entry에 주입
-      window.Entry.clearProject();
-      window.Entry.loadProject(project);
-      console.log("프로젝트 로드 완료!");
-    } catch (err) {
-      console.error("프로젝트 로드 중 오류:", err);
-    }
-  };
-
   if (status === "loading") return <div>Entry 리소스 로딩 중…</div>;
   if (status === "error") return <div>리소스 로드 실패</div>;
 
@@ -318,13 +278,8 @@ export default function EntryMission() {
       </EntryPane>
 
       <ChatPane>
-        <ChatWindow missionId={missionId} />
+        <ChatWindow missionId={missionId} selectedBlock={selectedBlock} />
       </ChatPane>
-
-      {/*<TestButton
-        label="코드 반영 테스트 버튼"
-        onClick={handleTestButtonClick}
-      />*/}
     </Layout>
   );
 }

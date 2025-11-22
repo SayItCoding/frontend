@@ -10,7 +10,11 @@ import { sendMissionChat, fetchMissionCode } from "../api/mission.js";
  * props:
  *  - missionId: number | string  (필수)
  */
-export default function ChatWindow({ missionId, title = "Chat" }) {
+export default function ChatWindow({
+  missionId,
+  selectedBlock,
+  title = "Chat",
+}) {
   const [messages, setMessages] = useState([]); // 화면에 보여줄 메시지들
   const [selectedCodeId, setSelectedCodeId] = useState(null);
   const [loadingHistory, setLoadingHistory] = useState(false); // 초기 히스토리 로딩용
@@ -242,7 +246,7 @@ export default function ChatWindow({ missionId, title = "Chat" }) {
         onMessageClick={handleMessageClick}
       />
 
-      <ChatInputBar onSend={handleSend} />
+      <ChatInputBar onSend={handleSend} selectedBlock={selectedBlock} />
     </Wrap>
   );
 }

@@ -1,10 +1,34 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import ChatTag from "./ChatTag.jsx";
+import { ChatTag } from "./ChatTag.jsx";
 
-export function ChatInputBar({ onSend }) {
+export function ChatInputBar({ onSend, selectedBlock }) {
   const [val, setVal] = useState("");
   const ref = useRef(null);
+  const containerRef = useRef(null); // ChatInputBar 전체 래퍼
+
+  // Chat 영역 클릭 시 엔트리 쪽으로 이벤트 안 올라가게 막기
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const stop = (e) => {
+      // Delete(×) 버튼이면 전파 허용
+      const allow = e.target.closest("[data-allow-propagation='true']");
+      if (allow) return; // stopPropagation 하지 않음
+
+      // 캡처 단계에서 바로 막아서 document 에 달린 핸들러까지 안 가도록
+      e.stopPropagation();
+    };
+
+    el.addEventListener("mousedown", stop, true);
+    el.addEventListener("click", stop, true);
+
+    return () => {
+      el.removeEventListener("mousedown", stop, true);
+      el.removeEventListener("click", stop, true);
+    };
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -13,13 +37,32 @@ export function ChatInputBar({ onSend }) {
     el.style.height = Math.min(180, el.scrollHeight) + "px";
   }, [val]);
 
+  useEffect(() => {
+    if (!selectedBlock) return;
+    const el = ref.current;
+    if (!el) return;
+
+    const prefix = ``;
+    setVal((prev) => {
+      // 이미 같은 prefix가 있으면 중복으로 안 붙임
+      if (prev.startsWith(prefix)) return prev;
+      return `${prefix}${prev}`;
+    });
+
+    // 포커스 및 커서를 맨 끝으로
+    requestAnimationFrame(() => {
+      el.focus();
+      const len = el.value.length;
+      el.setSelectionRange(len, len);
+    });
+  }, [selectedBlock]);
+
   async function handleSend() {
     const text = val.trim();
     if (!text) return;
 
     setVal("");
 
-    // ChatWindow에서 넘겨준 onSend 사용
     if (onSend) {
       await onSend(text);
     }
@@ -32,17 +75,31 @@ export function ChatInputBar({ onSend }) {
     }
   }
 
+  // 선택된 블록이 있을 때 태그에 보여줄 라벨
+  const blockLabel = selectedBlock
+    ? `블록 ID: ${selectedBlock.id ?? selectedBlock?.data?.id ?? "선택된 블록"}`
+    : "";
+
   return (
-    <Wrap>
+    <Wrap ref={containerRef}>
       <Row>
-        <Text
-          ref={ref}
-          value={val}
-          onChange={(e) => setVal(e.target.value)}
-          onKeyDown={onKeyDown}
-          placeholder="AI에게 코드 작성을 지시하고, 질문해보세요."
-          aria-label="메시지 입력"
-        />
+        <InputBox>
+          {selectedBlock && (
+            <TagArea>
+              <ChatTag label={blockLabel} />
+            </TagArea>
+          )}
+
+          <Text
+            ref={ref}
+            value={val}
+            onChange={(e) => setVal(e.target.value)}
+            onKeyDown={onKeyDown}
+            placeholder="AI에게 코드 작성을 지시하고, 질문해보세요."
+            aria-label="메시지 입력"
+          />
+        </InputBox>
+
         <Send onClick={handleSend} disabled={!val.trim()}>
           전송
         </Send>
@@ -63,18 +120,45 @@ const Row = styled.div`
   align-items: flex-end;
 `;
 
-const Text = styled.textarea`
-  width: 100%;
+// 진짜 "입력창"처럼 보이는 박스 (태그 + textarea 포함)
+const InputBox = styled.div`
+  flex: 1;
   min-height: 80px;
   max-height: 220px;
-  resize: none;
   border: 1px solid #e5e5ea;
   border-radius: 12px;
-  padding: 10px 12px;
+  padding: 6px 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  background: #fff;
+
+  &:focus-within {
+    border-color: #2b65f5;
+  }
+`;
+
+// 태그 영역: 한 줄에 태그가 표시되고, 그 옆/아래로 텍스트가 이어짐
+const TagArea = styled.div`
+  display: inline-flex;
+  margin-bottom: 4px;
+  margin-right: 4px;
+`;
+
+const Text = styled.textarea`
+  flex: 1;
+  min-height: 24px;
+  max-height: 200px;
+  resize: none;
+  border: none;
   outline: none;
   font-size: 14px;
-  &:focus {
-    border-color: #2b65f5;
+  padding: 4px 4px 4px 0;
+  line-height: 1.4;
+  background: transparent;
+
+  ::placeholder {
+    color: #9ca3af;
   }
 `;
 
