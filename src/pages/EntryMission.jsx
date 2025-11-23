@@ -11,6 +11,7 @@ import {
 import ChatWindow from "../components/ChatWindow.jsx";
 import TestButton from "../components/TestButton.jsx";
 import EntryDomPortal from "../components/EntryDomPortal.jsx";
+import { useChatStore } from '../stores/useChatStore.js';
 
 // Entry가 로드된 뒤 블록 선택 훅을 거는 함수
 function attachBlockSelectHook(Entry) {
@@ -85,7 +86,8 @@ function attachBlockSelectHook(Entry) {
 
 export default function EntryMission() {
   const [selectedBlockData, setSelectedBlockData] = useState();
-  const [currentMissionId, setCurrentMissionId] = useState(null);
+  //const [currentMissionId, setCurrentMissionId] = useState(null);
+  //why remove above line?
 
   useHeadLinks(CSS_LINKS);
 
@@ -97,6 +99,13 @@ export default function EntryMission() {
 
   const containerRef = useRef(null);
   const BACKEND_URL = "https://sayit-coding-production.up.railway.app";
+
+  // usechatStore에서 미션 ID 설정, 채팅 로드 액션, 미션 ID 상태 가져오기
+  const { setMissionId, fetchChats, missionId } = useChatStore(state => ({
+    setMissionId: state.setMissionId,
+    fetchChats: state.fetchChats,
+    missionId: state.missionId, // missionId를 가져와서 useEffect에 사용
+  }));
 
   // === (1) 프로젝트 로더: URL → JSON → 경로보정 → loadProject ===
   async function loadMission() {
@@ -146,7 +155,7 @@ export default function EntryMission() {
     const rawProjectResponseText = await projectRes.text();
   
     if (!projectRes.ok) {
-        console.error(`❌ 미션 상세 API 실패: ${projectRes.status}`, rawProjectResponseText);
+        console.error(`미션 상세 API 실패: ${projectRes.status}`, rawProjectResponseText);
         throw new Error(`미션 상세 JSON fetch 실패: ${projectRes.status}`);
     }
  
@@ -155,7 +164,7 @@ export default function EntryMission() {
         // 백엔드에서 반환하는 JSON 응답이 Entry가 요구하는 프로젝트 형식이라고 가정
         project = JSON.parse(rawProjectResponseText);
     } catch (e) {
-        console.error("❌ 상세 응답 JSON 파싱 실패:", rawProjectResponseText, e);
+        console.error("상세 응답 JSON 파싱 실패:", rawProjectResponseText, e);
         throw new Error("미션 상세 API에서 유효한 JSON을 받지 못했습니다.");
     }
     console.log("[Entry] 로드할 프로젝트 데이터 획득:", project);
@@ -163,7 +172,7 @@ export default function EntryMission() {
     //수정: projectData 키를 통해 실제 프로젝트 JSON 추출, 유효한지 확인
     const actualProjectData = project.projectData;
     if (!actualProjectData || typeof actualProjectData !== 'object') {
-        console.error("❌ 실제 projectData 키를 찾지 못했거나 유효하지 않습니다.", project);
+        console.error("실제 projectData 키를 찾지 못했거나 유효하지 않습니다.", project);
         throw new Error("미션 상세 응답에 유효한 projectData가 포함되어 있지 않습니다.");
     }
 
@@ -205,7 +214,7 @@ export default function EntryMission() {
     return () => window.removeEventListener("error", h);
   }, []);
 
-  // === (3) Entry 초기화 및 미션 로드 용도
+  // ===Entry 초기화 및 미션 로드 용도
   useEffect(() => {
     //loadmission 호출해서 api 작동하는지 확인하려고 밑에 2줄 일시적으로 주석처리, 나중에 주석없애기
     if (status !== "ready") return;
@@ -215,7 +224,7 @@ export default function EntryMission() {
     const Entry = window.Entry;
     const container = containerRef.current;
 
-    // 👇 핵심 해결책: Entry와 containerRef.current 모두 null이 아닌지 확인
+    //핵심 해결책: Entry와 containerRef.current 모두 null이 아닌지 확인
     if (!Entry || !container) {
         // 둘 중 하나라도 없으면 이번 렌더링 주기는 건너뛰고 다음 렌더링을 기다림
         console.warn("Entry 객체 또는 컨테이너 DOM이 아직 준비되지 않음 (SKIP)");

@@ -11,7 +11,7 @@ export function ChatMessageItem({ msg }) {
         aria-live={msg.streaming ? "polite" : undefined}
       >
         {msg.content}
-        {msg.streaming && <Cursor> ▋</Cursor>}
+        {/*msg.streaming && <Cursor> ▋</Cursor>*/}
         {msg.error && (
           <div style={{ marginTop: 6, fontSize: 12 }}>에러: {msg.error}</div>
         )}
@@ -53,7 +53,7 @@ const Bubble = styled.div`
       color: #b00020;
     `}
 `;
-
+/*streaming 말고 api로 메시지 와서 제거
 const blink = keyframes`
 0% { opacity: .4 }
 50% { opacity: 1 }
@@ -63,3 +63,4 @@ const blink = keyframes`
 const Cursor = styled.span`
   animation: ${blink} 1s infinite;
 `;
+*/
