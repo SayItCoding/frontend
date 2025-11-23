@@ -33,7 +33,7 @@ export const SCRIPT_URLS_IN_ORDER = [
   "https://entry-cdn.pstatic.net/js/ws/jshint.js?v=251103-180141",
   "https://entry-cdn.pstatic.net/lib/fuzzy/lib/fuzzy.js?v=251103-180141",
   "https://entry-cdn.pstatic.net/js/ws/python.js?v=251103-180141",
-  "https://entry-cdn.pstatic.net/lib/socket.io-client/socket.io.js?v=251103-180141",
+  //"https://entry-cdn.pstatic.net/lib/socket.io-client/socket.io.js?v=251103-180141",
   "/libs/entry/extern/util/filbert.js",
   "/libs/entry/extern/util/CanvasInput.js",
   "/libs/entry/extern/util/ndgmr.Collision.js",

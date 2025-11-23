@@ -98,3 +98,8 @@ svg.entryBoard g[filter="url(#entryTrashcanFilter_board)"] {
   opacity: 0 !important;
   visibility: hidden !important;
 }
+
+g.entry-executing-highlight .blockPath {
+  stroke: #ffcc00 !important;
+  stroke-width: 3px !important;
+}

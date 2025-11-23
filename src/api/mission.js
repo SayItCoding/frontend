@@ -62,22 +62,20 @@ export async function fetchMissionChats(missionId, page = 1, limit = 20) {
  * 사용자 입력을 전송하고, AI 응답을 함께 받는 API
  * POST /api/v1/missions/{missionId}/chats
  */
-export async function sendMissionChat(missionId, content, selectedCodeId) {
+export async function sendMissionChat(missionId, userInput, selectedCodeId) {
   if (!missionId && missionId !== 0) {
     throw new Error("missionId는 필수 값입니다.");
   }
-  if (!content || !content.trim()) {
+  if (!userInput || !userInput.trim()) {
     throw new Error("content는 비어 있을 수 없습니다.");
   }
 
   const body = {
-    content,
+    content: userInput,
     missionCodeId: selectedCodeId,
   };
 
-  const res = await apiClient.post(`/api/v1/missions/${missionId}/chats`, {
-    body,
-  });
+  const res = await apiClient.post(`/api/v1/missions/${missionId}/chats`, body);
 
   // 201 Created + 응답 JSON
   return res.data; // { missionId, userMissionId, missionCodeId, items}
