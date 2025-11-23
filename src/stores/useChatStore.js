@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { nanoid } from "nanoid";
 
 const BACKEND_URL = 'https://sayit-coding-production.up.railway.app';
+const API_LIMIT = 10;
 
 export const useChatStore = create((set, get) => ({
   messages: [],
@@ -40,7 +41,7 @@ export const useChatStore = create((set, get) => ({
           // 페이지 1이면 덮어쓰고, 아니면 기존 채팅에 추가
           messages: page === 1 ? newChats : [...chats, ...newChats],
           page: page + 1,
-          hasMore: newChats.length === limit, // 로드된 개수와 limit 비교
+          hasMore: newChats.length === API_LIMIT, // 로드된 개수와 limit 비교
           isLoading: false,
         });
 
