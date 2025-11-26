@@ -107,7 +107,7 @@ function attachBlockExecuteHighlight(Entry, lastBlockId) {
 export default function EntryMission() {
   const [searchParams] = useSearchParams();
   const missionId = searchParams.get("missionId");
-  const [entryInitialized, setEntryInitialized] = useState(false);
+  const [entryInit, setEntryInit] = useState(false);
   const [selectedBlock, setSelectedBlock] = useState(null);
   const containerRef = useRef(null);
 
@@ -119,13 +119,10 @@ export default function EntryMission() {
   });
 
   // 백엔드에서 projectData 받아오기
-  const {
-    projectData,
-    loading: projectLoading,
-    error: projectError,
-  } = useEntryProjectLoader({ missionId });
+  const { projectData, projectLoading, projectError } = useEntryProjectLoader({
+    missionId,
+  });
 
-  // Entry 스크립트 로딩 완료 후, 한 번만 init + 훅 연결
   useEffect(() => {
     if (status !== "ready") return;
     if (!window.Entry || !containerRef.current) return;
@@ -145,22 +142,46 @@ export default function EntryMission() {
     try {
       Entry.init(container, initOption);
       Entry.propertyPanel.select("helper");
-      //Entry.playground.blockMenu.toggleBlockMenu(); // 디버그용
+      Entry.playground.blockMenu.toggleBlockMenu();
 
-      // TODO : 마지막 블록 정보 가져오기
-      const lastBlockId = "move-gtzp88";
-      // 실행 중 블록 하이라이트 + 마지막 블록 완료 리스너 연결
+      const lastBlockId = "z1wq";
       attachBlockExecuteHighlight(Entry, lastBlockId);
 
-      setEntryInitialized(true);
+      setEntryInit(true);
     } catch (e) {
       console.error("Entry.init 실패:", e);
     }
 
     return () => {
       try {
-        // Entry.destroy?.();
-      } catch {}
+        const Entry = window.Entry;
+
+        // 가능하면 엔트리도 정리 (버전에 따라 없을 수 있어서 옵션 호출)
+        if (Entry && typeof Entry.clearProject === "function") {
+          Entry.clearProject();
+        }
+      } catch (e) {
+        console.warn("Entry cleanup 중 오류:", e);
+      } finally {
+        setEntryInit(false);
+
+        // 여기서 body / html 전역 스타일 리셋
+        const body = document.body;
+        const html = document.documentElement;
+
+        if (body) {
+          body.style.overflow = "auto";
+          body.style.position = "";
+          body.style.height = "";
+          body.style.touchAction = "";
+        }
+
+        if (html) {
+          html.style.overflow = "auto";
+          html.style.position = "";
+          html.style.height = "";
+        }
+      }
     };
   }, [status]);
 
@@ -222,18 +243,19 @@ export default function EntryMission() {
 
   // projectData가 바뀔 때마다 Entry 프로젝트 갱신
   useEffect(() => {
-    if (!entryInitialized) return;
-    if (!projectData) return;
+    if (!entryInit) return;
     if (!window.Entry) return;
+    if (!projectData) return;
+    if (projectLoading) return;
 
     try {
-      // console.log("[Entry] projectData 갱신, clearProject + loadProject 실행");
+      console.log("[Entry] projectData 갱신, clearProject + loadProject 실행");
       window.Entry.clearProject();
       window.Entry.loadProject(projectData);
     } catch (e) {
       console.error("Entry 프로젝트 로드 중 오류:", e);
     }
-  }, [projectData]);
+  }, [entryInit, projectLoading, projectData]);
 
   if (status === "loading") return <div>Entry 리소스 로딩 중…</div>;
   if (status === "error") return <div>리소스 로드 실패</div>;
@@ -246,7 +268,9 @@ export default function EntryMission() {
       </EntryPane>
 
       <ChatPane>
-        <ChatWindow missionId={missionId} selectedBlock={selectedBlock} />
+        {!projectLoading && (
+          <ChatWindow missionId={missionId} selectedBlock={selectedBlock} />
+        )}
       </ChatPane>
     </Layout>
   );
@@ -272,11 +296,6 @@ const EntryPane = styled.div`
     position: absolute;
     inset: 0; /* top:0; right:0; bottom:0; left:0 */
   }
-
-  @media (max-width: 900px) {
-    /* 좁을 땐 전체 폭 사용 (뒤에 ChatPane이 겹쳐 올라오니까) */
-    flex: 1 1 auto;
-  }
 `;
 
 const ChatPane = styled.aside`
@@ -288,7 +307,7 @@ const ChatPane = styled.aside`
   display: flex;
   justify-content: center;
   align-items: stretch;
-  padding: 12px;
+  padding: 8px;
   z-index: 1000; /* 혹시라도 z축에서 EntryPane 뒤로 들어가는 일 방지 */
 
   & > * {

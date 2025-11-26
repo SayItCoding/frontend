@@ -183,7 +183,8 @@ export default function ChatWindow({
 
       if (data.projectData) {
         try {
-          // console.log("코드 변경 프로젝트 로드");
+          console.log("코드 변경 프로젝트 로드");
+          console.log(data.projectData);
           window.Entry.clearProject();
           window.Entry.loadProject(data.projectData);
         } catch (err) {

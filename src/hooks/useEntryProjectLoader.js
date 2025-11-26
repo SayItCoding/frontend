@@ -9,16 +9,16 @@ import { fetchMissionDetail } from "../api/mission";
  */
 export function useEntryProjectLoader({ missionId }) {
   const [projectData, setProjectData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [projectLoading, setProjectLoading] = useState(false);
+  const [projectError, setProjectError] = useState("");
 
   useEffect(() => {
     if (!missionId) return;
 
     async function load() {
       try {
-        setLoading(true);
-        setError("");
+        setProjectLoading(true);
+        setProjectError("");
 
         const data = await fetchMissionDetail(missionId);
         // 백엔드에서 내려주는 projectData (없을 수도 있음)
@@ -26,14 +26,14 @@ export function useEntryProjectLoader({ missionId }) {
         setProjectData(data.projectData || null);
       } catch (err) {
         console.error("❌ mission projectData 로드 실패:", err);
-        setError(err.message || "프로젝트를 불러오지 못했습니다.");
+        setProjectError(err.message || "프로젝트를 불러오지 못했습니다.");
       } finally {
-        setLoading(false);
+        setProjectLoading(false);
       }
     }
 
     load();
   }, [missionId]);
 
-  return { projectData, loading, error };
+  return { projectData, projectLoading, projectError };
 }

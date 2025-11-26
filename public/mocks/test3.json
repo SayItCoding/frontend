@@ -1,0 +1,479 @@
+{
+  "objects": [
+    {
+      "id": "7y0y",
+      "name": "엔트리봇",
+      "script": [
+        [
+          {
+            "type": "when_run_button_click",
+            "x": 40,
+            "y": 50
+          },
+          {
+            "type": "repeat_basic",
+            "statements": [
+              [
+                {
+                  "type": "repeat_basic",
+                  "statements": [
+                    [
+                      {
+                        "type": "move_forward"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "type": "rotate_direction_right"
+                }
+              ]
+            ]
+          }
+        ]
+      ],
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "9ned",
+            "fileurl": "./libs/entry/images/media/entrybot_side1.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_side1.svg",
+            "name": "걷기 옆모습_1",
+            "imageType": "svg",
+            "dimension": {
+              "width": 137,
+              "height": 268,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "2em8",
+            "fileurl": "./libs/entry/images/media/entrybot_side2.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_side2.svg",
+            "name": "걷기 옆모습_2",
+            "imageType": "svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "0tva",
+            "fileurl": "./libs/entry/images/media/entrybot_side3.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_side3.svg",
+            "name": "걷기 옆모습_3",
+            "imageType": "svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "24xa",
+            "fileurl": "./libs/entry/images/media/entrybot_side4.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_side4.svg",
+            "name": "걷기 옆모습_4",
+            "imageType": "svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "m1ny",
+            "fileurl": "./libs/entry/images/media/entrybot_side5.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_side5.svg",
+            "name": "걷기 옆모습_5",
+            "imageType": "svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "ldcf",
+            "fileurl": "./libs/entry/images/media/entrybot_side6.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_side6.svg",
+            "name": "걷기 옆모습_6",
+            "imageType": "svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "0al1",
+            "fileurl": "./libs/entry/images/media/entrybot_front1.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_front1.svg",
+            "name": "걷기 앞모습_1",
+            "imageType": "svg",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "the9",
+            "fileurl": "./libs/entry/images/media/entrybot_front2.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_front2.svg",
+            "name": "걷기 앞모습_2",
+            "imageType": "svg",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "ypm6",
+            "fileurl": "./libs/entry/images/media/entrybot_front3.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_front3.svg",
+            "name": "걷기 앞모습_3",
+            "imageType": "svg",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "vrno",
+            "fileurl": "./libs/entry/images/media/entrybot_front4.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_front4.svg",
+            "name": "걷기 앞모습_4",
+            "imageType": "svg",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "lvar",
+            "fileurl": "./libs/entry/images/media/entrybot_front5.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_front5.svg",
+            "name": "걷기 앞모습_5",
+            "imageType": "svg",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "efcr",
+            "fileurl": "./libs/entry/images/media/entrybot_front6.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_front6.svg",
+            "name": "걷기 앞모습_6",
+            "imageType": "svg",
+            "dimension": {
+              "width": 134,
+              "height": 224,
+              "scaleX": 0.2437740013510703,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "hs4a",
+            "fileurl": "./libs/entry/images/media/entrybot_back1.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_back1.svg",
+            "name": "걷기 뒷모습_1",
+            "imageType": "svg",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "eg71",
+            "fileurl": "./libs/entry/images/media/entrybot_back2.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_back2.svg",
+            "name": "걷기 뒷모습_2",
+            "imageType": "svg",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "uhyy",
+            "fileurl": "./libs/entry/images/media/entrybot_back3.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_back3.svg",
+            "name": "걷기 뒷모습_3",
+            "imageType": "svg",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "fdcv",
+            "fileurl": "./libs/entry/images/media/entrybot_back4.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_back4.svg",
+            "name": "걷기 뒷모습_4",
+            "imageType": "svg",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "872e",
+            "fileurl": "./libs/entry/images/media/entrybot_back5.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_back5.svg",
+            "name": "걷기 뒷모습_5",
+            "imageType": "svg",
+            "dimension": {
+              "width": 155,
+              "height": 240,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            }
+          },
+          {
+            "id": "gbh5",
+            "fileurl": "./libs/entry/images/media/entrybot_back6.svg",
+            "thumbUrl": "./libs/entry/images/media/entrybot_back6.svg",
+            "name": "걷기 뒷모습_6",
+            "imageType": "svg",
+            "dimension": {
+              "width": 131,
+              "height": 226,
+              "scaleX": 0.24377400135107033,
+              "scaleY": 0.2437740013510704
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "9ned",
+      "lock": false,
+      "entity": {
+        "x": -75,
+        "y": 90,
+        "regX": 65.5,
+        "regY": 113,
+        "scaleX": 0.2,
+        "scaleY": 0.2,
+        "rotation": 0,
+        "direction": 90,
+        "width": 131,
+        "height": 226,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "9pfg",
+      "name": "꽃 화살표",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "5lz9",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "939m",
+            "fileurl": "./libs/entry/images/media/arrow_left.svg",
+            "thumbUrl": "./libs/entry/images/media/arrow_left.svg",
+            "name": "꽃 화살표 왼쪽",
+            "imageType": "svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.18503019815418037,
+              "scaleY": 0.18503019815418037
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "939m",
+      "lock": true,
+      "entity": {
+        "x": -75,
+        "y": -75,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.15,
+        "scaleY": 0.15,
+        "rotation": 0,
+        "direction": 270,
+        "width": 240,
+        "height": 240,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "jwil",
+      "name": "맵_반복문",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "5lz9",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "alfy",
+            "fileurl": "./libs/entry/images/media/map_loop.svg",
+            "thumbUrl": "./libs/entry/images/media/map_loop.svg",
+            "name": "맵_반복문",
+            "imageType": "svg",
+            "dimension": {
+              "width": 400,
+              "height": 400,
+              "scaleX": 0.5124733074754985,
+              "scaleY": 0.5124733074754987
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "alfy",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 200,
+        "regY": 200,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 400,
+        "height": 400,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "gdxj",
+      "name": "배경",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "5lz9",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "83pq",
+            "fileurl": "./libs/entry/images/media/background.svg",
+            "thumbUrl": "./libs/entry/images/media/background.svg",
+            "name": "이상한 숲 속_1",
+            "imageType": "svg",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "83pq",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ],
+  "scenes": [
+    {
+      "id": "7dwq",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "isRealTime": false,
+      "cloudDate": false,
+      "object": null,
+      "x": 134,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": "0",
+      "variableType": "answer",
+      "isCloud": false,
+      "isRealTime": false,
+      "cloudDate": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "tables": [],
+  "speed": 60,
+  "interface": {
+    "canvasWidth": 640,
+    "object": "5ktp"
+  },
+  "expansionBlocks": [],
+  "aiUtilizeBlocks": [],
+  "hardwareLiteBlocks": [],
+  "externalModules": [],
+  "externalModulesLite": [],
+  "likeCnt": 0,
+  "visit": 0,
+  "isopen": true,
+  "name": "반복문",
+  "isPracticalCourse": false,
+  "parent": "691db73d04e26a421bedcdd3",
+  "origin": "691c8e843aa5c4da43bf5c90",
+  "user": "691c8de032de469f2bd55c5e",
+  "recentLikeCnt": 0,
+  "childCnt": 0,
+  "comment": 0
+}

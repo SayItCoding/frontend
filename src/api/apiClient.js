@@ -1,6 +1,7 @@
 // src/api/apiClient.js
 import axios from "axios";
 
+const LOCAL_URL = "http://localhost:3000";
 const BASE_URL = "https://sayit-coding-production.up.railway.app";
 
 const apiClient = axios.create({
