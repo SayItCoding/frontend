@@ -5,7 +5,7 @@ const LOCAL_URL = "http://localhost:3000";
 const BASE_URL = "https://sayit-coding-production.up.railway.app";
 
 const apiClient = axios.create({
-  baseURL: BASE_URL,
+  baseURL: LOCAL_URL,
   timeout: 30000, // 30초
 });
 
