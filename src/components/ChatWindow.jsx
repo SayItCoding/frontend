@@ -6,6 +6,43 @@ import { fetchMissionChats } from "../api/mission.js";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import { sendMissionChat, fetchMissionCode } from "../api/mission.js";
 
+function safeLoadProject(projectData) {
+  if (!window.Entry || !projectData) return;
+  const Entry = window.Entry;
+
+  try {
+    const engine = Entry.engine;
+
+    // 1) 실행 중이면 먼저 정지
+    if (engine && typeof engine.isState === "function") {
+      if (engine.isState("run")) {
+        console.log("[Entry] 실행 중 → 먼저 정지");
+        // 실제 엔트리 내부에서 사용하는 정지 함수
+        if (typeof engine.toggleStop === "function") {
+          engine.toggleStop();
+        } else if (typeof engine.stop === "function") {
+          engine.stop();
+        }
+      }
+    }
+
+    // 2) 약간의 시간 여유를 주고 clear + load
+    setTimeout(() => {
+      try {
+        console.log("[Entry] safeLoadProject → clearProject + loadProject");
+        if (typeof Entry.clearProject === "function") {
+          Entry.clearProject();
+        }
+        Entry.loadProject(projectData);
+      } catch (e) {
+        console.error("safeLoadProject 중 오류:", e);
+      }
+    }, 50); // 필요하면 0~100ms 사이에서 조절
+  } catch (e) {
+    console.error("safeLoadProject 전체 오류:", e);
+  }
+}
+
 /**
  * props:
  *  - missionId: number | string  (필수)
@@ -222,8 +259,7 @@ export default function ChatWindow({
       const data = await fetchMissionCode(missionId, msg.missionCodeId);
       if (data?.projectData) {
         try {
-          window.Entry?.clearProject();
-          window.Entry?.loadProject(data.projectData);
+          safeLoadProject(data.projectData);
         } catch (err) {
           console.error("프로젝트 로드 중 오류:", err);
         }
