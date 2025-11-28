@@ -12,21 +12,37 @@ export function ChatInputBar({ onSend, selectedBlock }) {
     const el = containerRef.current;
     if (!el) return;
 
-    const stop = (e) => {
-      // Delete(×) 버튼이면 전파 허용
+    const stopMouse = (e) => {
       const allow = e.target.closest("[data-allow-propagation='true']");
-      if (allow) return; // stopPropagation 하지 않음
-
-      // 캡처 단계에서 바로 막아서 document 에 달린 핸들러까지 안 가도록
+      if (allow) return;
       e.stopPropagation();
     };
 
-    el.addEventListener("mousedown", stop, true);
-    el.addEventListener("click", stop, true);
+    const stopKey = (e) => {
+      // ChatInputBar 내부에서 발생한 이벤트만 처리
+      if (!el.contains(e.target)) return;
+
+      // Enter는 React onKeyDown으로 보내야 하니까 건드리지 말기
+      if (e.key === "Enter") {
+        return;
+      }
+
+      // 스페이스, 방향키 등만 막고 싶으면 여기서 조건 걸기
+      if (e.code === "Space" || e.key === " ") {
+        e.stopPropagation();
+      }
+    };
+
+    el.addEventListener("mousedown", stopMouse, true);
+    el.addEventListener("click", stopMouse, true);
+    el.addEventListener("keydown", stopKey, true);
+    el.addEventListener("keyup", stopKey, true);
 
     return () => {
-      el.removeEventListener("mousedown", stop, true);
-      el.removeEventListener("click", stop, true);
+      el.removeEventListener("mousedown", stopMouse, true);
+      el.removeEventListener("click", stopMouse, true);
+      el.removeEventListener("keydown", stopKey, true);
+      el.removeEventListener("keyup", stopKey, true);
     };
   }, []);
 

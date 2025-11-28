@@ -1,39 +1,30 @@
 // src/hooks/useEntryProjectLoader.js
-import { useState, useEffect } from "react";
-import { fetchMissionDetail } from "../api/mission";
+import { useState, useEffect, useMemo } from "react";
+import { useMissionDetailStore } from "../stores/useMissionDetailStore";
 
 /**
- * 미션 ID로부터 projectData를 가져오는 훅
- * Entry.init은 여기서 하지 않고,
- * 컴포넌트에서 projectData를 받아서 Entry.loadProject를 호출하는 구조.
+ * missionId 기반으로:
+ *  - zustand에서 미션 상세를 로드/조회하고
+ *  - mission.projectData 를 projectData로 꺼내주는 훅
  */
 export function useEntryProjectLoader({ missionId }) {
-  const [projectData, setProjectData] = useState(null);
-  const [projectLoading, setProjectLoading] = useState(false);
-  const [projectError, setProjectError] = useState("");
+  const { mission, loading, error, loadMission } = useMissionDetailStore();
 
+  // missionId 변경 시, zustand 스토어로 로드 요청
   useEffect(() => {
     if (!missionId) return;
+    loadMission(missionId);
+  }, [missionId, loadMission]);
 
-    async function load() {
-      try {
-        setProjectLoading(true);
-        setProjectError("");
+  const projectData = useMemo(() => mission?.projectData ?? null, [mission]);
 
-        const data = await fetchMissionDetail(missionId);
-        // 백엔드에서 내려주는 projectData (없을 수도 있음)
-        //console.log(data);
-        setProjectData(data.projectData || null);
-      } catch (err) {
-        console.error("❌ mission projectData 로드 실패:", err);
-        setProjectError(err.message || "프로젝트를 불러오지 못했습니다.");
-      } finally {
-        setProjectLoading(false);
-      }
-    }
-
-    load();
-  }, [missionId]);
-
-  return { projectData, projectLoading, projectError };
+  // 필요하면 mission도 함께 리턴해서 EntryScreen, ChatWindow 등에서 재사용
+  return {
+    mission,
+    projectData,
+    projectLoading: loading,
+    projectError: error
+      ? error.message || "프로젝트를 불러오지 못했습니다."
+      : "",
+  };
 }

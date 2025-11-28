@@ -11,6 +11,7 @@ import {
   SCRIPT_URLS_IN_ORDER,
 } from "../constants/entryResources.js";
 import ChatWindow from "../components/ChatWindow.jsx";
+import MissionResultModal from "../components/MissionResultModal.jsx";
 
 // 실행 중인 블록 하이라이트 훅
 function attachBlockExecuteHighlight(Entry, lastBlockId) {
@@ -109,6 +110,7 @@ export default function EntryMission() {
   const missionId = searchParams.get("missionId");
   const [entryInit, setEntryInit] = useState(false);
   const [selectedBlock, setSelectedBlock] = useState(null);
+  const [result, setResult] = useState(null); // "success" | "fail" | null
   const containerRef = useRef(null);
 
   useHeadLinks(CSS_LINKS);
@@ -119,7 +121,12 @@ export default function EntryMission() {
   });
 
   // 백엔드에서 projectData 받아오기
-  const { projectData, projectLoading, projectError } = useEntryProjectLoader({
+  const {
+    mission, // 백엔드로 부터 받은 mission 상세 조회 api
+    projectData,
+    projectLoading,
+    projectError,
+  } = useEntryProjectLoader({
     missionId,
   });
 
@@ -269,9 +276,37 @@ export default function EntryMission() {
 
       <ChatPane>
         {!projectLoading && (
-          <ChatWindow missionId={missionId} selectedBlock={selectedBlock} />
+          <ChatWindow
+            missionId={missionId}
+            selectedBlock={selectedBlock}
+            mission={mission}
+          />
         )}
       </ChatPane>
+
+      {/* 미션 결과 모달 */}
+      <MissionResultModal
+        open={result !== null}
+        type={result === "success" ? "success" : "fail"}
+        onClose={() => setResult(null)}
+        onRetry={
+          result === "fail"
+            ? () => {
+                // TODO: 필요 시 reset 로직 추가
+                // 실패 후 다시 도전: 모달 닫고, 필요하면 Entry 코드/상태 초기화
+                setResult(null);
+              }
+            : undefined
+        }
+        onNext={
+          result === "success"
+            ? () => {
+                // TODO: 성공 후 다음미션으로 or 홈페이지
+                setResult(null);
+              }
+            : undefined
+        }
+      />
     </Layout>
   );
 }
@@ -328,21 +363,5 @@ const ChatPane = styled.aside`
     padding: 8px;
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: saturate(1.1) blur(2px);
-  }
-`;
-
-const Divider = styled.div`
-  width: 6px;
-  cursor: col-resize;
-  background: #e0e0e0;
-  transition: background 0.2s;
-  z-index: 10;
-
-  &:hover {
-    background: #c0c0c0;
-  }
-
-  @media (max-width: 900px) {
-    display: none;
   }
 `;

@@ -14,6 +14,7 @@ export default function ChatWindow({
   missionId,
   selectedBlock,
   title = "Chat",
+  mission,
 }) {
   const [messages, setMessages] = useState([]); // 화면에 보여줄 메시지들
   const [selectedCodeId, setSelectedCodeId] = useState(null);
@@ -234,9 +235,7 @@ export default function ChatWindow({
 
   return (
     <Wrap>
-      <Head>
-        <span>{title}</span>
-      </Head>
+      <Head>{mission?.title && <span>{mission.title}</span>}</Head>
 
       {loadingHistory && <StatusText>이전 대화 내역을 불러오는 중…</StatusText>}
       {error && <StatusText>{error}</StatusText>}
