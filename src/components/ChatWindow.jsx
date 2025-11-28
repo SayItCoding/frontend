@@ -6,25 +6,30 @@ import { fetchMissionChats } from "../api/mission.js";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import { sendMissionChat, fetchMissionCode } from "../api/mission.js";
 
+function stopEntryEngineIfRunning() {
+  if (!window.Entry) return;
+  const Entry = window.Entry;
+  const engine = Entry.engine;
+
+  if (!engine || typeof engine.isState !== "function") return;
+
+  // 실행 중이면 먼저 정지
+  if (engine.isState("run")) {
+    console.log("[Entry] 채팅 입력 → 실행 중이라 정지");
+    if (typeof engine.toggleStop === "function") {
+      engine.toggleStop();
+    } else if (typeof engine.stop === "function") {
+      engine.stop();
+    }
+  }
+}
+
 function safeLoadProject(projectData) {
   if (!window.Entry || !projectData) return;
   const Entry = window.Entry;
 
   try {
-    const engine = Entry.engine;
-
-    // 1) 실행 중이면 먼저 정지
-    if (engine && typeof engine.isState === "function") {
-      if (engine.isState("run")) {
-        console.log("[Entry] 실행 중 → 먼저 정지");
-        // 실제 엔트리 내부에서 사용하는 정지 함수
-        if (typeof engine.toggleStop === "function") {
-          engine.toggleStop();
-        } else if (typeof engine.stop === "function") {
-          engine.stop();
-        }
-      }
-    }
+    stopEntryEngineIfRunning();
 
     // 2) 약간의 시간 여유를 주고 clear + load
     setTimeout(() => {
@@ -150,6 +155,9 @@ export default function ChatWindow({
     if (!trimmed) return;
 
     const now = new Date().toISOString();
+
+    // 채팅을 보내기 전에 엔진이 실행중이면 멈추기
+    stopEntryEngineIfRunning();
 
     // 사용자 메시지 즉시 추가
     const userMsg = {
