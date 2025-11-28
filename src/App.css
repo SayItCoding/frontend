@@ -85,8 +85,17 @@ svg.entryBoard g[filter="url(#entryTrashcanFilter_board)"] {
   display: none !important;
 }
 
+.entryPlaygroundCodeWorkspace {
+  top: 46px !important;
+}
+
 #entryWorkspaceBlockMenu {
   display: none !important;
+}
+
+#entryWorkspaceBoard {
+  margin-left: 0 !important;
+  left: 0 !important; /* 혹시 position:left로 밀어둔 경우 대비 */
 }
 
 .entryPlaygroundResizeWorkspace.folding {
@@ -102,4 +111,37 @@ svg.entryBoard g[filter="url(#entryTrashcanFilter_board)"] {
 g.entry-executing-highlight .blockPath {
   stroke: #ffcc00 !important;
   stroke-width: 3px !important;
+}
+
+.propertyTabElement.propertyTabCustom {
+  background-image: url("https://entry-cdn.pstatic.net/lib/entry-js/images/property/container_off.png");
+}
+
+.propertyTabElement.propertyTabCustom.selected {
+  background-image: url("https://entry-cdn.pstatic.net/lib/entry-js/images/property/container_on.png");
+}
+
+.propertyContent {
+  position: relative;
+}
+
+/* 아래에서 위로 올라오는 래퍼 */
+.missionInfoPanelWrapper {
+  position: absolute;
+  inset: 0;
+  background-color: #ecf8ff;
+
+  -webkit-animation-name: blockHelperUp;
+  -moz-animation-name: blockHelperUp;
+  -o-animation-name: blockHelperUp;
+  animation-name: blockHelperUp;
+
+  -webkit-animation-duration: 0.6s;
+  -moz-animation-duration: 0.6s;
+  -o-animation-duration: 0.6s;
+  animation-duration: 0.6s;
+}
+
+.missionInfoPanelContentWorkspace {
+  padding: 8px;
 }

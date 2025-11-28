@@ -12,6 +12,7 @@ import {
 } from "../constants/entryResources.js";
 import ChatWindow from "../components/ChatWindow.jsx";
 import MissionResultModal from "../components/MissionResultModal.jsx";
+import MissionInfoPropertyPanel from "../components/MissionInfoPropertyPanel.jsx";
 
 // 실행 중인 블록 하이라이트 훅
 function attachBlockExecuteHighlight(Entry, lastBlockId) {
@@ -82,27 +83,40 @@ function attachBlockExecuteHighlight(Entry, lastBlockId) {
     // console.log("[Hook] highlight target g:", g);
   }
 
-  // 중복 패치 방지 (원하면 유지, 개발 중엔 새로고침하면 리셋됨)
-  if (Entry._patchedForExecuteHighlight) {
-    // console.log("[Hook] 이미 패치되어 있음, 재등록 생략");
-    return;
-  }
-  Entry._patchedForExecuteHighlight = true;
-
   // console.log("[Hook] blockExecute/stop 리스너 등록 시작");
 
-  Entry.addEventListener("blockExecute", (blockView) => {
+  const handleBlockExecute = (blockView) => {
     // console.log("[blockExecute] 이벤트 발생! blockView:", blockView);
     highlightBlockView(blockView);
-    if (blockView.data.id === lastBlockId) {
-      console.log("마지막 블록 실행 완료");
-    }
-  });
 
-  Entry.addEventListener("stop", () => {
+    const currentId =
+      blockView?.data?.id ?? blockView?.block?.data?.id ?? blockView?.id;
+    if (currentId && currentId === lastBlockId) {
+      console.log("마지막 블록 실행 완료");
+      // 여기서 미션 성공 처리 등을 해도 됨
+    }
+  };
+
+  const handleStop = () => {
     // console.log("[stop] 이벤트 발생! → 하이라이트 초기화");
     clearHighlight();
-  });
+  };
+
+  Entry.addEventListener("blockExecute", handleBlockExecute);
+  Entry.addEventListener("stop", handleStop);
+
+  // cleanup 함수 반환 (언마운트/재진입 시 호출)
+  return () => {
+    try {
+      if (typeof Entry.removeEventListener === "function") {
+        Entry.removeEventListener("blockExecute", handleBlockExecute);
+        Entry.removeEventListener("stop", handleStop);
+      }
+    } catch (e) {
+      console.warn("하이라이트 리스너 제거 중 오류:", e);
+    }
+    clearHighlight();
+  };
 }
 
 export default function EntryMission() {
@@ -146,13 +160,16 @@ export default function EntryMission() {
       textCodingEnable: true,
     };
 
+    let detachHighlight; // 하이라이트 리스너 cleanup 함수
+
     try {
       Entry.init(container, initOption);
-      Entry.propertyPanel.select("helper");
+      //Entry.propertyPanel.select("helper");
       Entry.playground.blockMenu.toggleBlockMenu();
 
+      // TODO: 실제 마지막 블록 가져오기
       const lastBlockId = "z1wq";
-      attachBlockExecuteHighlight(Entry, lastBlockId);
+      detachHighlight = attachBlockExecuteHighlight(Entry, lastBlockId);
 
       setEntryInit(true);
     } catch (e) {
@@ -160,6 +177,11 @@ export default function EntryMission() {
     }
 
     return () => {
+      // 하이라이트 리스너 정리
+      if (typeof detachHighlight === "function") {
+        detachHighlight();
+      }
+
       try {
         const Entry = window.Entry;
 
@@ -272,6 +294,7 @@ export default function EntryMission() {
       <EntryPane>
         {/* 엔트리가 이 div를 가득 채웁니다 */}
         <div ref={containerRef} />
+        <MissionInfoPropertyPanel />
       </EntryPane>
 
       <ChatPane>
