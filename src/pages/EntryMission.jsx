@@ -14,117 +14,19 @@ import ChatWindow from "../components/ChatWindow.jsx";
 import MissionResultModal from "../components/MissionResultModal.jsx";
 import MissionInfoPropertyPanel from "../components/MissionInfoPropertyPanel.jsx";
 
-// 실행 중인 블록 하이라이트 훅
-function attachBlockExecuteHighlight(Entry, lastBlockId) {
-  //console.log("[Hook] attachBlockExecuteHighlight 호출됨", Entry);
-
-  if (!Entry || typeof Entry.addEventListener !== "function") {
-    console.warn("[Hook] Entry 또는 Entry.addEventListener 없음");
-    return;
-  }
-
-  let lastTarget = null; // 마지막으로 하이라이트한 <g>
-
-  function clearHighlight() {
-    if (lastTarget && lastTarget.classList) {
-      lastTarget.classList.remove("entry-executing-highlight");
-    }
-    lastTarget = null;
-
-    // 혹시 남아 있는 게 있으면 방어적으로 제거
-    const remains = document.querySelectorAll("g.entry-executing-highlight");
-    remains.forEach((el) => el.classList.remove("entry-executing-highlight"));
-  }
-
-  // blockView 안에서 block id 뽑기
-  function getBlockIdFromView(blockView) {
-    const id =
-      blockView?.block?.data?.id ??
-      blockView?.data?.id ??
-      blockView?.id ??
-      null;
-
-    // console.log("[Hook] blockView id 추출:", id, blockView);
-    return id;
-  }
-
-  // blockView → DOM에서 해당 블록의 <g> 찾아서 하이라이트
-  function highlightBlockView(blockView) {
-    const blockId = getBlockIdFromView(blockView);
-    if (!blockId) {
-      console.warn("[Hook] blockId 없음, 하이라이트 스킵");
-      return;
-    }
-
-    // SVG 내에서 path.blockPath[blockId="..."] 찾기
-    const path = document.querySelector(
-      `svg path.blockPath[blockId="${blockId}"]`
-    );
-
-    // console.log("[Hook] 찾은 path:", path);
-
-    if (!path) {
-      console.warn(`[Hook] path.blockPath[blockId="${blockId}"] 를 찾지 못함`);
-      return;
-    }
-
-    // 이 path가 들어있는 가장 가까운 g 하나를 "그 블록"으로 본다
-    const g = path.closest("g");
-    if (!g || !g.classList) {
-      console.warn("[Hook] path.closest('g') 실패", path);
-      return;
-    }
-
-    // 이전 하이라이트 제거 후 새로 적용
-    clearHighlight();
-    g.classList.add("entry-executing-highlight");
-    lastTarget = g;
-
-    // console.log("[Hook] highlight target g:", g);
-  }
-
-  // console.log("[Hook] blockExecute/stop 리스너 등록 시작");
-
-  const handleBlockExecute = (blockView) => {
-    // console.log("[blockExecute] 이벤트 발생! blockView:", blockView);
-    highlightBlockView(blockView);
-
-    const currentId =
-      blockView?.data?.id ?? blockView?.block?.data?.id ?? blockView?.id;
-    if (currentId && currentId === lastBlockId) {
-      console.log("마지막 블록 실행 완료");
-      // 여기서 미션 성공 처리 등을 해도 됨
-    }
-  };
-
-  const handleStop = () => {
-    // console.log("[stop] 이벤트 발생! → 하이라이트 초기화");
-    clearHighlight();
-  };
-
-  Entry.addEventListener("blockExecute", handleBlockExecute);
-  Entry.addEventListener("stop", handleStop);
-
-  // cleanup 함수 반환 (언마운트/재진입 시 호출)
-  return () => {
-    try {
-      if (typeof Entry.removeEventListener === "function") {
-        Entry.removeEventListener("blockExecute", handleBlockExecute);
-        Entry.removeEventListener("stop", handleStop);
-      }
-    } catch (e) {
-      console.warn("하이라이트 리스너 제거 중 오류:", e);
-    }
-    clearHighlight();
-  };
-}
+import {
+  useEntryBlockHighlight,
+  useEntryRunEndBySilence,
+  useEntrySelectedBlock,
+  useMissionResultEvents,
+} from "../hooks/useEntryRuntimeListeners.js";
 
 export default function EntryMission() {
   const [searchParams] = useSearchParams();
   const missionId = searchParams.get("missionId");
   const [entryInit, setEntryInit] = useState(false);
-  const [selectedBlock, setSelectedBlock] = useState(null);
   const [result, setResult] = useState(null); // "success" | "fail" | null
+  const resultRef = useRef(null);
   const containerRef = useRef(null);
 
   useHeadLinks(CSS_LINKS);
@@ -144,6 +46,11 @@ export default function EntryMission() {
     missionId,
   });
 
+  // result가 바뀔 때마다 ref에 반영
+  useEffect(() => {
+    resultRef.current = result;
+  }, [result]);
+
   useEffect(() => {
     if (status !== "ready") return;
     if (!window.Entry || !containerRef.current) return;
@@ -160,16 +67,10 @@ export default function EntryMission() {
       textCodingEnable: true,
     };
 
-    let detachHighlight; // 하이라이트 리스너 cleanup 함수
-
     try {
       Entry.init(container, initOption);
       //Entry.propertyPanel.select("helper");
       Entry.playground.blockMenu.toggleBlockMenu();
-
-      // TODO: 실제 마지막 블록 가져오기
-      const lastBlockId = "z1wq";
-      detachHighlight = attachBlockExecuteHighlight(Entry, lastBlockId);
 
       setEntryInit(true);
     } catch (e) {
@@ -177,11 +78,6 @@ export default function EntryMission() {
     }
 
     return () => {
-      // 하이라이트 리스너 정리
-      if (typeof detachHighlight === "function") {
-        detachHighlight();
-      }
-
       try {
         const Entry = window.Entry;
 
@@ -214,82 +110,26 @@ export default function EntryMission() {
     };
   }, [status]);
 
+  // 실행 블록 하이라이트
+  useEntryBlockHighlight({
+    enabled: entryInit,
+    // TODO: 실제 마지막 블록 ID를 mission에서 받는다면 그 값 사용
+    lastBlockId: "z1wq",
+  });
+
+  // 실행 종료 감지 (idle 기반)
+  useEntryRunEndBySilence({
+    enabled: entryInit,
+    idleMs: 300,
+    resultRef,
+    setResult,
+  });
+
+  // goal / outOfMap 커스텀 이벤트 → result 반영
+  useMissionResultEvents({ setResult, resultRef });
+
   // selectedBlock 폴링 감지
-  useEffect(() => {
-    // 마지막으로 감지한 선택 상태를 기억할 ref
-    let lastSelectedId = null;
-
-    const interval = setInterval(() => {
-      // 1) svgBlockGroup 찾기
-      let svgGroup = document.querySelectorAll("g.svgBlockGroup");
-      svgGroup = svgGroup[1]; // 두 번째 요소
-      if (!svgGroup) {
-        // 엔트리 아직 안 떠 있으면 선택 없다고 처리
-        if (lastSelectedId !== null) {
-          lastSelectedId = null;
-          setSelectedBlock(null);
-        }
-        return;
-      }
-
-      // 2) 선택된 블록 찾기: class="block selected"
-      const selectedEl = svgGroup.querySelector(".block.selected");
-
-      // 선택된 게 없으면
-      if (!selectedEl) {
-        if (lastSelectedId !== null) {
-          lastSelectedId = null;
-          setSelectedBlock(null);
-        }
-        return;
-      }
-
-      // 3) 선택된 블록의 id (또는 data-id) 가져오기
-      const currentId =
-        selectedEl.getAttribute("id") || selectedEl.dataset?.id || null;
-
-      // 이전과 같으면 setSelectedBlock 아예 호출 안 함
-      if (currentId === lastSelectedId) {
-        return;
-      }
-
-      // 4) 이전과 다르면 상태 갱신
-      lastSelectedId = currentId;
-
-      // selectedBlock을 어떻게 쓸지에 따라 shape 조정
-      setSelectedBlock(
-        currentId
-          ? {
-              id: currentId,
-              el: selectedEl, // 필요하면 DOM도 같이 전달
-            }
-          : null
-      );
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // 커스텀 이벤트 리스너
-  useEffect(() => {
-    const handleReachedGoal = (event) => {
-      //console.log("entry_reachedGoal 이벤트 수신", event.detail);
-      setResult("success");
-    };
-
-    const handleOutOfMap = (event) => {
-      //console.log("entry_outOfMap 이벤트 수신", event.detail);
-      setResult("fail");
-    };
-
-    window.addEventListener("entry_reachedGoal", handleReachedGoal);
-    window.addEventListener("entry_outOfMap", handleOutOfMap);
-
-    return () => {
-      window.removeEventListener("entry_reachedGoal", handleReachedGoal);
-      window.removeEventListener("entry_outOfMap", handleOutOfMap);
-    };
-  }, []);
+  const selectedBlock = useEntrySelectedBlock(entryInit);
 
   // projectData가 바뀔 때마다 Entry 프로젝트 갱신
   useEffect(() => {
@@ -299,7 +139,7 @@ export default function EntryMission() {
     if (projectLoading) return;
 
     try {
-      console.log("[Entry] projectData 갱신, clearProject + loadProject 실행");
+      //console.log("[Entry] projectData 갱신, clearProject + loadProject 실행");
       window.Entry.clearProject();
       window.Entry.loadProject(projectData);
     } catch (e) {
@@ -336,7 +176,6 @@ export default function EntryMission() {
         onRetry={
           result === "fail"
             ? () => {
-                // TODO: 필요 시 reset 로직 추가
                 // 실패 후 다시 도전: 모달 닫고, 필요하면 Entry 코드/상태 초기화
                 setResult(null);
               }

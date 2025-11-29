@@ -1,6 +1,7 @@
 // MissionResultModal.jsx
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { IoClose } from "react-icons/io5";
 
 export default function MissionResultModal({
   open,
@@ -51,7 +52,10 @@ export default function MissionResultModal({
       }}
     >
       <ModalCard>
-        <IconArea isSuccess={isSuccess}>{isSuccess ? "🎉" : "💭"}</IconArea>
+        <CloseButton onClick={onClose}>
+          <IoClose size={24} />
+        </CloseButton>
+        <IconArea $isSuccess={isSuccess}>{isSuccess ? "🎉" : "💭"}</IconArea>
 
         <Title>{title || defaultTitle}</Title>
         <Description>{description || defaultDesc}</Description>
@@ -93,6 +97,27 @@ const ModalCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  position: relative;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #6b7280;
+
+  &:hover {
+    background: #f3f4f6;
+  }
 `;
 
 const IconArea = styled.div`
