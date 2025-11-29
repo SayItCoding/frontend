@@ -270,6 +270,27 @@ export default function EntryMission() {
     return () => clearInterval(interval);
   }, []);
 
+  // 커스텀 이벤트 리스너
+  useEffect(() => {
+    const handleReachedGoal = (event) => {
+      //console.log("entry_reachedGoal 이벤트 수신", event.detail);
+      setResult("success");
+    };
+
+    const handleOutOfMap = (event) => {
+      //console.log("entry_outOfMap 이벤트 수신", event.detail);
+      setResult("fail");
+    };
+
+    window.addEventListener("entry_reachedGoal", handleReachedGoal);
+    window.addEventListener("entry_outOfMap", handleOutOfMap);
+
+    return () => {
+      window.removeEventListener("entry_reachedGoal", handleReachedGoal);
+      window.removeEventListener("entry_outOfMap", handleOutOfMap);
+    };
+  }, []);
+
   // projectData가 바뀔 때마다 Entry 프로젝트 갱신
   useEffect(() => {
     if (!entryInit) return;
