@@ -34,3 +34,15 @@ export async function endStudySession(sessionId) {
 
   return response.data;
 }
+
+/*
+ * 출석 현황 및 학습 시간
+ * GET /api/v1/study-sessions/summary?weekOffset=0
+ */
+
+export async function fetchStudySummary(weekOffset = 0) {
+  const response = await apiClient.get(
+    `/api/v1/study-sessions/summary?weekOffset=${weekOffset}`
+  );
+  return response.data;
+}
