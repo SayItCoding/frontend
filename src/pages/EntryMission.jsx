@@ -20,14 +20,19 @@ import {
   useEntrySelectedBlock,
   useMissionResultEvents,
 } from "../hooks/useEntryRuntimeListeners.js";
+import { useStudySession } from "../hooks/useStudySessions.js";
 
 export default function EntryMission() {
   const [searchParams] = useSearchParams();
-  const missionId = searchParams.get("missionId");
+  const missionIdParam = searchParams.get("missionId");
+  const missionId = missionIdParam ? Number(missionIdParam) : null;
   const [entryInit, setEntryInit] = useState(false);
   const [result, setResult] = useState(null); // "success" | "fail" | null
   const resultRef = useRef(null);
   const containerRef = useRef(null);
+
+  // 학습 세션 자동 관리 (마운트 시 시작, 언마운트 시 종료)
+  useStudySession(missionId);
 
   useHeadLinks(CSS_LINKS);
   const status = useScriptsSequential(SCRIPT_URLS_IN_ORDER, {
