@@ -10,28 +10,65 @@ import StudySummaryCard from "../components/StudySummaryCard";
 import RecentStudyCard from "../components/RecentStudyCard";
 import BadgeSectionCard from "../components/BadgeSectionCard";
 import SkillAnalysisCard from "../components/SkillAnalysisCard";
-import { fetchStudySummary } from "../api/studySession";
+import {
+  fetchStudySummary,
+  fetchStudyInsights,
+  fetchRecentMissions,
+} from "../api/dashboard";
+import { fetchMyProfile } from "../api/user";
+import StudyInsightSection from "../components/StudyInsightSection";
 
 export default function Dashboard() {
+  const [userProfile, setUserProfile] = useState(null);
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [profileError, setProfileError] = useState("");
+
   const [studySummary, setStudySummary] = useState(null);
   const [loadingSummary, setLoadingSummary] = useState(false);
   const [summaryError, setSummaryError] = useState("");
 
+  const [studyInsight, setStudyInsight] = useState(null);
+  const [insightMode, setInsightMode] = useState("overall"); // 'week' | 'overall'
+  const [loadingInsight, setLoadingInsight] = useState(false);
+  const [insightError, setInsightError] = useState("");
+
+  const [recentMissions, setRecentMissions] = useState([]);
+  const [recentError, setRecentError] = useState("");
+  const [loadingRecent, setLoadingRecent] = useState(false);
+  const RECENT_LIMIT = 6;
+
   // 0: 이번 주, -1: 지난주, -2: 지지난주 ...
   const [weekOffset, setWeekOffset] = useState(0);
 
+  // 내 정보
+  useEffect(() => {
+    async function loadProfile() {
+      try {
+        setLoadingProfile(true);
+        setProfileError("");
+        const data = await fetchMyProfile();
+        setUserProfile(data);
+      } catch (err) {
+        console.error(err);
+        setProfileError("내 정보를 불러오지 못했습니다.");
+      } finally {
+        setLoadingProfile(false);
+      }
+    }
+    loadProfile();
+  }, []);
+
+  // 학습 요약 정보
   useEffect(() => {
     async function load() {
       try {
         setLoadingSummary(true);
         setSummaryError("");
-
-        // GET /api/v1/study-sessions/summary?weekOffset=0
         const data = await fetchStudySummary(weekOffset);
         setStudySummary(data);
       } catch (err) {
-        console.error("❌ 학습 요약 불러오기 실패:", err);
-        setSummaryError("학습 정보를 불러오지 못했어요.");
+        console.error(err);
+        setSummaryError("학습 요약 정보를 불러오지 못했습니다.");
       } finally {
         setLoadingSummary(false);
       }
@@ -39,47 +76,72 @@ export default function Dashboard() {
     load();
   }, [weekOffset]);
 
-  // TODO: 나중에 API 연동해서 실제 값으로 교체
-  const userName = "홍길동";
+  // 학습 분석
+  useEffect(() => {
+    async function loadInsight() {
+      try {
+        setLoadingInsight(true);
+        setInsightError("");
 
-  const solvedMissions = 8;
-  const totalMissions = 12;
-  const accuracy = 76; // 정답률
-  const aiFixRate = 82; // AI 피드백 받고 수정 성공한 비율
+        const data = await fetchStudyInsights({
+          mode: insightMode,
+          weekOffset,
+        });
+        setStudyInsight(data);
+      } catch (err) {
+        console.error(err);
+        setInsightError("학습 인사이트 정보를 불러오지 못했습니다.");
+      } finally {
+        setLoadingInsight(false);
+      }
+    }
+    loadInsight();
+  }, [weekOffset, insightMode]);
 
-  // 컴퓨팅 사고 역량 (임시 점수)
-  const skillScores = [
-    { key: "procedure", label: "절차적 사고 / 순서 설계", value: 78 },
-    { key: "loop", label: "반복 구조 활용", value: 72 },
-    { key: "condition", label: "조건분기 활용", value: 65 },
-    { key: "clarity", label: "표현 명확성 (자연어 → 코드)", value: 81 },
-    { key: "concept", label: "개념 이해도 (반복·조건)", value: 70 },
-  ];
+  // 최근 학습 미션
+  useEffect(() => {
+    async function loadRecent() {
+      try {
+        setLoadingRecent(true);
+        setRecentError("");
 
-  // 최근 학습 기록 (임시)
-  const recentMissions = [
-    {
-      id: 1,
-      title: "반복문 미션 1: 엔트리봇 앞으로 걷기",
-      date: "11.28",
-      status: "성공",
-      skillTag: "반복문",
-    },
-    {
-      id: 2,
-      title: "조건문 미션 1: 동전이 있으면 점프",
-      date: "11.27",
-      status: "재도전",
-      skillTag: "조건문",
-    },
-    {
-      id: 3,
-      title: "경로 설계 미션: 친구 만나러 가기",
-      date: "11.26",
-      status: "성공",
-      skillTag: "경로 설계",
-    },
-  ];
+        const { items } = await fetchRecentMissions(RECENT_LIMIT);
+
+        const formatted = (items ?? []).map((item) => {
+          const d = new Date(item.date);
+          const dateStr = d.toLocaleDateString("ko-KR", {
+            month: "2-digit",
+            day: "2-digit",
+          });
+
+          return {
+            id: item.missionId,
+            title: item.title,
+            date: dateStr,
+            status: item.status,
+            category: item.category,
+          };
+        });
+
+        setRecentMissions(formatted);
+      } catch (err) {
+        console.error(err);
+        setRecentError("최근 학습 기록을 불러오지 못했습니다.");
+      } finally {
+        setLoadingRecent(false);
+      }
+    }
+
+    loadRecent();
+  }, []);
+
+  const userName = userProfile?.name ?? "학생";
+
+  // 학습 요약에서 값 끌어오기 (studySummary 구조에 맞게 필드명 조정)
+  const solvedMissions = studySummary?.totalSolvedMissions ?? 0;
+  const totalMissions = studySummary?.totalMissions ?? 0;
+  const accuracy = studySummary?.accuracyRate ?? 0; // %
+  const aiFixRate = studySummary?.aiFixSuccessRate ?? 0; // %
 
   // 뱃지 mock 데이터 (대시보드 API 붙일 때 badges.unlocked / badges.inProgress로 교체 예정)
   const badges = {
@@ -143,6 +205,8 @@ export default function Dashboard() {
               totalMissions={totalMissions}
               accuracy={accuracy}
               aiFixRate={aiFixRate}
+              loading={loadingProfile}
+              error={profileError}
             />
           </TopRowLeft>
 
@@ -171,13 +235,23 @@ export default function Dashboard() {
           </MiddleRowRight>
         </MiddleRow>
 
-        <BottomSection>
-          <BottomGrid>
-            <RecentStudyCard recentMissions={recentMissions} />
+        <MiddleRow>
+          <StudyInsightSection
+            summary={studyInsight}
+            loading={loadingInsight}
+            error={insightError}
+            mode={insightMode}
+            onChangeMode={setInsightMode}
+          />
+        </MiddleRow>
 
-            <SkillAnalysisCard skillScores={skillScores} />
-          </BottomGrid>
-        </BottomSection>
+        <MiddleRow>
+          <RecentStudyCard
+            recentMissions={recentMissions}
+            loading={loadingRecent}
+            error={recentError}
+          />
+        </MiddleRow>
 
         <BadgeSectionCard badges={badges} />
       </Content>

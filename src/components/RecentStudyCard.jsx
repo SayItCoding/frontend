@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function RecentStudyCard({ recentMissions }) {
+  const navigate = useNavigate();
+
+  const handleClick = (missionId) => {
+    navigate(`/mission?missionId=${missionId}`);
+  };
+
   return (
     <SectionCard>
       <HeaderRow>
@@ -13,7 +20,7 @@ export default function RecentStudyCard({ recentMissions }) {
 
       <List>
         {recentMissions.map((m) => (
-          <Item key={m.id}>
+          <Item key={m.id} onClick={() => handleClick(m.id)}>
             <Left>
               <ItemTitle>{m.title}</ItemTitle>
               <Meta>
@@ -35,6 +42,7 @@ const SectionCard = styled.div`
   padding: 24px 28px;
   box-shadow: 0 8px 24px rgba(41, 45, 80, 0.06);
   box-sizing: border-box;
+  width: 100%;
 `;
 
 const HeaderRow = styled.div`
@@ -53,9 +61,14 @@ const SubTitle = styled.div`
 `;
 
 const List = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 12px 16px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const Item = styled.div`
@@ -65,6 +78,7 @@ const Item = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 `;
 
 const Left = styled.div`

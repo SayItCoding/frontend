@@ -1,13 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function ProfileCard({
-  userName,
-  solvedMissions,
-  totalMissions,
-  accuracy,
-  aiFixRate,
-}) {
+export default function ProfileCard({ userName }) {
   return (
     <Card>
       <ProfileArea>
@@ -19,23 +13,6 @@ export default function ProfileCard({
           </ProfileSub>
         </div>
       </ProfileArea>
-
-      <ProfileStatsRow>
-        <ProfileStat>
-          <ProfileStatLabel>완료한 미션</ProfileStatLabel>
-          <ProfileStatValue>
-            {solvedMissions}/{totalMissions}
-          </ProfileStatValue>
-        </ProfileStat>
-        <ProfileStat>
-          <ProfileStatLabel>정답률</ProfileStatLabel>
-          <ProfileStatValue>{accuracy}%</ProfileStatValue>
-        </ProfileStat>
-        <ProfileStat>
-          <ProfileStatLabel>AI 피드백 해결률</ProfileStatLabel>
-          <ProfileStatValue>{aiFixRate}%</ProfileStatValue>
-        </ProfileStat>
-      </ProfileStatsRow>
     </Card>
   );
 }
@@ -85,27 +62,4 @@ const ProfileSub = styled.div`
   font-size: 13px;
   color: #8b8fa8;
   margin-top: 4px;
-`;
-
-const ProfileStatsRow = styled.div`
-  display: flex;
-  gap: 16px;
-  margin-top: 18px;
-  flex-wrap: wrap;
-`;
-
-const ProfileStat = styled.div`
-  min-width: 120px;
-`;
-
-const ProfileStatLabel = styled.div`
-  font-size: 12px;
-  color: #9ea2b3;
-  margin-bottom: 4px;
-`;
-
-const ProfileStatValue = styled.div`
-  font-size: 18px;
-  font-weight: 700;
-  color: #4f5cff;
 `;
