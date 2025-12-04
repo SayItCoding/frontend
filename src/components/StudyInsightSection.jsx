@@ -17,7 +17,7 @@ const QUESTION_TYPE_LABEL_MAP = {
   WHAT_IS_CONCEPT: "코딩 개념 설명 질문",
   DIFFERENCE_CONCEPT: "코딩 개념간 차이 질문",
   REQUEST_HINT: "미션 힌트 요청",
-  REQUEST_EXPLNATION: "현재 절차 설명",
+  REQUEST_EXPLANATION: "현재 절차 설명",
   REQUEST_FEEDBACK: "현재 절차 피드백 요청",
   OTHER: "기타 질문",
 };

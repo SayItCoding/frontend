@@ -4,8 +4,8 @@
 // - 토큰 저장/조회 (localStorage)
 // - authFetch: 자동 Authorization 헤더 + 401 시 1회 refresh 후 재시도
 
-//const API_BASE = "https://sayit-coding-production.up.railway.app/api/v1/auth";
-const API_BASE = "http://localhost:3000/api/v1/auth";
+const API_BASE = "https://sayit-coding-production.up.railway.app/api/v1/auth";
+//const API_BASE = "http://localhost:3000/api/v1/auth";
 
 /* =========================
  * Token Storage Utilities
