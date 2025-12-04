@@ -18,7 +18,6 @@ export default function StudySummaryCard({
       <SectionCard>
         <RowHeader>
           <SectionTitle>학습 요약</SectionTitle>
-          <RowSubTitle>자연어 → 코드 학습 진행 상황</RowSubTitle>
         </RowHeader>
 
         <StudyInfoGrid>
@@ -83,7 +82,6 @@ export default function StudySummaryCard({
     <SectionCard>
       <RowHeader>
         <SectionTitle>학습 요약</SectionTitle>
-        <RowSubTitle>자연어 → 코드 학습 진행 상황</RowSubTitle>
       </RowHeader>
 
       <StudyInfoGrid>
@@ -96,9 +94,6 @@ export default function StudySummaryCard({
           <ProgressBar>
             <ProgressFill style={{ width: `${solvedRatio}%` }} />
           </ProgressBar>
-          <InfoDesc>
-            말로 설명한 절차가 실제 코드로 얼마나 잘 완성됐는지 보여줘요.
-          </InfoDesc>
         </InfoBlock>
 
         {/* 정답률 */}
@@ -114,7 +109,7 @@ export default function StudySummaryCard({
           <InfoDescSmall>미션의 목표를 정확히 달성한 비율이에요.</InfoDescSmall>
         </InfoBlockCenter>
 
-        {/* AI 피드백 해결률 */}
+        {/* AI 피드백 해결률 
         <InfoBlockCenter>
           <InfoLabel>AI 피드백 해결률</InfoLabel>
           <CircleWrapper>
@@ -127,13 +122,14 @@ export default function StudySummaryCard({
           <InfoDescSmall>
             AI가 알려준 절차적 오류/개선점을 반영한 비율이에요.
           </InfoDescSmall>
-        </InfoBlockCenter>
+        </InfoBlockCenter>*/}
       </StudyInfoGrid>
     </SectionCard>
   );
 }
 
 const SectionCard = styled.div`
+  flex: 1;
   background: #ffffff;
   border-radius: 24px;
   padding: 24px 28px;
@@ -161,7 +157,7 @@ const RowSubTitle = styled.div`
 
 const StudyInfoGrid = styled.div`
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
+  grid-template-columns: 1.2fr 1.8fr;
   gap: 24px;
   margin-top: 8px;
 
@@ -177,6 +173,10 @@ const InfoBlock = styled.div`
 `;
 
 const InfoBlockCenter = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 `;
 

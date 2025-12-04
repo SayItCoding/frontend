@@ -26,3 +26,8 @@ export async function fetchRecentMissions({ page = 1, limit = 6 } = {}) {
   });
   return res.data;
 }
+
+export async function fetchMissionSummary() {
+  const res = await apiClient.get("/api/v1/dashboard/mission-summary");
+  return res.data;
+}

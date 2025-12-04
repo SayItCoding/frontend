@@ -14,6 +14,7 @@ import {
   fetchStudySummary,
   fetchStudyInsights,
   fetchRecentMissions,
+  fetchMissionSummary,
 } from "../api/dashboard";
 import { fetchMyProfile } from "../api/user";
 import StudyInsightSection from "../components/StudyInsightSection";
@@ -35,6 +36,10 @@ export default function Dashboard() {
   const [studySummary, setStudySummary] = useState(null);
   const [loadingSummary, setLoadingSummary] = useState(false);
   const [summaryError, setSummaryError] = useState("");
+
+  const [missionSummary, setMissionSummary] = useState(null);
+  const [loadingMissionSummary, setLoadingMissionSummary] = useState(false);
+  const [missionSummaryError, setMissionSummaryError] = useState("");
 
   const [studyInsight, setStudyInsight] = useState(null);
   const [insightMode, setInsightMode] = useState("overall"); // 'week' | 'overall'
@@ -65,9 +70,9 @@ export default function Dashboard() {
       }
     }
     loadProfile();
-  }, []);
+  }, [isLoggedIn]);
 
-  // 학습 요약 정보
+  // 출석 현황 및 학습 시간 정보
   useEffect(() => {
     async function load() {
       try {
@@ -83,7 +88,28 @@ export default function Dashboard() {
       }
     }
     load();
-  }, [weekOffset]);
+  }, [weekOffset, isLoggedIn]);
+
+  // 미션 요약 (시도/성공/정답률)
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
+    async function loadMissionSummaryData() {
+      try {
+        setLoadingMissionSummary(true);
+        setMissionSummaryError("");
+        const data = await fetchMissionSummary();
+        setMissionSummary(data);
+      } catch (err) {
+        console.error(err);
+        setMissionSummaryError("미션 요약 정보를 불러오지 못했습니다.");
+      } finally {
+        setLoadingMissionSummary(false);
+      }
+    }
+
+    loadMissionSummaryData();
+  }, [isLoggedIn]);
 
   // 학습 분석
   useEffect(() => {
@@ -105,7 +131,7 @@ export default function Dashboard() {
       }
     }
     loadInsight();
-  }, [weekOffset, insightMode]);
+  }, [weekOffset, insightMode, isLoggedIn]);
 
   // 최근 학습 미션
   useEffect(() => {
@@ -142,15 +168,15 @@ export default function Dashboard() {
     }
 
     loadRecent();
-  }, []);
+  }, [isLoggedIn]);
 
   const userName = userProfile?.name ?? "학생";
 
-  // 학습 요약에서 값 끌어오기 (studySummary 구조에 맞게 필드명 조정)
-  const solvedMissions = studySummary?.totalSolvedMissions ?? 0;
-  const totalMissions = studySummary?.totalMissions ?? 0;
-  const accuracy = studySummary?.accuracyRate ?? 0; // %
-  const aiFixRate = studySummary?.aiFixSuccessRate ?? 0; // %
+  // 학습 요약/정답률은 missionSummary 기준으로
+  const solvedMissions = missionSummary?.solvedMissions ?? 0;
+  const totalMissions = missionSummary?.totalMissions ?? 0;
+  const accuracy = missionSummary?.accuracy ?? 0; // %
+  const aiFixRate = missionSummary?.aiFixRate ?? 0; // %
 
   return (
     <PageWrapper>
