@@ -15,7 +15,7 @@ import MissionResultModal from "../components/MissionResultModal.jsx";
 import MissionInfoPropertyPanel from "../components/MissionInfoPropertyPanel.jsx";
 import MissionHeader from "../components/MissionHeader.jsx";
 import MissionLoading from "../components/MissionLoading.jsx";
-
+import { checkMissionSuccess } from "../api/mission.js";
 import {
   useEntryBlockHighlight,
   useEntryRunEndBySilence,
@@ -32,6 +32,11 @@ export default function EntryMission() {
   const [result, setResult] = useState(null); // "success" | "fail" | null
   const resultRef = useRef(null);
   const containerRef = useRef(null);
+
+  // 서버 판정 관련 state
+  const [judgeLoading, setJudgeLoading] = useState(false);
+  const [judgeError, setJudgeError] = useState(null);
+  const [judgeResult, setJudgeResult] = useState(null); // { isSuccess, failReason, finalState, style }
 
   // 로딩 오버레이 상태
   const [showLoading, setShowLoading] = useState(true);
@@ -179,6 +184,55 @@ export default function EntryMission() {
     }
   }, [entryInit, projectLoading, projectData]);
 
+  // Entry "run" 이벤트 발생시 서버에 성공 여부 체크
+  useEffect(() => {
+    if (!entryInit) return;
+    if (!window.Entry) return;
+    if (!missionId) return;
+
+    const Entry = window.Entry;
+
+    const handleRun = async () => {
+      try {
+        setJudgeLoading(true);
+        setJudgeError(null);
+
+        const res = await checkMissionSuccess(missionId);
+        setJudgeResult(res);
+        // console.log(res);
+      } catch (err) {
+        console.error("checkMissionSuccess 호출 실패:", err);
+        setJudgeError(err);
+      } finally {
+        setJudgeLoading(false);
+      }
+    };
+
+    if (Entry.addEventListener) {
+      Entry.addEventListener("run", handleRun);
+    } else if (Entry.engine && Entry.engine.addEventListener) {
+      Entry.engine.addEventListener("run", handleRun);
+    }
+
+    return () => {
+      try {
+        if (Entry.removeEventListener) {
+          Entry.removeEventListener("run", handleRun);
+        } else if (Entry.engine && Entry.engine.removeEventListener) {
+          Entry.engine.removeEventListener("run", handleRun);
+        }
+      } catch (e) {
+        console.warn("Entry run 이벤트 언바인딩 중 오류:", e);
+      }
+    };
+  }, [entryInit, missionId]);
+
+  const hasStyleIssue =
+    judgeResult &&
+    judgeResult.isSuccess &&
+    judgeResult.style &&
+    judgeResult.style.hasConsecutiveSameActions;
+
   if (status === "error") return <div>리소스 로드 실패</div>;
   return (
     <>
@@ -208,6 +262,7 @@ export default function EntryMission() {
         <MissionResultModal
           open={result !== null}
           type={result === "success" ? "success" : "fail"}
+          hasStyleIssue={!!hasStyleIssue}
           onClose={() => setResult(null)}
           onRetry={
             result === "fail"

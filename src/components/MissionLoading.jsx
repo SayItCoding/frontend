@@ -14,7 +14,7 @@ export default function MissionLoading() {
         </CharacterImageWrapper>
 
         <TextBlock>
-          <Title>엔트리 미션을 준비하고 있어요</Title>
+          <Title>미션을 준비하고 있어요</Title>
           <Sub>
             학습에 필요한 정보와 실행 환경을 불러오고 있어요
             <br />

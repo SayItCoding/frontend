@@ -11,6 +11,7 @@ export default function MissionResultModal({
   type, // "success" | "fail"
   title,
   description,
+  hasStyleIssue, // true면 반복문 조언 보여주기
   onClose,
   onRetry,
   onNext,
@@ -41,10 +42,23 @@ export default function MissionResultModal({
 
   const isSuccess = type === "success";
 
-  const defaultTitle = isSuccess ? "미션 성공!" : "미션 실패";
-  const defaultDesc = isSuccess
-    ? "너무 잘했어요! 다음 미션도 도전해 볼까요?"
-    : "아쉽지만 괜찮아요. 어디서 막혔는지 같이 다시 살펴볼까요?";
+  let defaultTitle = "";
+  let defaultDesc = "";
+
+  if (!isSuccess) {
+    defaultTitle = "미션 실패";
+    defaultDesc = "아쉽지만 괜찮아요. 어디서 막혔는지 같이 다시 살펴볼까요?";
+  } else if (isSuccess && hasStyleIssue) {
+    // 도달은 했는데 스타일 이슈 있음 (반복문 권장)
+    defaultTitle = "미션 성공!";
+    defaultDesc = "반복문을 사용해서 중복된 절차를 줄여보는 건 어떤가요?";
+  } else {
+    // 도달 + 스타일도 깔끔
+    defaultTitle = "미션 성공!";
+    defaultDesc = "너무 잘했어요! 다음 미션도 도전해 볼까요?";
+  }
+
+  const showStyleTip = isSuccess && hasStyleIssue;
 
   return (
     <Backdrop
@@ -67,6 +81,17 @@ export default function MissionResultModal({
 
         <Title>{title || defaultTitle}</Title>
         <Description>{description || defaultDesc}</Description>
+
+        {/*showStyleTip && (
+          <StyleTipBox>
+            <TipTitle>반복문으로 더 깔끔하게 만들기</TipTitle>
+            <TipText>
+              같은 블록이 2번 이상 연달아 나온다면,
+              <strong> 반복 블록</strong>을 써서 “~을 몇 번 반복하기” 형태로
+              묶어 보세요. 나중에 코드(절차)를 읽기 훨씬 쉬워져요.
+            </TipText>
+          </StyleTipBox>
+        )*/}
 
         <ButtonRow>
           {/* 공통 닫기 버튼 (필요 없으면 제거 가능) */}
@@ -200,5 +225,33 @@ const GhostButton = styled(BaseButton)`
 
   &:hover {
     background: #e5e7eb;
+  }
+`;
+
+const StyleTipBox = styled.div`
+  margin-top: 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+`;
+
+const TipTitle = styled.div`
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 4px;
+`;
+
+const TipText = styled.p`
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #4b5563;
+
+  strong {
+    font-weight: 700;
+    color: #1d4ed8;
   }
 `;

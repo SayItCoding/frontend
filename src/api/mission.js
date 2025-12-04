@@ -101,3 +101,31 @@ export async function fetchMissionCode(missionId, missionCodeId) {
   // 200 OK + missionCode 상세 JSON
   return res.data; // { missionId, missionCodeId , projectData, createdAt }
 }
+
+/**
+ * 미션 성공 여부 체크
+ * POST /api/v1/missions/{missionId}/check-success
+ * - missionCodeId를 주지 않으면 latestMissionCode 기준으로 판단
+ */
+export async function checkMissionSuccess(missionId, missionCodeId) {
+  if (!missionId && missionId !== 0) {
+    throw new Error("missionId는 필수 값입니다.");
+  }
+
+  const body = {};
+  if (missionCodeId || missionCodeId === 0) {
+    body.missionCodeId = missionCodeId;
+  }
+
+  try {
+    const res = await apiClient.post(
+      `/api/v1/missions/${missionId}/check-success`,
+      body
+    );
+    // { missionId, missionCodeId, isSuccess, failReason, finalState }
+    return res.data;
+  } catch (err) {
+    console.error("checkMissionSuccess 오류:", err);
+    throw err;
+  }
+}
