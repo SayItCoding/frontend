@@ -15,16 +15,33 @@ export default function MissionInfoPropertyPanel() {
       id: "move_forward",
       label: "앞으로 가기",
       desc: "캐릭터가 바라보는 방향으로 한 칸 이동해요.",
+      bg: "#ad3efb",
+      border: "rgb(139, 25, 219)",
+      color: "#FFFFFF",
     },
     {
       id: "turn_left",
       label: "왼쪽으로 돌기",
       desc: "캐릭터가 바라보는 방향 기준, 왼쪽으로 돌아요",
+      bg: "#ad3efb",
+      border: "rgb(139, 25, 219)",
+      color: "#FFFFFF",
     },
     {
       id: "turn_right",
       label: "오른쪽으로 돌기",
       desc: "캐릭터가 바라보는 방향 기준, 오른쪽으로 돌아요",
+      bg: "#ad3efb",
+      border: "rgb(139, 25, 219)",
+      color: "#FFFFFF",
+    },
+    {
+      id: "repeat_basic",
+      label: "~번 반복하기",
+      desc: "위의 행동들 중에서 원하는만큼 반복해요",
+      bg: "#16baea",
+      border: "rgb(20, 152, 192)",
+      color: "#FFFFFF",
     },
   ];
 
@@ -86,29 +103,29 @@ export default function MissionInfoPropertyPanel() {
   if (!selected || !contentRoot) return null;
 
   return createPortal(
-    <div
-      className="missionInfoPanelWrapper"
-      data-mission-panel="true" // ← 이걸로 위에서 우리 패널만 예외 처리
-    >
+    <div className="missionInfoPanelWrapper" data-mission-panel="true">
       <MissionInfoPanelContentWorkspace>
         <MissionHintNumber>목표</MissionHintNumber>
 
         <MissionHintContainer>
-          <MissionHintTopDiv>
-            <MissionHintTitle>
-              캐릭터를 목표 지점까지 이동해볼까요?
-            </MissionHintTitle>
-            <MissionHintIndicator />
-          </MissionHintTopDiv>
+          <MissionHintTitle>
+            캐릭터가 목표까지 도달할 수 있도록, 아래 블록들만 사용해서 움직임
+            순서를 만들어 볼까요?
+          </MissionHintTitle>
         </MissionHintContainer>
       </MissionInfoPanelContentWorkspace>
 
       {/* 아래: 사용할 수 있는 블록 안내 섹션 */}
       <BlockHelpSection>
+        <BlockHelpTitle>사용할 수 있는 블록</BlockHelpTitle>
+        <BlockHelpSubText></BlockHelpSubText>
+
         <BlockList>
           {BLOCK_HELP.map((b) => (
             <BlockItemRow key={b.id}>
-              <BlockFigure>{b.label}</BlockFigure>
+              <BlockFigure $bg={b.bg} $border={b.border} $color={b.color}>
+                {b.label}
+              </BlockFigure>
               <BlockDesc>{b.desc}</BlockDesc>
             </BlockItemRow>
           ))}
@@ -122,11 +139,11 @@ export default function MissionInfoPropertyPanel() {
 export const MissionInfoPanelContentWorkspace = styled.div`
   width: 95%;
   background-color: #ffffff;
-  border-radius: 5px;
-  margin: 7px auto 0;
+  border-radius: 12px;
+  margin: 10px auto 0;
   min-height: 80px;
   position: relative;
-  height: auto;
+  padding-bottom: 12px;
 
   * {
     box-sizing: border-box;
@@ -135,92 +152,98 @@ export const MissionInfoPanelContentWorkspace = styled.div`
 `;
 
 export const MissionHintNumber = styled.div`
-  display: inline-block;
-  width: 52px;
-  height: 52px;
-  border-radius: 26px;
-  background-color: #2ea1ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #2ea1ff, #4f80ff);
   color: #ffffff;
-  margin-top: 14px;
-  margin-left: 14px;
-  text-align: center;
+  margin-top: 16px;
+  margin-left: 16px;
   font-size: 18px;
-  line-height: 52px;
-  padding: 2px 2px 0 0;
+  font-weight: 700;
 `;
 
 export const MissionHintContainer = styled.span`
   vertical-align: top;
   display: inline-block;
   height: 100%;
-  width: calc(100% - 80px);
+  width: calc(100% - 90px);
   position: relative;
-  left: 13px;
-`;
-
-export const MissionHintTopDiv = styled.div`
-  margin-bottom: 4px;
+  left: 14px;
 `;
 
 export const MissionHintTitle = styled.div`
   display: inline-block;
   font-size: 14px;
-  padding-top: 20px;
-  padding-bottom: 10px;
+  padding-top: 18px;
+  padding-bottom: 8px;
   padding-right: 10px;
   white-space: pre-line;
-  color: #4f80ff;
-`;
-export const MissionHintIndicator = styled.span`
-  display: inline-block;
+  color: #2f4f90;
+  font-weight: 600;
 `;
 
 export const BlockHelpSection = styled.div`
   margin-top: 16px;
-  padding: 12px 16px 16px;
-  border-radius: 8px;
+  padding: 14px 16px 18px;
+  border-radius: 12px;
 `;
 
 export const BlockHelpTitle = styled.div`
-  font-size: 15px;
-  font-weight: 600;
-  color: #4a4a4a;
-  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #244872;
+  margin-bottom: 4px;
+`;
+
+export const BlockHelpSubText = styled.div`
+  font-size: 12px;
+  color: #60738b;
+  margin-bottom: 10px;
 `;
 
 export const BlockList = styled.div`
-  display: grid;
-  grid-template-columns: 140px 1fr; /* ← 왼쪽 블록 col 고정 */
-  row-gap: 10px;
-  column-gap: 12px;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
-/* 보라색 블록 + 설명 한 줄 */
+// 한 줄 카드
 export const BlockItemRow = styled.div`
-  display: contents;
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 `;
 
+// 왼쪽 pill
 export const BlockFigure = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 6px 14px;
-  min-width: 80px;
+  min-width: 88px;
 
-  background: rgb(173, 62, 251); /* fill */
-  border: 1px solid rgb(139, 25, 219); /* stroke */
-  color: #ffffff;
+  background: ${(props) => props.$bg ?? "rgb(173, 62, 251)"};
+  border: 1px solid ${(props) => props.$border ?? "rgb(139, 25, 219)"};
+  color: ${(props) => props.$color ?? "#ffffff"};
 
-  border-radius: 999px; /* 완전 타원형 */
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
   text-align: center;
   white-space: nowrap;
 `;
 
-/* 텍스트 설명 */
+// 설명 텍스트
 export const BlockDesc = styled.div`
-  font-size: 14px;
-  color: #555;
+  margin-left: 10px;
+  font-size: 13px;
+  color: #4a4a4a;
+  line-height: 1.4;
 `;

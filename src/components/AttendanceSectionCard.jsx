@@ -7,6 +7,7 @@ export default function AttendanceSectionCard({
   loading,
   weekOffset,
   onChangeWeek,
+  studyStreak,
 }) {
   const [slideDirection, setSlideDirection] = useState(null); // 'left' | 'right' | null
 
@@ -47,24 +48,11 @@ export default function AttendanceSectionCard({
     }));
   }
 
-  // "해당 주" 기준, 마지막 날짜부터 연속으로 학습한 일수
-  const continuousStudyDays = (() => {
-    if (!displayWeek.length) return 0;
-    let streak = 0;
-    for (let i = displayWeek.length - 1; i >= 0; i--) {
-      const seconds = displayWeek[i]?.studySeconds ?? 0;
-      if (seconds > 0) streak++;
-      else break;
-    }
-    return streak;
-  })();
-
   // 출석 배지 텍스트
-  const attendanceBadgeText = loading
-    ? "불러오는 중..."
-    : continuousStudyDays > 0
-    ? `연속 ${continuousStudyDays}일 학습 중`
-    : "최근 7일 학습 기록 없음";
+  const attendanceBadgeText =
+    studyStreak > 0
+      ? `연속 ${studyStreak}일 학습 중`
+      : "최근 7일 학습 기록 없음";
 
   // 주간 범위 텍스트 (YYYY.MM.DD ~ YYYY.MM.DD)
   const weekRangeText = studySummary
@@ -85,8 +73,8 @@ export default function AttendanceSectionCard({
     onChangeWeek(Math.min(0, weekOffset + 1));
   };
 
-  // 로딩 중이면 스켈레톤 카드만 렌더
-  if (loading) {
+  // 최초 로딩에만 스켈레톤 카드만 렌더
+  if (loading && !studySummary) {
     return <AttendanceSkeletonCard />;
   }
 

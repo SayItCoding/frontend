@@ -41,7 +41,7 @@ export default function LoginPage() {
     <FullScreen>
       <Card>
         <CardHeader>
-          <h1>로그인</h1>
+          <h1>말해 코딩</h1>
           <p>계정 정보를 입력하거나 소셜 로그인을 사용하세요.</p>
         </CardHeader>
 
@@ -141,16 +141,6 @@ const CardHeader = styled.header`
     color: #6b7280;
     font-size: 14px;
   }
-`;
-
-const Brand = styled.div`
-  font-size: 13px;
-  font-weight: 600;
-  color: #e5edff;
-  background: #4b7bec;
-  display: inline-flex;
-  padding: 4px 10px;
-  border-radius: 999px;
 `;
 
 const Stack = styled.div`

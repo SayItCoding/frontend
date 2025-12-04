@@ -111,7 +111,7 @@ export function ChatInputBar({ onSend, selectedBlock }) {
             value={val}
             onChange={(e) => setVal(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="AI에게 코드 작성을 지시하고, 질문해보세요."
+            placeholder="AI에게 절차를 지시하고, 질문해보세요."
             aria-label="메시지 입력"
           />
         </InputBox>

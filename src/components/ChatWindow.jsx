@@ -331,7 +331,7 @@ const Head = styled.div`
 `;
 
 const Body = styled.div`
-  background: #f7fcff;
+  background: #f7f7f8;
   overflow-y: auto;
 `;
 

@@ -97,9 +97,8 @@ export default function StudyTimeCard({ studySummary, loading, error }) {
         </TimeHeaderLeft>
 
         <TotalTimeBox>
-          <Hourglass>⏳</Hourglass>
           <TotalTimeTextBox>
-            <TotalTimeLabel>총 학습 시간</TotalTimeLabel>
+            <TotalTimeLabel>⏳ 총 학습 시간</TotalTimeLabel>
             <TotalTimeValue>{totalStudyTimeText}</TotalTimeValue>
           </TotalTimeTextBox>
         </TotalTimeBox>

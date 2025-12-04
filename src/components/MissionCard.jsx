@@ -1,6 +1,6 @@
 // src/components/MissionCard.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 /**
@@ -17,6 +17,8 @@ export default function MissionCard({
   to,
   loading = false,
 }) {
+  const navigate = useNavigate();
+
   if (loading) {
     // 스켈레톤 모드
     return (
@@ -35,8 +37,13 @@ export default function MissionCard({
     );
   }
 
+  const handleClick = () => {
+    if (!to) return;
+    navigate(to);
+  };
+
   return (
-    <Card>
+    <Card onClick={handleClick} $clickable={!loading && !!to}>
       {image && (
         <ThumbWrapper>
           <Thumb src={image} alt={title} />
@@ -46,7 +53,7 @@ export default function MissionCard({
       <CardBody>
         <CardTitle>{title}</CardTitle>
         <CardDesc>{desc}</CardDesc>
-        <CardButton to={to}>미션 시작하기</CardButton>
+        <CardButton type="button">미션 시작하기</CardButton>
       </CardBody>
     </Card>
   );
@@ -81,6 +88,25 @@ const Card = styled.div`
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
   display: flex;
   flex-direction: column;
+
+  /* 인터랙션 */
+  cursor: ${({ $clickable }) => ($clickable ? "pointer" : "default")};
+  pointer-events: ${({ $loading }) => ($loading ? "none" : "auto")};
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+  ${({ $clickable }) =>
+    $clickable &&
+    css`
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
+      }
+
+      &:active {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(15, 23, 42, 0.14);
+      }
+    `}
 `;
 
 const ThumbWrapper = styled.div`
@@ -114,7 +140,7 @@ const CardDesc = styled.p`
   margin: 0 0 10px 0;
 `;
 
-const CardButton = styled(Link)`
+const CardButton = styled.button`
   display: inline-block;
   margin-top: 4px;
   padding: 8px 14px;
@@ -122,5 +148,7 @@ const CardButton = styled(Link)`
   font-size: 13px;
   background: #4b7bec1a;
   color: #1d4ed8;
-  text-decoration: none;
+  border: none;
+  outline: none;
+  cursor: inherit; /* 카드 전체와 동일한 커서 */
 `;

@@ -1,5 +1,6 @@
 // src/pages/DashboardPage.jsx
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -18,6 +19,15 @@ import { fetchMyProfile } from "../api/user";
 import StudyInsightSection from "../components/StudyInsightSection";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
+  // 로그인 여부 (처음부터 localStorage 기준으로 동기 초기화 → 깜빡임 방지)
+  const [isLoggedIn] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const token = localStorage.getItem("access_token");
+    return !!token;
+  });
+
   const [userProfile, setUserProfile] = useState(null);
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [profileError, setProfileError] = useState("");
@@ -145,65 +155,94 @@ export default function Dashboard() {
   return (
     <PageWrapper>
       <Header />
-      <Content>
-        <TopRow>
-          <TopRowLeft>
-            <ProfileCard
-              userName={userName}
-              solvedMissions={solvedMissions}
-              totalMissions={totalMissions}
-              accuracy={accuracy}
-              aiFixRate={aiFixRate}
-              loading={loadingProfile}
-              error={profileError}
+
+      {/* 로그인 안 한 경우: 미니 대시보드 + CTA */}
+      {!isLoggedIn && (
+        <GuestContent>
+          <GuestTop>
+            <GuestTitle>나만의 학습 대시보드를 준비해 뒀어요</GuestTitle>
+            <GuestSub>
+              로그인하면 말해 코딩에서 풀었던 미션, 정답률, 연습한 개념들이
+              한눈에 모여요.
+            </GuestSub>
+          </GuestTop>
+
+          <GuestCenterWrapper>
+            <GuestPreview>
+              <img src="/assets/images/missionSucceed.png" alt="preview" />
+            </GuestPreview>
+          </GuestCenterWrapper>
+
+          <GuestCTAWrapper>
+            <GuestPrimaryButton onClick={() => navigate("/login")}>
+              로그인하고 내 학습 대시보드 보기
+            </GuestPrimaryButton>
+          </GuestCTAWrapper>
+        </GuestContent>
+      )}
+
+      {/* 로그인 한 경우: 실제 대시보드 */}
+      {isLoggedIn && (
+        <Content>
+          <TopRow>
+            <TopRowLeft>
+              <ProfileCard
+                userName={userName}
+                solvedMissions={solvedMissions}
+                totalMissions={totalMissions}
+                accuracy={accuracy}
+                aiFixRate={aiFixRate}
+                loading={loadingProfile}
+                error={profileError}
+              />
+            </TopRowLeft>
+
+            <TopRowRight>
+              <AttendanceSectionCard
+                studySummary={studySummary}
+                loading={loadingSummary}
+                weekOffset={weekOffset}
+                onChangeWeek={setWeekOffset}
+                studyStreak={userProfile?.studyStreak}
+              />
+            </TopRowRight>
+          </TopRow>
+
+          <MiddleRow>
+            <MiddleRowLeft>
+              <StudySummaryCard
+                solvedMissions={solvedMissions}
+                totalMissions={totalMissions}
+                accuracy={accuracy}
+                aiFixRate={aiFixRate}
+              />
+            </MiddleRowLeft>
+
+            <MiddleRowRight>
+              <StudyTimeCard studySummary={studySummary} error={summaryError} />
+            </MiddleRowRight>
+          </MiddleRow>
+
+          <MiddleRow>
+            <RecentStudyCard
+              recentMissions={recentMissions}
+              loading={loadingRecent}
+              error={recentError}
             />
-          </TopRowLeft>
+          </MiddleRow>
 
-          <TopRowRight>
-            <AttendanceSectionCard
-              studySummary={studySummary}
-              loading={loadingSummary}
-              weekOffset={weekOffset}
-              onChangeWeek={setWeekOffset}
+          <MiddleRow>
+            <StudyInsightSection
+              summary={studyInsight}
+              loading={loadingInsight}
+              error={insightError}
+              mode={insightMode}
+              onChangeMode={setInsightMode}
             />
-          </TopRowRight>
-        </TopRow>
+          </MiddleRow>
+        </Content>
+      )}
 
-        <MiddleRow>
-          <MiddleRowLeft>
-            <StudySummaryCard
-              solvedMissions={solvedMissions}
-              totalMissions={totalMissions}
-              accuracy={accuracy}
-              aiFixRate={aiFixRate}
-            />
-          </MiddleRowLeft>
-
-          <MiddleRowRight>
-            <StudyTimeCard studySummary={studySummary} error={summaryError} />
-          </MiddleRowRight>
-        </MiddleRow>
-
-        <MiddleRow>
-          <RecentStudyCard
-            recentMissions={recentMissions}
-            loading={loadingRecent}
-            error={recentError}
-          />
-        </MiddleRow>
-
-        <MiddleRow>
-          <StudyInsightSection
-            summary={studyInsight}
-            loading={loadingInsight}
-            error={insightError}
-            mode={insightMode}
-            onChangeMode={setInsightMode}
-          />
-        </MiddleRow>
-
-        {/*<BadgeSectionCard badges={badges} />*/}
-      </Content>
       <Footer />
     </PageWrapper>
   );
@@ -266,4 +305,89 @@ const MiddleRowRight = styled.div`
   flex: 1.1;
   min-width: 0;
   display: flex;
+`;
+
+const GuestContent = styled.div`
+  width: 100%;
+  max-width: 960px;
+  margin: 40px auto 72px;
+  padding: 32px 20px 40px;
+`;
+
+const GuestTop = styled.div`
+  text-align: center;
+  margin-bottom: 32px;
+`;
+
+const GuestTitle = styled.h2`
+  font-size: 26px;
+  font-weight: 700;
+  color: #1f2933;
+  margin-bottom: 10px;
+`;
+
+const GuestSub = styled.p`
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+`;
+
+const GuestCenterWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+`;
+
+const GuestPreview = styled.div`
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+
+  padding: 16px;
+  width: 100%;
+  max-width: 400px; /* 중앙에 적당한 크기로 고정 */
+
+  aspect-ratio: 1 / 1;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지를 정사각형에 꽉 채우기 */
+    border-radius: 16px;
+  }
+`;
+
+const GuestCTAWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
+const GuestPrimaryButton = styled.button`
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: none;
+  background: #4f80ff;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background: #4068d6;
+  }
 `;

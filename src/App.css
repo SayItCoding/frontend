@@ -49,6 +49,18 @@
   display: none !important;
 }
 
+.entryEngineButtonWorkspace_w.entryRunButtonWorkspace_w {
+  background-color: rgb(0, 180, 0);
+  border: rgb(0, 148, 0);
+}
+
+#entryContainer
+  > div.engineContainer
+  > div.entryEngine_w.entryEngineWorkspace_w.test
+  > button.entrySpeedButtonWorkspace.entryEngineTopWorkspace.entryEngineButtonWorkspace_w {
+  display: none !important;
+}
+
 body::-webkit-scrollbar {
   display: none;
 }

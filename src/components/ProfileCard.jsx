@@ -13,9 +13,7 @@ export default function ProfileCard({ userName, loading }) {
         <Avatar />
         <div>
           <Name>{userName}님</Name>
-          <ProfileSub>
-            오늘도 한 문장씩 말하면서 코딩 실력을 키워볼까요?
-          </ProfileSub>
+          <ProfileSub>오늘도 한 문장씩 말하면서 실력을 키워볼까요?</ProfileSub>
         </div>
       </ProfileArea>
     </Card>

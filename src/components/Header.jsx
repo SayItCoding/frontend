@@ -75,7 +75,7 @@ const NavLink = styled(Link)`
 
 const AuthButtons = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 16px;
   margin-left: 8px;
 `;
 

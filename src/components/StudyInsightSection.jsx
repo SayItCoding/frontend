@@ -10,7 +10,7 @@ export default function StudyInsightSection({
   onChangeMode,
 }) {
   // 로딩 중: 스켈레톤 UI
-  if (loading) {
+  if (loading && !summary) {
     return (
       <Card>
         {/* 상단 헤더 스켈레톤 */}
@@ -98,7 +98,7 @@ export default function StudyInsightSection({
     );
   }
 
-  // 🔹 에러 상태
+  // 에러 상태
   if (error) {
     return (
       <Card>
@@ -124,19 +124,6 @@ export default function StudyInsightSection({
     suggestions = [],
   } = summary;
 
-  // 기간 표시용 텍스트
-  let periodLabel = "";
-  if (period?.from && period?.to) {
-    const from = new Date(period.from);
-    const to = new Date(period.to);
-    const fmt = (d) =>
-      d.toLocaleDateString("ko-KR", {
-        month: "2-digit",
-        day: "2-digit",
-      });
-    periodLabel = `${fmt(from)} ~ ${fmt(to)}`;
-  }
-
   return (
     <Card>
       {/* 상단 헤더 */}
@@ -159,7 +146,6 @@ export default function StudyInsightSection({
               전체 기간
             </ToggleButton>
           </ToggleGroup>
-          {periodLabel && <PeriodText>{periodLabel}</PeriodText>}
         </RightControls>
       </HeaderRow>
 
@@ -297,23 +283,26 @@ const RightControls = styled.div`
 const ToggleGroup = styled.div`
   display: inline-flex;
   border-radius: 999px;
-  background: #f3f3f3;
+  background: #f5f6ff;
   padding: 2px;
 `;
 
 const ToggleButton = styled.button`
   border: none;
-  background: ${({ active }) => (active ? "#3e3e3e" : "transparent")};
-  color: ${({ active }) => (active ? "#ffffff" : "#555")};
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 999px;
   cursor: pointer;
-`;
-
-const PeriodText = styled.span`
+  padding: 6px 14px;
+  border-radius: 999px;
   font-size: 12px;
-  color: #666;
+  font-weight: 500;
+
+  background: ${({ active }) => (active ? "#6273ff" : "transparent")};
+  color: ${({ active }) => (active ? "#ffffff" : "#6770b7")};
+
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${({ active }) => (active ? "#5564e6" : "#ecefff")};
+  }
 `;
 
 const ErrorText = styled.p`
