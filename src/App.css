@@ -174,3 +174,11 @@ g.entry-executing-highlight .blockPath {
 .svgObjectBlockCount {
   display: none !important;
 }
+
+.svgBlockGroup {
+  pointer-events: none;
+}
+
+.widget {
+  display: none !important;
+}
