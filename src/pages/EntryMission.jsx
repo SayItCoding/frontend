@@ -1,6 +1,6 @@
 // src/pages/EntryScreen.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import styled from "styled-components";
 import { useEntryProjectLoader } from "../hooks/useEntryProjectLoader";
@@ -25,6 +25,8 @@ import {
 import { useStudySession } from "../hooks/useStudySessions.js";
 
 export default function EntryMission() {
+  const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
   const missionIdParam = searchParams.get("missionId");
   const missionId = missionIdParam ? Number(missionIdParam) : null;
@@ -278,6 +280,8 @@ export default function EntryMission() {
                 }
               : undefined
           }
+          onGoDashboard={() => navigate("/dashboard")}
+          onGoHome={() => navigate("/")}
         />
       </Layout>
     </>

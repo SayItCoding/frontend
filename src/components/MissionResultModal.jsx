@@ -15,6 +15,8 @@ export default function MissionResultModal({
   onClose,
   onRetry,
   onNext,
+  onGoDashboard,
+  onGoHome,
 }) {
   // 모달 열릴 때 스크롤 막기
   useEffect(() => {
@@ -94,14 +96,43 @@ export default function MissionResultModal({
         )*/}
 
         <ButtonRow>
-          {/* 공통 닫기 버튼 (필요 없으면 제거 가능) */}
+          {/* 공통 닫기 버튼 */}
           <GhostButton onClick={onClose}>닫기</GhostButton>
-          {!isSuccess && onRetry && (
-            <SecondaryButton onClick={onRetry}>다시 도전하기</SecondaryButton>
-          )}
 
-          {isSuccess && onNext && (
-            <PrimaryButton onClick={onNext}>다음 미션으로</PrimaryButton>
+          {isSuccess ? (
+            <>
+              {onGoHome && (
+                <PrimaryButton
+                  onClick={() => {
+                    onClose?.();
+                    onGoHome();
+                  }}
+                >
+                  홈으로 이동
+                </PrimaryButton>
+              )}
+              {onGoDashboard && (
+                <PrimaryButton
+                  onClick={() => {
+                    onClose?.();
+                    onGoDashboard();
+                  }}
+                >
+                  대시보드로 이동
+                </PrimaryButton>
+              )}
+            </>
+          ) : (
+            <>
+              {onRetry && (
+                <SecondaryButton onClick={onRetry}>
+                  다시 도전하기
+                </SecondaryButton>
+              )}
+              {onNext && (
+                <PrimaryButton onClick={onNext}>다음 미션으로</PrimaryButton>
+              )}
+            </>
           )}
         </ButtonRow>
       </ModalCard>
@@ -121,7 +152,7 @@ const Backdrop = styled.div`
 
 const ModalCard = styled.div`
   width: 100%;
-  max-width: 420px;
+  max-width: 550px;
   padding: 28px 24px 20px;
   border-radius: 20px;
   background: #ffffff;
@@ -129,7 +160,7 @@ const ModalCard = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 25px;
   position: relative;
 `;
 

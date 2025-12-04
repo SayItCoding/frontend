@@ -162,3 +162,15 @@ g.entry-executing-highlight .blockPath {
   flex: 1 1 100%;
   width: 100%;
 }
+
+.propertyTabElement.propertyTabhelper {
+  display: none !important;
+}
+
+.null.entryBoardObjectName {
+  display: none !important;
+}
+
+.svgObjectBlockCount {
+  display: none !important;
+}

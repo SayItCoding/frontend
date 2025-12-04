@@ -8,6 +8,7 @@ const GLOBAL_INTENT_LABEL_MAP = {
   QUESTION: "질문",
   SMALL_TALK: "잡담/기타 대화",
   OTHER: "기타",
+  UNKNOWN: "알 수 없음",
 };
 
 const QUESTION_TYPE_LABEL_MAP = {
@@ -19,7 +20,8 @@ const QUESTION_TYPE_LABEL_MAP = {
   REQUEST_HINT: "미션 힌트 요청",
   REQUEST_EXPLANATION: "현재 절차 설명",
   REQUEST_FEEDBACK: "현재 절차 피드백 요청",
-  OTHER: "기타 질문",
+  OTHER: "기타",
+  UNKNOWN: "알 수 없음",
 };
 
 const AMBIGUITY_TYPE_LABEL_MAP = {
@@ -29,7 +31,8 @@ const AMBIGUITY_TYPE_LABEL_MAP = {
   COUNT_OR_LOOP_AMBIGUOUS: "동작 횟수 or 반복 횟수 모호",
   TARGET_BLOCK_VAGUE: "지시 대상 모호",
   LOOP_SCOPE_VAGUE: "반복 범위 모호",
-  OTHER: "기타 모호 표현",
+  OTHER: "기타",
+  UNKNOWN: "알 수 없음",
 };
 
 // 매핑 헬퍼 (매핑에 없으면 원래 key 그대로 노출)

@@ -318,7 +318,7 @@ const Wrap = styled.div`
   border: 1px solid #eaeaea;
   border-radius: 16px;
   overflow: hidden;
-  background: #fff;
+  background: #f7f7f8;
 `;
 
 const Head = styled.div`
