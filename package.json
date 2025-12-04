@@ -16,6 +16,7 @@
     "jquery": "^3.7.1",
     "jquery-ui": "^1.14.1",
     "lodash": "^4.17.21",
+    "lottie-react": "^2.4.1",
     "preloadjs": "^1.0.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

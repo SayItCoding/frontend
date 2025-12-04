@@ -1,13 +1,58 @@
+// src/components/StudyTimeCard.jsx
 import React from "react";
 import styled from "styled-components";
 import { formatDate, formatSecondsToKoreanTime } from "../utils/timeFormat";
 
 export default function StudyTimeCard({ studySummary, loading, error }) {
+  // 로딩 중: 스켈레톤 UI
+  if (loading) {
+    const days = ["월", "화", "수", "목", "금", "토", "일"];
+
+    return (
+      <TimeCard>
+        <TimeHeaderRow>
+          <TimeHeaderLeft>
+            <SectionTitle>학습 시간</SectionTitle>
+            <SkeletonBlock width="140px" height="12px" />
+            <SkeletonBlock
+              width="90px"
+              height="14px"
+              style={{ marginTop: 4 }}
+            />
+          </TimeHeaderLeft>
+
+          <TotalTimeBox>
+            <SkeletonCircle size="32px" />
+            <TotalTimeTextBox>
+              <SkeletonBlock width="80px" height="11px" />
+              <SkeletonBlock
+                width="70px"
+                height="20px"
+                style={{ marginTop: 4 }}
+              />
+            </TotalTimeTextBox>
+          </TotalTimeBox>
+        </TimeHeaderRow>
+
+        <WeeklyTimeWrapper>
+          <WeeklyBarRow>
+            {days.map((d, idx) => (
+              <WeeklyBarItem key={d}>
+                <SkeletonBar style={{ height: `${40 + (idx % 3) * 10}px` }} />
+                <WeeklyBarDay>{d}</WeeklyBarDay>
+              </WeeklyBarItem>
+            ))}
+          </WeeklyBarRow>
+        </WeeklyTimeWrapper>
+      </TimeCard>
+    );
+  }
+
+  // 로딩이 아닐 때: 실제 데이터/에러 처리
+
   // 총 학습 시간 텍스트
   const totalStudyTimeText = studySummary
     ? formatSecondsToKoreanTime(studySummary.totalStudySeconds)
-    : loading
-    ? "불러오는 중..."
     : "0분";
 
   // 주간 데이터 (요일별)
@@ -39,7 +84,6 @@ export default function StudyTimeCard({ studySummary, loading, error }) {
     (sum, d) => sum + (d.studySeconds ?? 0),
     0
   );
-
   const weeklyTotalText = formatSecondsToKoreanTime(weeklyTotalSeconds);
 
   return (
@@ -94,8 +138,8 @@ const CardBase = styled.div`
 const TimeCard = styled(CardBase)`
   display: flex;
   flex-direction: column;
-  min-height: 180px; /* 필요에 따라 조절 */
-  width: 100%; /* 부모가 허용하는 가로를 꽉 채움 */
+  min-height: 180px;
+  width: 100%;
   flex: 1;
 `;
 
@@ -122,6 +166,7 @@ const PeriodText = styled.div`
   font-size: 12px;
   color: #9ea2b3;
 `;
+
 const WeeklySumText = styled.div`
   margin-top: 4px;
   font-size: 13px;
@@ -193,4 +238,26 @@ const ErrorText = styled.div`
   margin-top: 8px;
   font-size: 11px;
   color: #e15757;
+`;
+
+const skeletonColor = "#eceff3";
+
+const SkeletonBlock = styled.div`
+  border-radius: 999px;
+  height: ${({ height }) => height || "14px"};
+  width: ${({ width }) => width || "100%"};
+  background: ${skeletonColor};
+`;
+
+const SkeletonCircle = styled.div`
+  width: ${({ size }) => size || "32px"};
+  height: ${({ size }) => size || "32px"};
+  border-radius: 50%;
+  background: ${skeletonColor};
+`;
+
+const SkeletonBar = styled.div`
+  width: 10px;
+  border-radius: 12px 12px 4px 4px;
+  background: ${skeletonColor};
 `;

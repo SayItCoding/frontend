@@ -1,13 +1,56 @@
+// src/components/RecentStudyCard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-export default function RecentStudyCard({ recentMissions }) {
+export default function RecentStudyCard({ recentMissions, loading, error }) {
   const navigate = useNavigate();
 
   const handleClick = (missionId) => {
     navigate(`/mission?missionId=${missionId}`);
   };
+
+  if (loading) {
+    return (
+      <SectionCard>
+        <HeaderRow>
+          <Title>최근 학습 기록</Title>
+          <SubTitle>
+            어떤 미션에서 어떤 개념을 연습했는지 한눈에 볼 수 있어요.
+          </SubTitle>
+        </HeaderRow>
+
+        <List>
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <SkeletonItem key={idx}>
+              <SkeletonLeft>
+                <SkeletonBlock width="80%" height="13px" />
+                <SkeletonMeta>
+                  <SkeletonBlock width="40px" height="11px" />
+                  <SkeletonBlock width="60px" height="16px" />
+                </SkeletonMeta>
+              </SkeletonLeft>
+              <SkeletonStatus />
+            </SkeletonItem>
+          ))}
+        </List>
+      </SectionCard>
+    );
+  }
+
+  if (error) {
+    return (
+      <SectionCard>
+        <HeaderRow>
+          <Title>최근 학습 기록</Title>
+          <SubTitle>
+            어떤 미션에서 어떤 개념을 연습했는지 한눈에 볼 수 있어요.
+          </SubTitle>
+        </HeaderRow>
+        <ErrorBox>{error}</ErrorBox>
+      </SectionCard>
+    );
+  }
 
   return (
     <SectionCard>
@@ -63,7 +106,6 @@ const SubTitle = styled.div`
 const List = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-
   gap: 12px 16px;
 
   @media (max-width: 900px) {
@@ -121,6 +163,7 @@ const Status = styled.div`
   padding: 6px 10px;
   border-radius: 999px;
   white-space: nowrap;
+
   ${({ $status }) =>
     $status === "성공"
       ? `
@@ -131,4 +174,50 @@ const Status = styled.div`
     background: #fff1f1;
     color: #e05a5a;
   `}
+`;
+
+const ErrorBox = styled.div`
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff1f1;
+  color: #d64545;
+  font-size: 12px;
+`;
+
+const skeletonColor = "#eceff3";
+
+const SkeletonBlock = styled.div`
+  border-radius: 999px;
+  height: ${({ height }) => height || "14px"};
+  width: ${({ width }) => width || "100%"};
+  background: ${skeletonColor};
+`;
+
+const SkeletonItem = styled.div`
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #f7f8ff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const SkeletonLeft = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
+
+const SkeletonMeta = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+`;
+
+const SkeletonStatus = styled.div`
+  width: 64px;
+  height: 22px;
+  border-radius: 999px;
+  background: ${skeletonColor};
 `;

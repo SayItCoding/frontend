@@ -3,6 +3,9 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { IoClose } from "react-icons/io5";
 
+const successImg = "/assets/images/missionSucceed.png";
+const failImg = "/assets/images/missionFailed.png";
+
 export default function MissionResultModal({
   open,
   type, // "success" | "fail"
@@ -55,7 +58,12 @@ export default function MissionResultModal({
         <CloseButton onClick={onClose}>
           <IoClose size={24} />
         </CloseButton>
-        <IconArea $isSuccess={isSuccess}>{isSuccess ? "🎉" : "💭"}</IconArea>
+        <ImageArea $isSuccess={isSuccess}>
+          <img
+            src={isSuccess ? successImg : failImg}
+            alt={isSuccess ? "성공" : "실패"}
+          />
+        </ImageArea>
 
         <Title>{title || defaultTitle}</Title>
         <Description>{description || defaultDesc}</Description>
@@ -120,19 +128,22 @@ const CloseButton = styled.button`
   }
 `;
 
-const IconArea = styled.div`
-  font-size: 40px;
-  width: 72px;
-  height: 72px;
+const ImageArea = styled.div`
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 4px;
   border-radius: 50%;
-  margin: 0 auto;
+  background: ${({ $isSuccess }) =>
+    $isSuccess ? "rgba(34, 197, 94, 0.12)" : "rgba(248, 113, 113, 0.12)"};
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${({ isSuccess }) =>
-    isSuccess ? "rgba(34, 197, 94, 0.12)" : "rgba(248, 113, 113, 0.12)"};
-`;
 
+  img {
+    width: 48px;
+    height: 48px;
+  }
+`;
 const Title = styled.h2`
   margin: 0;
   font-size: 22px;

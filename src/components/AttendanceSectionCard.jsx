@@ -1,3 +1,4 @@
+// src/components/AttendanceSectionCard.jsx
 import React, { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 
@@ -83,6 +84,11 @@ export default function AttendanceSectionCard({
     setSlideDirection("right");
     onChangeWeek(Math.min(0, weekOffset + 1));
   };
+
+  // 로딩 중이면 스켈레톤 카드만 렌더
+  if (loading) {
+    return <AttendanceSkeletonCard />;
+  }
 
   return (
     <AttendanceCard>
@@ -259,3 +265,57 @@ const DayCircle = styled.div`
   background: ${({ $active }) => ($active ? "#6273ff" : "#f1f3ff")};
   color: ${({ $active }) => ($active ? "#ffffff" : "#7f85a5")};
 `;
+
+const skeletonColor = "#eceff3";
+
+const SkeletonBlock = styled.div`
+  border-radius: 999px;
+  height: ${({ height }) => height || "14px"};
+  width: ${({ width }) => width || "100%"};
+  background: ${skeletonColor};
+`;
+
+const SkeletonBadge = styled(SkeletonBlock)`
+  height: 22px;
+  width: 120px;
+`;
+
+const SkeletonCircle = styled.div`
+  margin-top: 4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: ${skeletonColor};
+`;
+
+// 로딩 상태에서 사용되는 스켈레톤 카드
+function AttendanceSkeletonCard() {
+  return (
+    <AttendanceCard>
+      <SectionTitle>출석 현황</SectionTitle>
+
+      <WeekRow>
+        <WeekLeft>
+          <SkeletonBlock width="140px" height="14px" />
+          <div style={{ display: "flex", gap: 6, marginTop: 4 }}>
+            <SkeletonBlock width="80px" height="20px" />
+            <SkeletonBlock width="80px" height="20px" />
+          </div>
+        </WeekLeft>
+
+        <SkeletonBadge />
+      </WeekRow>
+
+      <AttendanceContent style={{ marginTop: 16 }}>
+        <WeekDays>
+          {["월", "화", "수", "목", "금", "토", "일"].map((label) => (
+            <Day key={label}>
+              <SkeletonBlock width="20px" height="10px" />
+              <SkeletonCircle />
+            </Day>
+          ))}
+        </WeekDays>
+      </AttendanceContent>
+    </AttendanceCard>
+  );
+}

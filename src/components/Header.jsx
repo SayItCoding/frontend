@@ -30,7 +30,7 @@ export default function Header() {
             </AuthButtons>
           ) : (
             <AuthButtons>
-              <UserName>{user?.email}님</UserName>
+              <UserName>{user?.name}님</UserName>
               <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
             </AuthButtons>
           )}
@@ -102,4 +102,6 @@ const LogoutButton = styled.button`
 const UserName = styled.span`
   font-size: 13px;
   color: #fff;
+  display: flex;
+  align-items: center;
 `;

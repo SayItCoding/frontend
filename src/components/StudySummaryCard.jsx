@@ -1,3 +1,4 @@
+// src/components/StudySummaryCard.jsx
 import React from "react";
 import styled from "styled-components";
 
@@ -6,10 +7,78 @@ export default function StudySummaryCard({
   totalMissions,
   accuracy,
   aiFixRate,
+  loading,
 }) {
   const solvedRatio =
     totalMissions > 0 ? (solvedMissions / totalMissions) * 100 : 0;
 
+  // 로딩 중: 스켈레톤 UI
+  if (loading) {
+    return (
+      <SectionCard>
+        <RowHeader>
+          <SectionTitle>학습 요약</SectionTitle>
+          <RowSubTitle>자연어 → 코드 학습 진행 상황</RowSubTitle>
+        </RowHeader>
+
+        <StudyInfoGrid>
+          {/* 미션 진행도 스켈레톤 */}
+          <InfoBlock>
+            <SkeletonBlock width="80px" height="13px" />
+            <SkeletonBlock
+              width="120px"
+              height="22px"
+              style={{ marginTop: 10 }}
+            />
+            <SkeletonProgressBar>
+              <SkeletonProgressFill />
+            </SkeletonProgressBar>
+            <SkeletonBlock
+              width="100%"
+              height="12px"
+              style={{ marginTop: 8 }}
+            />
+          </InfoBlock>
+
+          {/* 정답률 스켈레톤 */}
+          <InfoBlockCenter>
+            <SkeletonBlock
+              width="60px"
+              height="13px"
+              style={{ margin: "0 auto 8px" }}
+            />
+            <CircleWrapper>
+              <SkeletonRing />
+            </CircleWrapper>
+            <SkeletonBlock
+              width="80%"
+              height="11px"
+              style={{ margin: "6px auto 0" }}
+            />
+          </InfoBlockCenter>
+
+          {/* AI 피드백 해결률 스켈레톤 */}
+          <InfoBlockCenter>
+            <SkeletonBlock
+              width="100px"
+              height="13px"
+              style={{ margin: "0 auto 8px" }}
+            />
+            <CircleWrapper>
+              <SkeletonRing />
+            </CircleWrapper>
+            <SkeletonBlock
+              width="90%"
+              height="11px"
+              style={{ margin: "6px auto 0" }}
+            />
+          </InfoBlockCenter>
+        </StudyInfoGrid>
+      </SectionCard>
+    );
+  }
+
+  // 실제 데이터 UI
   return (
     <SectionCard>
       <RowHeader>
@@ -182,4 +251,35 @@ const RingValue = styled.div`
   font-size: 22px;
   font-weight: 700;
   color: #4f5cff;
+`;
+
+const skeletonColor = "#eceff3";
+
+const SkeletonBlock = styled.div`
+  border-radius: 999px;
+  height: ${({ height }) => height || "14px"};
+  width: ${({ width }) => width || "100%"};
+  background: ${skeletonColor};
+`;
+
+const SkeletonProgressBar = styled.div`
+  margin-top: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #edf0ff;
+  overflow: hidden;
+`;
+
+const SkeletonProgressFill = styled.div`
+  width: 60%;
+  height: 100%;
+  border-radius: inherit;
+  background: ${skeletonColor};
+`;
+
+const SkeletonRing = styled.div`
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: ${skeletonColor};
 `;

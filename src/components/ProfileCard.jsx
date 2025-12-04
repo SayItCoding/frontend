@@ -1,7 +1,12 @@
+// src/components/ProfileCard.jsx
 import React from "react";
 import styled from "styled-components";
 
-export default function ProfileCard({ userName }) {
+export default function ProfileCard({ userName, loading }) {
+  if (loading) {
+    return <ProfileCardSkeleton />;
+  }
+
   return (
     <Card>
       <ProfileArea>
@@ -29,7 +34,7 @@ const Card = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 너무 가운데면 flex-start로 바꿔도 됨 */
+  justify-content: center; /* 필요하면 flex-start로 변경 가능 */
 `;
 
 const ProfileArea = styled.div`
@@ -63,3 +68,39 @@ const ProfileSub = styled.div`
   color: #8b8fa8;
   margin-top: 4px;
 `;
+
+const skeletonColor = "#eceff3";
+
+const SkeletonBlock = styled.div`
+  height: ${({ height }) => height || "16px"};
+  width: ${({ width }) => width || "100%"};
+  border-radius: 8px;
+  background: ${skeletonColor};
+`;
+
+const SkeletonCircle = styled.div`
+  width: ${({ size }) => size || "56px"};
+  height: ${({ size }) => size || "56px"};
+  border-radius: 50%;
+  background: ${skeletonColor};
+`;
+
+// Skeleton Card 컴포넌트
+function ProfileCardSkeleton() {
+  return (
+    <Card>
+      <ProfileArea>
+        <SkeletonCircle size="56px" />
+
+        <div style={{ flex: 1 }}>
+          <SkeletonBlock width="120px" height="20px" />
+          <SkeletonBlock
+            width="200px"
+            height="14px"
+            style={{ marginTop: "8px" }}
+          />
+        </div>
+      </ProfileArea>
+    </Card>
+  );
+}

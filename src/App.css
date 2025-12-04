@@ -145,3 +145,8 @@ g.entry-executing-highlight .blockPath {
 .missionInfoPanelContentWorkspace {
   padding: 8px;
 }
+
+.entryTopFloatingView .mission-header-wrapper {
+  flex: 1 1 100%;
+  width: 100%;
+}

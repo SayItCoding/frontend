@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { ChatMessageList } from "./ChatMessageList.jsx";
 import { ChatInputBar } from "./ChatInputBar.jsx";
 import { fetchMissionChats } from "../api/mission.js";
-import { IoReturnUpBackOutline } from "react-icons/io5";
+
 import { sendMissionChat, fetchMissionCode } from "../api/mission.js";
 
 function stopEntryEngineIfRunning() {
@@ -63,6 +63,18 @@ export default function ChatWindow({
   const [loadingHistory, setLoadingHistory] = useState(false); // 초기 히스토리 로딩용
   const [error, setError] = useState("");
   const [isResponding, setIsResponding] = useState(false); // API 응답 대기 중 여부
+
+  // 맨 아래로 스크롤 하기 위한 ref
+  const messagesEndRef = useRef(null);
+
+  // messages가 바뀔 때마다, 그리고 응답 중일 때마다 맨 아래로 스크롤
+  useEffect(() => {
+    if (!messagesEndRef.current) return;
+    messagesEndRef.current.scrollIntoView({
+      behavior: "smooth", // 자연스럽게 스크롤
+      block: "end",
+    });
+  }, [messages, isResponding, loadingHistory]);
 
   // 최초 입장 시 기존 대화 내역 로딩
   useEffect(() => {
@@ -283,12 +295,15 @@ export default function ChatWindow({
 
       {loadingHistory && <StatusText>이전 대화 내역을 불러오는 중…</StatusText>}
       {error && <StatusText>{error}</StatusText>}
+      <Body>
+        <ChatMessageList
+          messages={messages}
+          selectedCodeId={selectedCodeId}
+          onMessageClick={handleMessageClick}
+        />
 
-      <ChatMessageList
-        messages={messages}
-        selectedCodeId={selectedCodeId}
-        onMessageClick={handleMessageClick}
-      />
+        <div ref={messagesEndRef} />
+      </Body>
 
       <ChatInputBar onSend={handleSend} selectedBlock={selectedBlock} />
     </Wrap>
@@ -313,6 +328,11 @@ const Head = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const Body = styled.div`
+  background: #f7fcff;
+  overflow-y: auto;
 `;
 
 const StatusText = styled.div`

@@ -1,7 +1,7 @@
 // src/components/MissionCard.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 /**
  * props:
@@ -10,7 +10,31 @@ import styled from "styled-components";
  * - image: 썸네일 이미지 경로 (예: "/images/mission1.png")
  * - to: 이동할 링크 (예: "/mission?missionId=1")
  */
-export default function MissionCard({ title, desc, image, to }) {
+export default function MissionCard({
+  title,
+  desc,
+  image,
+  to,
+  loading = false,
+}) {
+  if (loading) {
+    // 스켈레톤 모드
+    return (
+      <Card $loading>
+        <ThumbWrapper>
+          <SkeletonBlock />
+        </ThumbWrapper>
+
+        <CardBody>
+          <SkeletonLine style={{ width: "70%", marginBottom: 8 }} />
+          <SkeletonLine style={{ width: "100%", marginBottom: 4 }} />
+          <SkeletonLine style={{ width: "80%", marginBottom: 12 }} />
+          <SkeletonPill style={{ width: 110 }} />
+        </CardBody>
+      </Card>
+    );
+  }
+
   return (
     <Card>
       {image && (
@@ -27,6 +51,28 @@ export default function MissionCard({ title, desc, image, to }) {
     </Card>
   );
 }
+
+const skeletonStyle = css`
+  background: #e5e7eb;
+`;
+
+const SkeletonBlock = styled.div`
+  width: 100%;
+  height: 100%;
+  ${skeletonStyle}
+`;
+
+const SkeletonLine = styled.div`
+  height: 14px;
+  border-radius: 999px;
+  ${skeletonStyle}
+`;
+
+const SkeletonPill = styled.div`
+  height: 28px;
+  border-radius: 999px;
+  ${skeletonStyle}
+`;
 
 const Card = styled.div`
   background: #ffffff;

@@ -116,7 +116,11 @@ export function ChatInputBar({ onSend, selectedBlock }) {
           />
         </InputBox>
 
-        <Send onClick={handleSend} disabled={!val.trim()}>
+        <Send
+          data-allow-propagation="true"
+          onClick={handleSend}
+          disabled={!val.trim()}
+        >
           전송
         </Send>
       </Row>

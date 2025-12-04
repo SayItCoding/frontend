@@ -13,6 +13,8 @@ import {
 import ChatWindow from "../components/ChatWindow.jsx";
 import MissionResultModal from "../components/MissionResultModal.jsx";
 import MissionInfoPropertyPanel from "../components/MissionInfoPropertyPanel.jsx";
+import MissionHeader from "../components/MissionHeader.jsx";
+import MissionLoading from "../components/MissionLoading.jsx";
 
 import {
   useEntryBlockHighlight,
@@ -30,6 +32,10 @@ export default function EntryMission() {
   const [result, setResult] = useState(null); // "success" | "fail" | null
   const resultRef = useRef(null);
   const containerRef = useRef(null);
+
+  // 로딩 오버레이 상태
+  const [showLoading, setShowLoading] = useState(true);
+  const [loadingFadeOut, setLoadingFadeOut] = useState(false);
 
   // 학습 세션 자동 관리 (마운트 시 시작, 언마운트 시 종료)
   useStudySession(missionId);
@@ -50,6 +56,27 @@ export default function EntryMission() {
   } = useEntryProjectLoader({
     missionId,
   });
+
+  // 로딩 완료 후 0.5초 딜레이 + 페이드아웃 처리
+  useEffect(() => {
+    const fullyLoaded = status === "ready" && !projectLoading;
+
+    if (fullyLoaded) {
+      // 페이드아웃 시작
+      setLoadingFadeOut(true);
+
+      const timer = setTimeout(() => {
+        // 0.5초 후 완전히 언마운트
+        setShowLoading(false);
+      }, 500);
+
+      return () => clearTimeout(timer);
+    } else {
+      // 다시 로딩 상태로 들어가면 즉시 오버레이 복구
+      setShowLoading(true);
+      setLoadingFadeOut(false);
+    }
+  }, [status, projectLoading]);
 
   // result가 바뀔 때마다 ref에 반영
   useEffect(() => {
@@ -152,50 +179,53 @@ export default function EntryMission() {
     }
   }, [entryInit, projectLoading, projectData]);
 
-  if (status === "loading") return <div>Entry 리소스 로딩 중…</div>;
   if (status === "error") return <div>리소스 로드 실패</div>;
-
   return (
-    <Layout>
-      <EntryPane>
-        {/* 엔트리가 이 div를 가득 채웁니다 */}
-        <div ref={containerRef} />
-        <MissionInfoPropertyPanel />
-      </EntryPane>
+    <>
+      {/* 로딩 오버레이 (페이드아웃 포함) */}
+      {showLoading && <MissionLoading fadeOut={loadingFadeOut} />}
 
-      <ChatPane>
-        {!projectLoading && (
-          <ChatWindow
-            missionId={missionId}
-            selectedBlock={selectedBlock}
-            mission={mission}
-          />
-        )}
-      </ChatPane>
+      <Layout>
+        <MissionHeader enabled={entryInit} />
 
-      {/* 미션 결과 모달 */}
-      <MissionResultModal
-        open={result !== null}
-        type={result === "success" ? "success" : "fail"}
-        onClose={() => setResult(null)}
-        onRetry={
-          result === "fail"
-            ? () => {
-                // 실패 후 다시 도전: 모달 닫고, 필요하면 Entry 코드/상태 초기화
-                setResult(null);
-              }
-            : undefined
-        }
-        onNext={
-          result === "success"
-            ? () => {
-                // TODO: 성공 후 다음미션으로 or 홈페이지
-                setResult(null);
-              }
-            : undefined
-        }
-      />
-    </Layout>
+        <EntryPane>
+          {/* 엔트리가 이 div를 가득 채웁니다 */}
+          <div ref={containerRef} />
+          <MissionInfoPropertyPanel />
+        </EntryPane>
+
+        <ChatPane>
+          {!projectLoading && (
+            <ChatWindow
+              missionId={missionId}
+              selectedBlock={selectedBlock}
+              mission={mission}
+            />
+          )}
+        </ChatPane>
+
+        {/* 미션 결과 모달 */}
+        <MissionResultModal
+          open={result !== null}
+          type={result === "success" ? "success" : "fail"}
+          onClose={() => setResult(null)}
+          onRetry={
+            result === "fail"
+              ? () => {
+                  setResult(null);
+                }
+              : undefined
+          }
+          onNext={
+            result === "success"
+              ? () => {
+                  setResult(null);
+                }
+              : undefined
+          }
+        />
+      </Layout>
+    </>
   );
 }
 

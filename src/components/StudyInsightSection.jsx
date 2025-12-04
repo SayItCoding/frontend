@@ -9,17 +9,96 @@ export default function StudyInsightSection({
   mode, // 'week' | 'overall'
   onChangeMode,
 }) {
+  // 로딩 중: 스켈레톤 UI
   if (loading) {
     return (
       <Card>
+        {/* 상단 헤더 스켈레톤 */}
         <HeaderRow>
           <Title>학습 분석</Title>
+          <RightControls>
+            <SkeletonToggleGroup>
+              <SkeletonPill width="64px" height="22px" />
+              <SkeletonPill width="72px" height="22px" />
+            </SkeletonToggleGroup>
+            <SkeletonBlock width="90px" height="14px" />
+          </RightControls>
         </HeaderRow>
-        <LoadingText>분석 중입니다...</LoadingText>
+
+        {/* 요약 숫자 3개 스켈레톤 */}
+        <SummaryRow>
+          {Array.from({ length: 3 }).map((_, idx) => (
+            <StatBox key={idx}>
+              <SkeletonBlock width="60%" height="12px" />
+              <SkeletonBlock
+                width="40%"
+                height="20px"
+                style={{ marginTop: 6 }}
+              />
+            </StatBox>
+          ))}
+        </SummaryRow>
+
+        {/* 메인 2컬럼 스켈레톤 */}
+        <MainGrid>
+          {/* 왼쪽: Global intent / Question type bar chart 스켈레톤 */}
+          <LeftColumn>
+            <SectionTitle>학습 행동 패턴</SectionTitle>
+
+            <SubSection>
+              <SubTitle>발화 유형 (Global Intent)</SubTitle>
+              {Array.from({ length: 3 }).map((_, idx) => (
+                <BarRow key={`g-${idx}`}>
+                  <SkeletonBlock width="80px" height="11px" />
+                  <SkeletonBarTrack>
+                    <SkeletonBarFill />
+                  </SkeletonBarTrack>
+                  <SkeletonBlock width="32px" height="11px" />
+                </BarRow>
+              ))}
+            </SubSection>
+
+            <SubSection>
+              <SubTitle>질문 유형</SubTitle>
+              {Array.from({ length: 2 }).map((_, idx) => (
+                <BarRow key={`q-${idx}`}>
+                  <SkeletonBlock width="80px" height="11px" />
+                  <SkeletonBarTrack>
+                    <SkeletonBarFill />
+                  </SkeletonBarTrack>
+                  <SkeletonBlock width="32px" height="11px" />
+                </BarRow>
+              ))}
+            </SubSection>
+          </LeftColumn>
+
+          {/* 오른쪽: 강점 / 추천 / 모호 패턴 스켈레톤 */}
+          <RightColumn>
+            <SectionTitle>강점 요약</SectionTitle>
+            <SkeletonBulletList>
+              <SkeletonBlock width="85%" height="13px" />
+              <SkeletonBlock width="70%" height="13px" />
+            </SkeletonBulletList>
+
+            <SectionTitle>추천 학습 방향</SectionTitle>
+            <SkeletonBulletList>
+              <SkeletonBlock width="90%" height="13px" />
+              <SkeletonBlock width="75%" height="13px" />
+            </SkeletonBulletList>
+
+            <SectionTitle>자주 나타나는 모호한 패턴</SectionTitle>
+            <TagRow>
+              <SkeletonTag />
+              <SkeletonTag />
+              <SkeletonTag />
+            </TagRow>
+          </RightColumn>
+        </MainGrid>
       </Card>
     );
   }
 
+  // 🔹 에러 상태
   if (error) {
     return (
       <Card>
@@ -100,7 +179,7 @@ export default function StudyInsightSection({
         </StatBox>
       </SummaryRow>
 
-      {/* 메인 2컬럼 영역: 왼쪽(행동 패턴), 오른쪽(강점/추천/모호) */}
+      {/* 메인 2컬럼 영역 */}
       <MainGrid>
         <LeftColumn>
           <SectionTitle>학습 행동 패턴</SectionTitle>
@@ -237,12 +316,6 @@ const PeriodText = styled.span`
   color: #666;
 `;
 
-const LoadingText = styled.p`
-  font-size: 13px;
-  color: #777;
-  margin-top: 8px;
-`;
-
 const ErrorText = styled.p`
   color: #d32f2f;
   font-size: 13px;
@@ -363,4 +436,51 @@ const Tag = styled.span`
   border-radius: 999px;
   background: #fff1f1;
   color: #e05a5a;
+`;
+
+const skeletonColor = "#eceff3";
+
+const SkeletonBlock = styled.div`
+  border-radius: 999px;
+  height: ${({ height }) => height || "14px"};
+  width: ${({ width }) => width || "100%"};
+  background: ${skeletonColor};
+`;
+
+const SkeletonToggleGroup = styled.div`
+  display: inline-flex;
+  gap: 4px;
+`;
+
+const SkeletonPill = styled(SkeletonBlock)`
+  border-radius: 999px;
+`;
+
+const SkeletonBarTrack = styled.div`
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: #f1f3ff;
+  overflow: hidden;
+`;
+
+const SkeletonBarFill = styled.div`
+  width: 70%;
+  height: 100%;
+  border-radius: inherit;
+  background: ${skeletonColor};
+`;
+
+const SkeletonBulletList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0 10px;
+`;
+
+const SkeletonTag = styled.div`
+  width: 80px;
+  height: 20px;
+  border-radius: 999px;
+  background: ${skeletonColor};
 `;
