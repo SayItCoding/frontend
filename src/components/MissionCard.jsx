@@ -7,20 +7,21 @@ import styled, { css } from "styled-components";
  * props:
  * - title: 미션 제목
  * - desc: 미션 한 줄 설명
- * - image: 썸네일 이미지 경로 (예: "/images/mission1.png")
- * - to: 이동할 링크 (예: "/mission?missionId=1")
+ * - image: 썸네일 이미지
+ * - difficulty: 난이도 (number, 예: 1, 2, 3)
+ * - to: 이동 링크
  */
 export default function MissionCard({
   title,
   desc,
   image,
+  difficulty = 1,
   to,
   loading = false,
 }) {
   const navigate = useNavigate();
 
   if (loading) {
-    // 스켈레톤 모드
     return (
       <Card $loading>
         <ThumbWrapper>
@@ -42,6 +43,9 @@ export default function MissionCard({
     navigate(to);
   };
 
+  // number 로 들어온 난이도 정규화
+  const level = typeof difficulty === "number" ? difficulty : 1;
+
   return (
     <Card onClick={handleClick} $clickable={!loading && !!to}>
       {image && (
@@ -53,7 +57,11 @@ export default function MissionCard({
       <CardBody>
         <CardTitle>{title}</CardTitle>
         <CardDesc>{desc}</CardDesc>
-        <CardButton type="button">미션 시작하기</CardButton>
+
+        <BottomRow>
+          <DifficultyBadge $level={level}>난이도 {level}</DifficultyBadge>
+          <CardButton type="button">미션 시작하기</CardButton>
+        </BottomRow>
       </CardBody>
     </Card>
   );
@@ -89,7 +97,6 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
 
-  /* 인터랙션 */
   cursor: ${({ $clickable }) => ($clickable ? "pointer" : "default")};
   pointer-events: ${({ $loading }) => ($loading ? "none" : "auto")};
   transition: transform 0.18s ease, box-shadow 0.18s ease;
@@ -140,15 +147,53 @@ const CardDesc = styled.p`
   margin: 0 0 10px 0;
 `;
 
+/* 난이도 + 버튼 Row */
+const BottomRow = styled.div`
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+/* ⭐ 난이도 숫자에 따라 색상 변경 */
+const DifficultyBadge = styled.div`
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  ${({ $level }) => {
+    if ($level <= 1) {
+      // 초급
+      return css`
+        background: #ecfdf3;
+        color: #166534;
+      `;
+    }
+    if ($level === 2) {
+      // 중급
+      return css`
+        background: #fffbeb;
+        color: #92400e;
+      `;
+    }
+    // 3 이상 고급
+    return css`
+      background: #fef2f2;
+      color: #b91c1c;
+    `;
+  }}
+`;
+
 const CardButton = styled.button`
   display: inline-block;
-  margin-top: 4px;
-  padding: 8px 14px;
+  padding: 8px 12px;
   border-radius: 999px;
   font-size: 13px;
+  font-weight: 500;
   background: #4b7bec1a;
   color: #1d4ed8;
   border: none;
   outline: none;
-  cursor: inherit; /* 카드 전체와 동일한 커서 */
+  cursor: inherit; /* 카드와 동일한 커서 */
 `;

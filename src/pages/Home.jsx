@@ -29,8 +29,14 @@ export default function Home() {
         setLoopLoading(true);
         setLoopError(null);
 
-        const loopRes = await fetchMissionList(1, 6, "반복문");
-        setLoopMissions(loopRes.items || []);
+        const loopRes = await fetchMissionList(1, 3, "반복문");
+
+        const items = (loopRes.items || []).map((m, idx) => ({
+          ...m,
+          thumbnailUrl: `/assets/images/missions/bg_1_${idx + 1}.png`,
+        }));
+
+        setLoopMissions(items);
       } catch (err) {
         console.error(err);
         setLoopError("반복문 미션 목록을 불러오는 데 실패했어요.");
@@ -49,8 +55,14 @@ export default function Home() {
         setConditionLoading(true);
         setConditionError(null);
 
-        const conditionRes = await fetchMissionList(1, 6, "조건문");
-        setConditionMissions(conditionRes.items || []);
+        const conditionRes = await fetchMissionList(1, 3, "조건문");
+
+        const items = (conditionRes.items || []).map((m, idx) => ({
+          ...m,
+          thumbnailUrl: `/assets/images/missions/bg_3_${idx + 1}.png`,
+        }));
+
+        setConditionMissions(items);
       } catch (err) {
         console.error(err);
         setConditionError("조건문 미션 목록을 불러오는 데 실패했어요.");
@@ -147,8 +159,9 @@ export default function Home() {
                     key={m.id}
                     title={m.title}
                     desc={m.description}
-                    image={"/temp_thumb.png"}
+                    image={m.thumbnailUrl}
                     to={`/mission?missionId=${m.id}`}
+                    difficulty={m.difficulty}
                   />
                 ))}
               </CardGrid>
@@ -187,8 +200,9 @@ export default function Home() {
                       key={m.id}
                       title={m.title}
                       desc={m.description}
-                      image={"/temp_thumb.png"}
+                      image={m.thumbnailUrl}
                       to={`/mission?missionId=${m.id}`}
+                      difficulty={m.difficulty}
                     />
                   ))}
                 </CardGrid>
