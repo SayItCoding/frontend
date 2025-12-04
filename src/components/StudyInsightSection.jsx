@@ -27,7 +27,7 @@ const AMBIGUITY_TYPE_LABEL_MAP = {
   RANGE_SCOPE_VAGUE: "범위 지시 모호",
   DIRECTION_VAGUE: "방향 지시 모호",
   COUNT_OR_LOOP_AMBIGUOUS: "동작 횟수 or 반복 횟수 모호",
-  TAGET_BLOCK_VAGUE: "지시 대상 모호",
+  TARGET_BLOCK_VAGUE: "지시 대상 모호",
   LOOP_SCOPE_VAGUE: "반복 범위 모호",
   OTHER: "기타 모호 표현",
 };
