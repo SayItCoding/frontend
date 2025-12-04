@@ -186,16 +186,16 @@ export default function Dashboard() {
       {!isLoggedIn && (
         <GuestContent>
           <GuestTop>
-            <GuestTitle>나만의 학습 대시보드를 준비해 뒀어요</GuestTitle>
+            <GuestTitle>나만의 학습 대시보드를 활용해 보세요</GuestTitle>
             <GuestSub>
-              로그인하면 말해 코딩에서 풀었던 미션, 정답률, 연습한 개념들이
-              한눈에 모여요.
+              로그인하면 말해 코딩에서 풀었던 미션, 학습 기록, 학습 분석이
+              한눈에 보여요
             </GuestSub>
           </GuestTop>
 
           <GuestCenterWrapper>
             <GuestPreview>
-              <img src="/assets/images/missionSucceed.png" alt="preview" />
+              <img src="/assets/images/dashboardPreview.png" alt="preview" />
             </GuestPreview>
           </GuestCenterWrapper>
 
@@ -322,13 +322,13 @@ const MiddleRow = styled.div`
 `;
 
 const MiddleRowLeft = styled.div`
-  flex: 1.9;
+  flex: 1.5;
   min-width: 0;
   display: flex;
 `;
 
 const MiddleRowRight = styled.div`
-  flex: 1.1;
+  flex: 1.5;
   min-width: 0;
   display: flex;
 `;
@@ -369,24 +369,15 @@ const GuestPreview = styled.div`
   border-radius: 20px;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
 
-  padding: 16px;
   width: 100%;
-  max-width: 400px; /* 중앙에 적당한 크기로 고정 */
 
-  aspect-ratio: 1 / 1;
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+  max-width: 650px;
+  margin: 0 auto; /* 중앙 정렬 */
+  display: block;
   img {
-    position: absolute;
-    top: 0;
-    left: 0;
+    display: block;
     width: 100%;
-    height: 100%;
-    object-fit: cover; /* 이미지를 정사각형에 꽉 채우기 */
+    height: auto; /* 이미지 비율 유지 */
     border-radius: 16px;
   }
 `;

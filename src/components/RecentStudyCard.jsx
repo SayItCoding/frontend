@@ -121,6 +121,7 @@ const Item = styled.div`
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  border: 1px solid #edf0ff;
 `;
 
 const Left = styled.div`
